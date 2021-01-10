@@ -1,0 +1,129 @@
+.all-clients {
+  display: block;
+  margin: auto;
+  padding-top: 6vw;
+  direction: rtl;
+}
+
+.client {
+  display: inline-block;
+  margin: 0 1vw;
+  padding-bottom: 2vw;
+  direction: ltr;
+  text-transform: uppercase;
+  font-size: 1vw;
+  font-weight: bold;
+}
+
+.add-inside-text {
+  position: relative;
+  bottom: 0.45vw;
+  font-size: 1.7vw;
+  right: 0.3vw;
+}
+
+.client-info {
+  display: flex;
+}
+
+.add-client-btn {
+  width: 1.3vw;
+  font-size: 1.1vw;
+  height: 1.3vw;
+  border-radius: 100%;
+  outline: none;
+  border: 1px solid black;
+  background-color: transparent;
+  position: relative;
+  top: 0.6vw;
+  margin: 0 0.3vw;
+}
+
+.add-client-btn:hover {
+  color: white;
+  cursor: pointer;
+  background-color: rgb(255 47 82);
+  border: 1px solid rgb(255 47 82);
+}
+
+
+.client > img {
+  width: 11vw;
+  height: 7.5vw;
+  border-radius: 15px;
+  box-shadow: 0px 0px 9px -4px rgba(0, 0, 0, 0.75);
+}
+
+.client > * {
+  display: block;
+}
+
+.filter-area {
+  position: relative;
+  top: 3vw;
+  display: flex;
+  width: 98.8%;
+  padding-bottom: 7vw;
+  text-transform: uppercase;
+}
+
+.company-filter-pop-up-menu {
+  width: 10vw;
+  height: auto;
+  background-color: white;
+  z-index: 999;
+  position: absolute;
+  top: 10.4vw;
+  display: block;
+  border: none;
+  border-bottom: 4px solid black;
+}
+
+.company-name:hover {
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.company-filter-pop-up-menu > span {
+  display: block;
+  font-size: 0.9vw;
+  margin: 0.8vw;
+}
+
+.filter-by-company {
+  position: absolute;
+  right: 0;
+  font-size: 1vw;
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+.filter-by-name {
+  font-size: 0.9vw;
+  font-weight: bold;
+  color: gray;
+}
+
+.inside-filter {
+  font-size: 0.6vw;
+  margin: 0.3vw;
+}
+
+.filter-by-new {
+  font-size: 1vw;
+  font-weight: bold;
+}
+
+.separate {
+  margin: 0 1vw;
+  bottom: 0.9vw;
+  font-size: 2vw;
+  position: relative;
+}
+
+.left-filter {
+  position: absolute;
+  left: 1.4vw;
+  display: flex;
+  direction: ltr;
+}

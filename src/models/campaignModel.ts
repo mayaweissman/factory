@@ -1,8 +1,8 @@
 export class CampaignModel {
   public constructor(
     public campaignId?: number,
-    public companyId?: number,
-    public campaignName?: number,
+    public clientId?: number,
+    public campaignName?: string,
     public lastUpdate?: string,
     public productType?: string,
     public successRates?: number,

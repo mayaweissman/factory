@@ -8,8 +8,16 @@ export function reducer(oldAppState : AppState, action : Action): AppState{
 
     switch(action.type){
 
-        case ActionType.GetAllCompanies:
+        case ActionType.getAllClients:
             newAppState.allClients = action.payLoad;
+            break;
+
+        case ActionType.addClientToSelectedClients:
+            newAppState.selectedClients.push(action.payLoad);
+            break;
+
+        case ActionType.unselectAllClients:
+            newAppState.selectedClients = [];
             break;
 
         default: break;

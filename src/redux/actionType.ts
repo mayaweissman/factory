@@ -1,5 +1,7 @@
 export enum ActionType {
     
-    GetAllCompanies
+    getAllClients,
+    addClientToSelectedClients,
+    unselectAllClients
 
 }

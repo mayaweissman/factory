@@ -1,10 +1,11 @@
-import { ClientModel} from "../models/clientModel";
+import { ClientModel } from "../models/clientModel";
 
-export class AppState{
-    public allClients: ClientModel[];
-    
-    public constructor(){
-        this.allClients = [];
-    }
-    
+export class AppState {
+  public allClients: ClientModel[];
+  public selectedClients: ClientModel[];
+
+  public constructor() {
+    this.allClients = [];
+    this.selectedClients = [];
+  }
 }
