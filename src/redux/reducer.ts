@@ -18,6 +18,10 @@ export function reducer(oldAppState: AppState, action: Action): AppState {
       newAppState.selectedClients = [];
       break;
 
+    case ActionType.updateSelectedClients:
+      newAppState.selectedClients = action.payLoad;
+      break;
+
     case ActionType.removeClient:
       const clientId = action.payLoad;
       const index = newAppState.selectedClients.findIndex(

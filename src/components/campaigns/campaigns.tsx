@@ -7,6 +7,7 @@ import { ClientModel } from "../../models/clientModel";
 
 interface ReportMakerState {
     selectedClients: ClientModel[]
+
 }
 
 

@@ -75,6 +75,8 @@
   top: 10.4vw;
   right: 3vw;
   display: block;
+  direction: rtl;
+  text-transform: uppercase;
   border: none;
   border-bottom: 4px solid black;
 }

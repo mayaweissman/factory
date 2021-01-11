@@ -2,7 +2,10 @@ import React, { Component } from "react";
 import { Campaigns } from "../campaigns/campaigns";
 import { FilteringSideMenu } from "../filtering-side-menu/filtering-side-menu";
 import { TopCampaignsNav } from "../top-campaigns-nav/top-campaigns-nav";
+import { getAllClients } from "../../data/clients";
 import "./report-maker.css";
+import { store } from "../../redux/store";
+import { ActionType } from "../../redux/actionType";
 
 interface ReportMakerState {
     isScroll: boolean
@@ -19,6 +22,7 @@ export class ReportMaker extends Component<any, ReportMakerState>{
     }
 
     public componentDidMount() {
+
         window.addEventListener('scroll', (e) => {
             const YPosition = window.pageYOffset;
             if (YPosition === 0) {

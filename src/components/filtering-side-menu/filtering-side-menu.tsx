@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Unsubscribe } from "redux";
 import { ClientModel } from "../../models/clientModel";
+import { ActionType } from "../../redux/actionType";
 import { store } from "../../redux/store";
 import "./filtering-side-menu.css";
 
@@ -42,9 +43,9 @@ export class FilteringSideMenu extends Component<any, FilteringSideMenuState>{
                         {this.state.selectedClients.map(client => client.campaigns?.map(campaign =>
 
                             <label className="container">
-                                    <input type="checkbox" />
-                                    <span className="checkmark"></span>
-                                    <span className="campaign-name-title">
+                                <input type="checkbox"/>
+                                <span className="checkmark"></span>
+                                <span className="campaign-name-title">
                                     {campaign.campaignName}
                                 </span>
                             </label>
@@ -57,55 +58,55 @@ export class FilteringSideMenu extends Component<any, FilteringSideMenuState>{
                     <br />
                     <div className="products-titles">
 
-                            <label className="container">
-                                    <input type="checkbox" />
-                                    <span className="checkmark"></span>
-                                    <span className="campaign-name-title">
-                                    מעברונים
+                        <label className="container">
+                            <input type="checkbox" />
+                            <span className="checkmark"></span>
+                            <span className="campaign-name-title">
+                                מעברונים
                                 </span>
-                            </label>
-                            <label className="container">
-                                    <input type="checkbox" />
-                                    <span className="checkmark"></span>
-                                    <span className="campaign-name-title">
-                                    באנרים
+                        </label>
+                        <label className="container">
+                            <input type="checkbox" />
+                            <span className="checkmark"></span>
+                            <span className="campaign-name-title">
+                                באנרים
                                 </span>
-                            </label>
-                            <label className="container">
-                                    <input type="checkbox" />
-                                    <span className="checkmark"></span>
-                                    <span className="campaign-name-title">
-                                    פוסטים
+                        </label>
+                        <label className="container">
+                            <input type="checkbox" />
+                            <span className="checkmark"></span>
+                            <span className="campaign-name-title">
+                                פוסטים
                                 </span>
-                            </label>
-                            <label className="container">
-                                    <input type="checkbox" />
-                                    <span className="checkmark"></span>
-                                    <span className="campaign-name-title">
-                                    סרטים
+                        </label>
+                        <label className="container">
+                            <input type="checkbox" />
+                            <span className="checkmark"></span>
+                            <span className="campaign-name-title">
+                                סרטים
                                 </span>
-                            </label>
-                            <label className="container">
-                                    <input type="checkbox" />
-                                    <span className="checkmark"></span>
-                                    <span className="campaign-name-title">
-                                    דיוור
+                        </label>
+                        <label className="container">
+                            <input type="checkbox" />
+                            <span className="checkmark"></span>
+                            <span className="campaign-name-title">
+                                דיוור
                                 </span>
-                            </label>
-                            <label className="container">
-                                    <input type="checkbox" />
-                                    <span className="checkmark"></span>
-                                    <span className="campaign-name-title">
-                                    עמוד נחיתה
+                        </label>
+                        <label className="container">
+                            <input type="checkbox" />
+                            <span className="checkmark"></span>
+                            <span className="campaign-name-title">
+                                עמוד נחיתה
                                 </span>
-                            </label>
-                            <label className="container">
-                                    <input type="checkbox" />
-                                    <span className="checkmark"></span>
-                                    <span className="campaign-name-title">
-                                    אחר
+                        </label>
+                        <label className="container">
+                            <input type="checkbox" />
+                            <span className="checkmark"></span>
+                            <span className="campaign-name-title">
+                                אחר
                                 </span>
-                            </label>
+                        </label>
                     </div>
                 </div>
 

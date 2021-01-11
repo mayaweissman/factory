@@ -142,8 +142,11 @@ export class AllClients extends Component<any, AllClientsState>{
                     onMouseEnter={() => this.setState({ isPopUpShow: true })}
                     onMouseLeave={() => this.setState({ isPopUpShow: false })}>
                     <span onClick={this.filterByCompany("הכל")} className="company-name">כל הלקוחות</span>
-                    {this.state.companies.map(company =>
-                        <span onClick={this.filterByCompany(company as string)} className="company-name">לקוחות {company}</span>)}
+                    <span onClick={this.filterByCompany("Mccann")} className="company-name">לקוחות Mccann</span>
+                    <span onClick={this.filterByCompany("MRM")} className="company-name">לקוחות MRM</span>
+                    <span onClick={this.filterByCompany("Valley")} className="company-name">לקוחות Valley</span>
+                    <span onClick={this.filterByCompany("UMD")} className="company-name">לקוחות UMD</span>
+       
                 </div>
 
             </div>
