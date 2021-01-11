@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { AllClients } from "../all-clients/all-clients";
-import { TopCompaniesNav } from "../top-companies-nav/top-companies-nav";
+import { TopClientsNav } from "../top-clients-nav/top-clients-nav";
 import './home.css';
 
 
@@ -32,7 +32,7 @@ export class Home extends Component<any, HomeState>{
     public render() {
         return (
             <div className="home">
-                <TopCompaniesNav isScroll={this.state.isScroll} />
+                <TopClientsNav isScroll={this.state.isScroll} />
 
                 <AllClients />
             </div>

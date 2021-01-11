@@ -6,12 +6,6 @@ body, html, #root{
   font-family: 'Heebo', sans-serif;
 }
 
-body{
-  padding: 0;
-  padding-right: 4vw;
-  padding-left: 4vw;
-}
-
 ::-webkit-scrollbar {
   width: 10px;
 

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import { Home } from "../home/home";
+import { ReportMaker } from "../report-maker/report-maker";
 import "./layout.css";
 
 export class Layout extends Component {
@@ -12,6 +13,7 @@ export class Layout extends Component {
 
                     <Switch>
                         <Route path="/home" component={Home} exact />
+                        <Route path="/report-maker" component={ReportMaker} exact />
                         <Redirect from="/" to="/home" exact />
                     </Switch>
 

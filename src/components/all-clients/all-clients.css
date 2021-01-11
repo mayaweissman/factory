@@ -2,7 +2,7 @@
   display: block;
   margin: auto;
   padding-top: 6vw;
-  direction: rtl;
+  direction: ltr;
 }
 
 .client {
@@ -27,25 +27,24 @@
 }
 
 .add-client-btn {
-  width: 1.3vw;
-  font-size: 1.1vw;
-  height: 1.3vw;
-  border-radius: 100%;
-  outline: none;
-  border: 1px solid black;
-  background-color: transparent;
-  position: relative;
-  top: 0.6vw;
+  top: 0.4vw;
   margin: 0 0.3vw;
+  position: relative;
+  width: 1.3vw;
 }
 
+.filter-by-name:hover,
+.filter-by-new:hover,
+.filter-by-date-img:hover,
 .add-client-btn:hover {
-  color: white;
   cursor: pointer;
-  background-color: rgb(255 47 82);
-  border: 1px solid rgb(255 47 82);
 }
 
+.filter-by-date-img {
+  width: 1vw;
+  position: relative;
+  bottom: 0.8vw;
+}
 
 .client > img {
   width: 11vw;
@@ -74,6 +73,7 @@
   z-index: 999;
   position: absolute;
   top: 10.4vw;
+  right: 3vw;
   display: block;
   border: none;
   border-bottom: 4px solid black;
@@ -98,6 +98,10 @@
   font-weight: bold;
 }
 
+.filter-by-company:hover{
+cursor: pointer;
+}
+
 .filter-by-name {
   font-size: 0.9vw;
   font-weight: bold;
@@ -110,8 +114,9 @@
 }
 
 .filter-by-new {
-  font-size: 1vw;
+  font-size: 0.9vw;
   font-weight: bold;
+  margin-left: 0.7vw;
 }
 
 .separate {

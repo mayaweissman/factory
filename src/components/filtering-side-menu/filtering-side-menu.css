@@ -1,0 +1,146 @@
+.filtering-side-menu {
+  display: block;
+  height: 100%;
+  background-color: black;
+  position: fixed;
+  width: 14%;
+  right: 0;
+  top: 0;
+  color: white;
+  direction: rtl;
+  padding: 2vw;
+}
+
+.reset-filtering {
+  text-decoration: underline;
+  font-size: 1vw;
+}
+
+.reset-filtering:hover {
+  cursor: pointer;
+}
+
+.date-filtering-box {
+  background-color: black;
+  border: none;
+  outline: none;
+  border-bottom: 1px solid white;
+  margin-top: 3.5vw;
+}
+
+.products-titles,
+.campaigns-titles {
+  margin-top: 0.6vw;
+}
+
+.campaigns-filtering-area {
+  margin-top: 4vw;
+}
+
+.products-filtering-area {
+  margin-top: 2vw;
+}
+
+.campaign-filtering-title {
+  font-weight: bold;
+  padding-bottom: 1vw;
+  font-size: 1.1vw;
+}
+
+.products-filtering-title {
+  font-weight: bold;
+  padding-bottom: 1vw;
+  font-size: 1.1vw;
+}
+
+.campaign-name-title {
+  display: block;
+  padding: 0.1vw;
+  font-size: 1vw;
+  position: relative;
+  right: 1.6vw;
+  bottom: 0.2vw;
+}
+
+br {
+  margin: 0;
+  padding: 0;
+}
+
+.url-sharing-area {
+  background-color: #f84a72;
+  width: 100%;
+  padding: 0 !important;
+  position: absolute;
+  right: 0;
+  bottom: 4vw;
+  height: 3vw;
+  text-align: center;
+  line-height: 3vw;
+  font-weight: bold;
+}
+
+.url-sharing-area:hover {
+  cursor: pointer;
+}
+
+.container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkmark {
+  position: absolute;
+  top: 0;
+  height: 0.9vw;
+  width: 0.9vw;
+  background-color: transparent;
+  border: 1px solid white;
+}
+
+.container:hover input ~ .checkmark {
+  background-color: transparent;
+  border: 1px solid #f84a72;
+}
+
+.container input:checked ~ .checkmark {
+  background-color: transparent;
+  border: 1px solid #f84a72;
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+.container .checkmark:after {
+  top: -0.3vw;
+  width: 0.4vw;
+  height: 0.8vw;
+  border: solid white;
+  border-width: 0 1.8px 1.8px 0;
+  transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}

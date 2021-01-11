@@ -1,0 +1,106 @@
+.campaigns {
+  margin-top: 6vw;
+  box-sizing: border-box;
+}
+
+.client-in-campaigns {
+  direction: rtl;
+
+  display: inline-block;
+  width: 100%;
+  overflow: visible;
+}
+
+.grid {
+  column-count: 5;
+  column-gap: 0;
+}
+
+.client-in-campaigns > h2 {
+  font-weight: bold;
+}
+
+.campaign {
+  display: inline-block;
+  margin: 0;
+  width: 100%;
+  margin-bottom: 1vw;
+}
+
+.campaign-img {
+  width: 13vw;
+  height: auto;
+  border-radius: 15px;
+  box-shadow: 0px 0px 3px 0 rgba(0, 0, 0, 0.75);
+}
+
+.product-type-title {
+  font-size: 1vw;
+  position: relative;
+  bottom: 0.5vw;
+  font-weight: bold;
+}
+
+.campaign-info {
+  height: 2vw;
+  display: flex;
+  width: 13vw;
+  position: relative;
+}
+
+.success-color {
+  height: 1vw;
+  width: 1vw;
+  font-size: 1.8vw;
+  position: relative;
+  right: 2.6vw;
+  top: 0.4vw;
+}
+
+.success-rate {
+  position: absolute;
+  font-size: 1vw;
+  font-weight: bold;
+  left: 1.2vw;
+  bottom: 0.8vw;
+}
+
+.campaigns-filter-by-low,
+.campaigns-filter-by-high:hover,
+.campaigns-filter-by-success-img:hover {
+  cursor: pointer;
+}
+
+.campaigns-left-filter {
+  position: absolute;
+  display: flex;
+  direction: ltr;
+  text-transform: uppercase;
+  top: 9vw;
+  left: 6vw;
+}
+
+.campaigns-filter-by-success-img {
+  width: 1vw;
+  position: relative;
+  bottom: 0.8vw;
+}
+
+.campaigns-filter-by-high {
+  font-size: 0.9vw;
+  font-weight: bold;
+  margin-left: 0.7vw;
+}
+
+.campaigns-separate {
+  margin: 0 1vw;
+  bottom: 0.9vw;
+  font-size: 2vw;
+  position: relative;
+}
+
+.campaigns-filter-by-low {
+  font-size: 0.9vw;
+  font-weight: bold;
+  color: gray;
+}

@@ -4,6 +4,7 @@ import "./all-clients.css";
 import { getAllClients } from "../../data/clients";
 import { store } from "../../redux/store";
 import { ActionType } from "../../redux/actionType";
+import { Unsubscribe } from "redux";
 
 
 interface AllClientsState {
@@ -16,6 +17,8 @@ interface AllClientsState {
 
 export class AllClients extends Component<any, AllClientsState>{
 
+    private unsubscribeStore: Unsubscribe;
+
     public constructor(props: any) {
         super(props);
         this.state = {
@@ -23,11 +26,17 @@ export class AllClients extends Component<any, AllClientsState>{
             companies: [],
             isPopUpShow: false,
             clientsToShow: [],
-            selectedClients: []
+            selectedClients: store.getState().selectedClients
         }
+
+        this.unsubscribeStore = store.subscribe(() => {
+            const selectedClients = store.getState().selectedClients;
+            this.setState({ selectedClients });
+        })
     }
 
     componentDidMount() {
+
         const allClients: ClientModel[] = getAllClients();
         this.setState({ allClients });
         this.setState({ clientsToShow: allClients });
@@ -45,6 +54,11 @@ export class AllClients extends Component<any, AllClientsState>{
         this.setState({ companies });
     }
 
+    public componentWillUnmount(): void {
+        this.unsubscribeStore();
+    }
+
+
 
     public selectClient = (client: ClientModel) => (event: any) => {
         const selectedClients: ClientModel[] = store.getState().selectedClients;
@@ -55,9 +69,14 @@ export class AllClients extends Component<any, AllClientsState>{
             }
         })
         if (isUnique) {
+            let selectedClients = [...this.state.selectedClients];
+            selectedClients.push(client);
+            this.setState({ selectedClients });
             store.dispatch({ type: ActionType.addClientToSelectedClients, payLoad: client });
         }
     }
+
+
 
     public filterByCompany = (companyName: string) => (event: any) => {
 
@@ -71,6 +90,18 @@ export class AllClients extends Component<any, AllClientsState>{
         this.setState({ clientsToShow });
     }
 
+    public filterAlphabetically = () => {
+        const clientsByAlphabetically = this.state.allClients.map(c => c.clientName).sort();
+        let clientsToShow: ClientModel[] = [];
+        for (let i = 0; i <= clientsByAlphabetically.length; i++) {
+            for (const client of this.state.allClients) {
+                if (client.clientName === clientsByAlphabetically[i]) {
+                    clientsToShow.push(client);
+                }
+            }
+        }
+        this.setState({ clientsToShow });
+    }
 
     public render() {
         return (
@@ -79,9 +110,10 @@ export class AllClients extends Component<any, AllClientsState>{
 
                 <div className="filter-area">
                     <div className="left-filter">
+                        <img className="filter-by-date-img" src="/assets/images/filter_by_date.svg" />
                         <span className="filter-by-new">Latest</span>
                         <span className="separate">|</span>
-                        <span className="filter-by-name">A <span className="inside-filter">to</span> Z</span>
+                        <span className="filter-by-name" onClick={this.filterAlphabetically}>A <span className="inside-filter">to</span> Z</span>
                     </div>
 
 
@@ -95,11 +127,13 @@ export class AllClients extends Component<any, AllClientsState>{
                     <div className="client">
                         <img src={client.clientImageSrc} />
                         <div className="client-info">
-                            <button onClick={this.selectClient(client)}
-                                className="add-client-btn">
-                                <span className="add-inside-text">
-                                    &#43;</span>
-                            </button>
+
+                            <img src="/assets/images/add_button_before.svg"
+                                style={{ display: this.state.selectedClients.filter(c => c.clientId === client.clientId).length === 0 ? "inline-block" : "none" }}
+                                className="add-client-btn btn-before" onClick={this.selectClient(client)} />
+                            <img src="/assets/images/add_button_after.svg"
+                                style={{ display: this.state.selectedClients.filter(c => c.clientId === client.clientId).length === 0 ? "none" : "inline-block" }}
+                                className="add-client-btn btn-after" onClick={this.selectClient(client)} />
                             <span>{client.clientName}</span>
                         </div>
                     </div>)}
