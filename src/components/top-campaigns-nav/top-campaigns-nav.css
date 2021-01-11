@@ -52,9 +52,10 @@
   margin: 0.7vw;
   font-size: 1.1vw;
   text-transform: uppercase;
-  padding: 0.6vw;
-  padding-bottom: 1.7vw;
+  padding: 0.7vw;
   float: right;
+  line-height: 0;
+  position: relative;
 }
 
 .campaigns-buttons {
@@ -124,14 +125,14 @@
   opacity: 0;
   background-color: white;
   border-radius: 100%;
-  position: relative;
+  position: absolute;
   outline: none;
   border: 1px solid black;
   height: 1vw;
   width: 1vw;
   font-size: 0.8vw;
-  right: 0;
-  bottom: 1.3vw;
+  right: 0.8vw;
+  bottom: 2vw;
 }
 
 .campaigns-remove-btn > span {
@@ -152,7 +153,6 @@
 
 .campaigns-inside-client-btn {
   position: relative;
-  left: 0.5vw;
 }
 
 .campaigns-start-of-buttons-section {
@@ -160,7 +160,7 @@
   height: 100%;
   right: 1vw;
   height: 3vw;
-  width: 8vw;
+  width: 7vw;
   top: 1.4vw;
 }
 
@@ -169,8 +169,8 @@
   height: 3vw;
   width: 3vw;
   top: 1.4vw;
-  width: 6vw;
-  left: 21.9vw;
+  width: 4vw;
+  left: 20.4vw;
 }
 
 .campaigns-more-buttons-icon {

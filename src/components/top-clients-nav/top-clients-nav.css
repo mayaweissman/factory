@@ -56,8 +56,9 @@
   font-size: 1.1vw;
   text-transform: uppercase;
   padding: 0.7vw;
-  padding-bottom: 1.7vw;
   float: right;
+  line-height: 0;
+  position: relative;
 }
 
 .buttons {
@@ -116,14 +117,14 @@
   opacity: 0;
   background-color: white;
   border-radius: 100%;
-  position: relative;
+  position: absolute;
   outline: none;
   border: 1px solid black;
   height: 1vw;
   width: 1vw;
   font-size: 0.8vw;
-  right: 0;
-  bottom: 1.3vw;
+  right: 0.8vw;
+  bottom: 2vw;
 }
 
 
@@ -145,7 +146,6 @@
 
 .inside-client-btn{
   position: relative;
-  left: 0.5vw;
 }
 
 .start-of-buttons-section {

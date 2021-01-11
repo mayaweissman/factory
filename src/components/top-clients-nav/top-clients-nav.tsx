@@ -45,6 +45,9 @@ export class TopClientsNav extends Component<TopClientsNavProps, TopClientsNavSt
             if (buttonsWidth > maxWidth) {
                 this.setState({ isButtonsScrolled: true });
             }
+            else{
+                this.setState({ isButtonsScrolled: false });
+            }
         })
     }
 

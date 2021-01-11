@@ -38,12 +38,15 @@ export class TopCampaignsNav extends Component<TopCampaignsNavProps, TopCampaign
 
     componentDidMount() {
         const topNavWidth: number = this.topNavRef.current?.clientWidth as number;
-        const maxWidth = topNavWidth / 100 * 80;
+        const maxWidth = topNavWidth / 100 * 70;
 
         window.addEventListener("click", () => {
             const buttonsWidth = this.buttonsRef.current?.scrollWidth as number;
             if (buttonsWidth > maxWidth) {
                 this.setState({ isButtonsScrolled: true });
+            }
+            else{
+                this.setState({ isButtonsScrolled: false });
             }
         })
     }
