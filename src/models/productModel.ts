@@ -3,7 +3,7 @@ export class ProductModel {
       public productId?: number,
       public campaignId?: number,
       public clientId?: number,
-      public productType?: string,
+      public productTypeId?: number,
       public successRates?: number,
       public imageSrc?: string
     ) {}

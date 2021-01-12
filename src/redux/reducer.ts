@@ -10,6 +10,14 @@ export function reducer(oldAppState: AppState, action: Action): AppState {
       newAppState.allClients = action.payLoad;
       break;
 
+    case ActionType.getAllCampaigns:
+      newAppState.allCampaigns = action.payLoad;
+      break;
+
+    case ActionType.getAllProducts:
+      newAppState.allProducts = action.payLoad;
+      break;
+
     case ActionType.addClientToSelectedClients:
       newAppState.selectedClients.push(action.payLoad);
       break;
@@ -20,6 +28,31 @@ export function reducer(oldAppState: AppState, action: Action): AppState {
 
     case ActionType.updateSelectedClients:
       newAppState.selectedClients = action.payLoad;
+      break;
+
+    case ActionType.getSelectedProducts:
+      newAppState.selectedProducts = action.payLoad;
+      break;
+
+    case ActionType.updateCampaignsToDisplay:
+      newAppState.campaignsToDisplay = action.payLoad;
+      break;
+
+    case ActionType.updateProductsToDisplay:
+      newAppState.productsToDisplay = action.payLoad;
+      break;
+
+    case ActionType.getSelectedCampaigns:
+      newAppState.selectedCampaigns = action.payLoad;
+      break;
+
+    case ActionType.changeDisplayForPopUp:
+      if (newAppState.isPopUpShow) {
+        newAppState.isPopUpShow = false;
+      }
+      else {
+        newAppState.isPopUpShow = true;
+      }
       break;
 
     case ActionType.removeClient:

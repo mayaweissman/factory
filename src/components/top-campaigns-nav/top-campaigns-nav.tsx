@@ -4,6 +4,7 @@ import { Unsubscribe } from "redux";
 import { ClientModel } from "../../models/clientModel";
 import { ActionType } from "../../redux/actionType";
 import { store } from "../../redux/store";
+import { AddClientPopUp } from "../add-client-pop-up/add-client-pop-up";
 import { AllClients } from "../all-clients/all-clients";
 import "./top-campaigns-nav.css";
 
@@ -14,6 +15,7 @@ interface TopCampaignsNavProps {
 interface TopCampaignsNavState {
     selectedClients: ClientModel[],
     isButtonsScrolled: boolean,
+    display: boolean
 }
 
 export class TopCampaignsNav extends Component<TopCampaignsNavProps, TopCampaignsNavState>{
@@ -28,11 +30,14 @@ export class TopCampaignsNav extends Component<TopCampaignsNavProps, TopCampaign
 
         this.state = {
             selectedClients: store.getState().selectedClients,
-            isButtonsScrolled: false
+            isButtonsScrolled: false,
+            display: store.getState().isPopUpShow
         }
         this.unsubscribeStore = store.subscribe(() => {
             const selectedClients = store.getState().selectedClients;
+            const display = store.getState().isPopUpShow;
             this.setState({ selectedClients });
+            this.setState({ display });
         })
     }
 
@@ -45,7 +50,7 @@ export class TopCampaignsNav extends Component<TopCampaignsNavProps, TopCampaign
             if (buttonsWidth > maxWidth) {
                 this.setState({ isButtonsScrolled: true });
             }
-            else{
+            else {
                 this.setState({ isButtonsScrolled: false });
             }
         })
@@ -87,6 +92,10 @@ export class TopCampaignsNav extends Component<TopCampaignsNavProps, TopCampaign
         store.dispatch({ type: ActionType.removeClient, payLoad: clientId });
     }
 
+    public openPopUp = ()=>{
+        store.dispatch({type: ActionType.changeDisplayForPopUp, payLoad: false});
+    }
+
     public render() {
         return (
             <div ref={this.topNavRef} className="top-campaigns-nav">
@@ -116,13 +125,17 @@ export class TopCampaignsNav extends Component<TopCampaignsNavProps, TopCampaign
                     </div>
                 </div>
 
-                <span className="add-client-span">הוספת לקוח</span>
+                <span className="add-client-span" onClick={this.openPopUp}>הוספת לקוח</span>
 
                 <div className="campaigns-top-scroll" style={{ top: this.props.isScroll ? "6vw" : 0 }}></div>
 
                 <NavLink to="/home">
                     <img className="campaigns-logo" src="/assets/images/logo_factory.svg" />
                 </NavLink>
+
+                {this.state.display &&
+                    <AddClientPopUp/>
+                }
 
             </div>
 

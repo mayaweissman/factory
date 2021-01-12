@@ -41,17 +41,7 @@ export class AllClients extends Component<any, AllClientsState>{
         this.setState({ allClients });
         this.setState({ clientsToShow: allClients });
 
-        const companies: string[] = [];
-        companies.push(allClients[0].company as string);
-        companies.map(company => {
-            allClients.map(client => {
-                if (client.company !== company) {
-                    companies.push(client.company as string);
-                }
-            })
-        })
-
-        this.setState({ companies });
+        store.dispatch({ type: ActionType.getAllClients, payLoad: allClients });
     }
 
     public componentWillUnmount(): void {
@@ -146,7 +136,7 @@ export class AllClients extends Component<any, AllClientsState>{
                     <span onClick={this.filterByCompany("MRM")} className="company-name">לקוחות MRM</span>
                     <span onClick={this.filterByCompany("Valley")} className="company-name">לקוחות Valley</span>
                     <span onClick={this.filterByCompany("UMD")} className="company-name">לקוחות UMD</span>
-       
+
                 </div>
 
             </div>

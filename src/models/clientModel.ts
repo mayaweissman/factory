@@ -5,9 +5,7 @@ export class ClientModel {
     public clientId?: number,
     public clientImageSrc?: string,
     public clientName?: string,
-    public campaigns?: CampaignModel[],
     public company?: string
   ) {
-      this.campaigns = [];
   }
 }
