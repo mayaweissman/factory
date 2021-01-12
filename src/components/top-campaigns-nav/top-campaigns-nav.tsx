@@ -1,6 +1,7 @@
 import React, { Component, useRef } from "react";
 import { NavLink } from "react-router-dom";
 import { Unsubscribe } from "redux";
+import { CampaignModel } from "../../models/campaignModel";
 import { ClientModel } from "../../models/clientModel";
 import { ActionType } from "../../redux/actionType";
 import { store } from "../../redux/store";
@@ -56,6 +57,17 @@ export class TopCampaignsNav extends Component<TopCampaignsNavProps, TopCampaign
         })
     }
 
+    public filterByClientId = (clientId: number) => (event: any) => {
+        const campaignsToDisplay: CampaignModel[] = [];
+        const allSelectedCampaigns = store.getState().selectedCampaigns;
+        for (const c of allSelectedCampaigns) {
+            if (c.clientId === clientId) {
+                campaignsToDisplay.push(c);
+            }
+        }
+        store.dispatch({ type: ActionType.updateCampaignsToDisplay, payLoad: campaignsToDisplay });
+    }
+
 
     public componentWillUnmount(): void {
         this.unsubscribeStore();
@@ -78,23 +90,23 @@ export class TopCampaignsNav extends Component<TopCampaignsNavProps, TopCampaign
         });
     }
 
-    public removeAllClients = () => {
-        this.setState({ selectedClients: [] })
-        store.dispatch({ type: ActionType.unselectAllClients });
-    }
 
     public removeClient = (clientId: number) => (event: any) => {
+
+        //Remove from clients in redux
         const selectedClients = [...this.state.selectedClients];
         const index = selectedClients.findIndex(c => c.clientId === clientId);
         selectedClients.splice(index, 1);
         this.setState({ selectedClients });
 
         store.dispatch({ type: ActionType.removeClient, payLoad: clientId });
+
     }
 
-    public openPopUp = ()=>{
-        store.dispatch({type: ActionType.changeDisplayForPopUp, payLoad: false});
+    public openPopUp = () => {
+        store.dispatch({ type: ActionType.changeDisplayForPopUp, payLoad: false });
     }
+
 
     public render() {
         return (
@@ -107,11 +119,11 @@ export class TopCampaignsNav extends Component<TopCampaignsNavProps, TopCampaign
                         <button className="campaigns-remove-btn" style={{ opacity: 0 }}>
                             <span>&#10006;</span>
                         </button>
-                        <span className="campaigns-inside-client-btn">All</span>
+                        <NavLink className="back-to-home-page" to="/home"><span className="campaigns-inside-client-btn">All</span></NavLink>
                     </button>
 
                     {this.state?.selectedClients.map(client =>
-                        <button className="campaigns-client-btn">
+                        <button className="campaigns-client-btn" onClick={this.filterByClientId(client.clientId as number)}>
                             <button className="campaigns-remove-btn" onClick={this.removeClient(client.clientId as number)}>
                                 <span>&#10006;</span>
                             </button>
@@ -134,7 +146,7 @@ export class TopCampaignsNav extends Component<TopCampaignsNavProps, TopCampaign
                 </NavLink>
 
                 {this.state.display &&
-                    <AddClientPopUp/>
+                    <AddClientPopUp />
                 }
 
             </div>

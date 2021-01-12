@@ -42,6 +42,18 @@
   font-size: 1.5vw;
 }
 
+.pop-up-btn:disabled {
+  border: 2px solid lightgray;
+  color: gray;
+}
+
+.pop-up-btn:disabled:hover {
+  cursor: no-drop;
+  border: 2px solid lightgray;
+  background-color: white;
+  color: gray;
+}
+
 .clients-in-pop-up {
   margin: 2vw 4vw;
   max-height: 80%;
@@ -91,8 +103,8 @@
   font-weight: bold;
 }
 
-.add-client-in-pop-up:hover{
-    cursor: pointer;
+.add-client-in-pop-up:hover {
+  cursor: pointer;
 }
 
 .add-client-in-pop-up:disabled {

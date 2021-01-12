@@ -37,9 +37,20 @@
 }
 
 .campaigns-buttons::-webkit-scrollbar {
-  /* WebKit */
   width: 0;
   height: 0;
+}
+
+.campaigns-inside-client-btn:hover{
+  color: white;
+}
+.back-to-home-page{
+  text-decoration: none;
+  color: black;
+}
+
+.back-to-home-page:hover{
+  color: white;
 }
 
 .campaigns-client-btn {
@@ -47,7 +58,7 @@
   color: black;
   outline: none;
   border: 1.3px solid black;
-  border-radius: 21px;
+  border-radius: 31px;
   height: 2.8vw;
   margin: 0.7vw;
   font-size: 1.1vw;
@@ -57,6 +68,7 @@
   line-height: 0;
   position: relative;
 }
+
 
 .campaigns-buttons {
   float: right;

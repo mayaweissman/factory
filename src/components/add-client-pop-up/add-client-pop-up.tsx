@@ -4,6 +4,10 @@ import { ActionType } from "../../redux/actionType";
 import { store } from "../../redux/store";
 import "./add-client-pop-up.css";
 import { getAllClients } from "../../data/clients";
+import { CampaignModel } from "../../models/campaignModel";
+import { getAllCampaigns } from "../../data/campaigns";
+import { getAllProducts } from "../../data/products";
+import { ProductModel } from "../../models/productModel";
 
 interface AddClientPopUpState {
     allClients: ClientModel[],
@@ -60,8 +64,6 @@ export class AddClientPopUp extends Component<any, AddClientPopUpState>{
         clientsToAdd.push(client);
         this.setState({ clientsToAdd });
 
-        console.log(this.state.clientsToAdd);
-
     }
 
     public isSelcected = (clientId: number) => {
@@ -74,8 +76,45 @@ export class AddClientPopUp extends Component<any, AddClientPopUpState>{
     }
 
     public addClientsToReport = () => {
-        store.dispatch({type: ActionType.updateSelectedClients, payLoad: this.state.clientsToAdd});
+        const selectedClients = store.getState().selectedClients;
+        for (const c of this.state.clientsToAdd) {
+            selectedClients.push(c);
+        }
+        store.dispatch({ type: ActionType.updateSelectedClients, payLoad: selectedClients });
+
+        const selectedCampaigns: CampaignModel[] = store.getState().selectedCampaigns;
+        this.state.clientsToAdd.map(client => {
+            getAllCampaigns().map(campaign => {
+                if (campaign.clientId === client.clientId) {
+                    selectedCampaigns.push(campaign);
+                }
+            })
+        })
+
+        store.dispatch({ type: ActionType.getSelectedCampaigns, payLoad: selectedCampaigns });
+
+        const selectedProducts: ProductModel[] = store.getState().selectedProducts;
+        this.state.clientsToAdd.map(client => {
+            getAllProducts().map(product => {
+                if (product.clientId === client.clientId) {
+                    selectedProducts.push(product);
+
+                }
+            })
+        })
+        store.dispatch({ type: ActionType.getSelectedProducts, payLoad: selectedProducts });
+
         this.closePopUp();
+    }
+
+    public isExist = (clientId: number) => {
+        const selectedClients = [...store.getState().selectedClients];
+        for(const c of selectedClients){
+            if(c.clientId === clientId){
+                return true;
+            }
+        }
+        return false;
     }
 
     public render() {
@@ -94,7 +133,8 @@ export class AddClientPopUp extends Component<any, AddClientPopUpState>{
                                             backgroundColor: this.isSelcected(client.clientId as number) ? "black" : "",
                                             color: this.isSelcected(client.clientId as number) ? "white" : ""
                                         }}
-                                            onClick={this.addClient(client)} className="pop-up-btn">
+                                            onClick={this.addClient(client)} className="pop-up-btn" 
+                                            disabled={this.isExist(client.clientId as number)}>
                                             {client.clientName}
                                         </button>
 

@@ -1,6 +1,7 @@
 import { AppState } from "./appState";
 import { Action } from "./action";
 import { ActionType } from "./actionType";
+import { act } from "react-dom/test-utils";
 
 export function reducer(oldAppState: AppState, action: Action): AppState {
   const newAppState = { ...oldAppState }; //Duplicate the old state into a new state
@@ -42,6 +43,11 @@ export function reducer(oldAppState: AppState, action: Action): AppState {
       newAppState.productsToDisplay = action.payLoad;
       break;
 
+    case ActionType.resetFiltering:
+      newAppState.campaignsToDisplay = newAppState.selectedCampaigns;
+      newAppState.productsToDisplay = newAppState.selectedProducts;
+      break;
+
     case ActionType.getSelectedCampaigns:
       newAppState.selectedCampaigns = action.payLoad;
       break;
@@ -61,6 +67,10 @@ export function reducer(oldAppState: AppState, action: Action): AppState {
         (c) => c.clientId === clientId
       );
       newAppState.selectedClients.splice(index, 1);
+      newAppState.selectedCampaigns = newAppState.selectedCampaigns.filter(c => c.clientId !== action.payLoad);
+      newAppState.campaignsToDisplay = newAppState.campaignsToDisplay.filter(c => c.clientId !== action.payLoad);
+      newAppState.selectedProducts = newAppState.selectedProducts.filter(c => c.clientId !== action.payLoad);
+      newAppState.productsToDisplay = newAppState.productsToDisplay.filter(c => c.clientId !== action.payLoad);
       break;
 
     default:

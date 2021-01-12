@@ -55,6 +55,10 @@ export class FilteringSideMenu extends Component<any, FilteringSideMenuState>{
         store.dispatch({ type: ActionType.updateCampaignsToDisplay, payLoad: campaignsToDisplay });
     }
 
+    public resetFiltering = () => {
+        store.dispatch({ type: ActionType.resetFiltering });
+    }
+
     public filterByProductType = (productsTypeId: number) => (event: any) => {
         const productsToDisplay: ProductModel[] = [...store.getState().productsToDisplay];
         const duplictes = productsToDisplay.filter(p => p.productTypeId === productsTypeId);
@@ -77,7 +81,7 @@ export class FilteringSideMenu extends Component<any, FilteringSideMenuState>{
     public render() {
         return (
             <div className="filtering-side-menu">
-                <span className="reset-filtering">איפוס סננים</span>
+                <span className="reset-filtering" onClick={this.resetFiltering}>איפוס סננים</span>
 
                 <input className="date-filtering-box" />
 
