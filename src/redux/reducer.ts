@@ -52,6 +52,15 @@ export function reducer(oldAppState: AppState, action: Action): AppState {
       newAppState.selectedCampaigns = action.payLoad;
       break;
 
+    case ActionType.changeAuth:
+      if (!newAppState.isAuthSucceeded) {
+        newAppState.isAuthSucceeded = true;
+      }
+      else {
+        newAppState.isAuthSucceeded = false;
+      }
+      break;
+
     case ActionType.changeDisplayForPopUp:
       if (newAppState.isPopUpShow) {
         newAppState.isPopUpShow = false;

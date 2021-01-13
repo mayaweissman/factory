@@ -14,6 +14,7 @@ export class AppState {
   public isPopUpShow: boolean;
   public isProductsPopUpShow: boolean;
   public isLinksPopUpShow: boolean;
+  public isAuthSucceeded: boolean
 
   public constructor() {
     this.allClients = [];
@@ -24,8 +25,9 @@ export class AppState {
     this.selectedProducts = [];
     this.campaignsToDisplay = [];
     this.productsToDisplay = [];
-     this.isPopUpShow = false;
-     this.isProductsPopUpShow = false;
-     this.isLinksPopUpShow = false;
+    this.isPopUpShow = false;
+    this.isProductsPopUpShow = false;
+    this.isLinksPopUpShow = false;
+    this.isAuthSucceeded = false;
   }
 }

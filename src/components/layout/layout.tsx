@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
+import { Auth } from "../auth/auth";
 import { Home } from "../home/home";
 import { ReportMaker } from "../report-maker/report-maker";
 import "./layout.css";
@@ -12,9 +13,10 @@ export class Layout extends Component {
                 <BrowserRouter>
 
                     <Switch>
-                        <Route path="/factory/report-maker" component={ReportMaker} exact />
-                        <Route path="/factory/home" component={Home} exact />
-                        <Redirect from="/" to="/factory/home" />
+                        <Route path="/auth" component={Auth} exact />
+                        <Route path="/report-maker" component={ReportMaker} exact />
+                        <Route path="/home" component={Home} exact />
+                        <Redirect from="/" to="/home" />
                     </Switch>
 
                 </BrowserRouter>
