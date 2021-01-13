@@ -28,6 +28,6 @@ export class AppState {
     this.isPopUpShow = false;
     this.isProductsPopUpShow = false;
     this.isLinksPopUpShow = false;
-    this.isAuthSucceeded = false;
+    this.isAuthSucceeded = true;
   }
 }

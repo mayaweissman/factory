@@ -12,13 +12,15 @@ export class LinkPopUp extends Component<any,LinkPopUpState>{
 
     public urlInput = React.createRef<HTMLDivElement>();
 
+    public linkRef = React.createRef<HTMLInputElement>();
+
+
     public constructor(props:any){
         super(props);
         this.state = {
-            url: "https://some-address-on-some-place.com/herecomesuuid"
+            url: "http://factory.landing-page-media.co.il//213276a8-8eb2-4710-b97d-9d67e9aeaae9"
         }
     }
-
 
     public closePopUp = () => {
         store.dispatch({ type: ActionType.changeDisplayForLinkPopUp });
@@ -29,8 +31,9 @@ export class LinkPopUp extends Component<any,LinkPopUpState>{
     }
 
     public copyToClipboard = ()=> {
+        this.linkRef.current?.select();
         document.execCommand("copy");
-    }
+    };
 
     public render() {
         return (
@@ -39,9 +42,9 @@ export class LinkPopUp extends Component<any,LinkPopUpState>{
                     <button className="close-link-pop-up-btn" onClick={this.closePopUp} ><CloseIcon/></button>
 
                     <h2 className="link-title">הלינק לשיתוף</h2>
-                    <input className="url-box" value={this.state.url}/>
+                    <input ref={this.linkRef} className="url-box" value={this.state.url}/>
 
-                    <button className="copy-link-btn">Copy link</button>
+                    <button onClick={this.copyToClipboard} className="copy-link-btn">Copy link</button>
                    
                 </div>
             </div>

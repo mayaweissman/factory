@@ -2,10 +2,8 @@ import React, { Component } from "react";
 import { Campaigns } from "../campaigns/campaigns";
 import { FilteringSideMenu } from "../filtering-side-menu/filtering-side-menu";
 import { TopCampaignsNav } from "../top-campaigns-nav/top-campaigns-nav";
-import { getAllClients } from "../../data/clients";
 import "./report-maker.css";
 import { store } from "../../redux/store";
-import { ActionType } from "../../redux/actionType";
 import { Unsubscribe } from "redux";
 import { LinkPopUp } from "../link-pop-up/link-pop-up";
 
@@ -62,7 +60,7 @@ export class ReportMaker extends Component<any, ReportMakerState>{
                 </main>
 
                 <aside>
-                    <FilteringSideMenu />
+                    <FilteringSideMenu isOnReport={false}/>
                 </aside>
                 {this.state.display && <LinkPopUp />}
 

@@ -10,7 +10,13 @@ import { getProductsTypes } from "../../data/products-types";
 import { getAllProducts } from "../../data/products";
 import { LinkPopUp } from "../link-pop-up/link-pop-up";
 import { AddClientPopUp } from "../add-client-pop-up/add-client-pop-up";
+import { ReportModel } from "../../models/reportModel";
 
+
+interface FilteringSideMenuProps {
+    isOnReport: boolean
+
+}
 interface FilteringSideMenuState {
     selectedClients: ClientModel[],
     selectedCampaigns: CampaignModel[],
@@ -19,11 +25,11 @@ interface FilteringSideMenuState {
     productsToDisplay: ProductModel[],
 }
 
-export class FilteringSideMenu extends Component<any, FilteringSideMenuState>{
+export class FilteringSideMenu extends Component<FilteringSideMenuProps, FilteringSideMenuState>{
 
     private unsubscribeStore: Unsubscribe;
 
-    public constructor(props: any) {
+    public constructor(props: FilteringSideMenuProps) {
         super(props);
         this.state = {
             selectedClients: store.getState().selectedClients,
@@ -85,26 +91,34 @@ export class FilteringSideMenu extends Component<any, FilteringSideMenuState>{
         store.dispatch({ type: ActionType.updateProductsToDisplay, payLoad: productsToDisplay });
     }
 
-    public openPopUpLink = () => {
+    //Demo function
+    public createReport = () => {
+        const report = new ReportModel();
+
+        report.clients = store.getState().selectedClients;
+        report.campaigns = store.getState().campaignsToDisplay;
+        report.products = store.getState().productsToDisplay;
+
         store.dispatch({ type: ActionType.changeDisplayForLinkPopUp });
     }
 
     public isCampaignChecked = (campaignId: number) => {
         const campaigns: CampaignModel[] = [...this.state.campaignsToDisplay];
-        const c = campaigns.find(campaign=> campaign.campaignId === campaignId);
-        if(c !== undefined){
+        const c = campaigns.find(campaign => campaign.campaignId === campaignId);
+        if (c !== undefined) {
             return true;
         }
         return false;
     }
 
-    public isProductTypeChecked = (productTypeId: number)=>{
+    public isProductTypeChecked = (productTypeId: number) => {
         const products: ProductModel[] = [...this.state.productsToDisplay];
         const p = products.find(product => product.productTypeId === productTypeId);
-        if(p !== undefined){
+        if (p !== undefined) {
             return true;
         }
-        return false;    }
+        return false;
+    }
 
 
 
@@ -149,9 +163,12 @@ export class FilteringSideMenu extends Component<any, FilteringSideMenuState>{
                 </div>
 
 
-                <div className="url-sharing-area" onClick={this.openPopUpLink}>
-                    <span>יצירת URL לשיתוף</span>
-                </div>
+                {!this.props.isOnReport &&
+                    <div className="url-sharing-area" onClick={this.createReport}>
+                        <span>יצירת URL לשיתוף</span>
+                    </div>
+                }
+
 
             </div>
 
