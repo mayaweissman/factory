@@ -48,29 +48,33 @@ export class ProductPopUp extends Component<ProductPopUpProps>{
 
                     <div className="right-area">
                         <div className="titlesInRightArea">
-                            <div className="product-rate">{this.props.product.successRates} %</div>
-                            <h1 className="type-title">{this.getProductType(this.props.product.productTypeId as number)}</h1>
-                            <p className="campaign-name-area">{this.props.campaign.campaignName}</p>
+                            <div className="right-in-titles">
+                                <div className="product-rate">{this.props.product.successRates} %</div>
+                            </div>
+                            <div className="left-in-titles">
+                                <h1 className="type-title">{this.getProductType(this.props.product.productTypeId as number)}</h1>
+                                <p className="campaign-name-area">{this.props.campaign.campaignName}</p>
+                            </div>
                         </div>
-                   
 
-                    <div className="bars-area">
-                        <p className="bar-title">Best practice media</p>
-                        <p className="bar-rate">65 %</p>
-                        <ProgressBar height="7px" borderRadius="0" bgcolor="#FFDB48" completed={65} />
-                    </div>
 
-                    <div className="bars-area">
-                        <p className="bar-title">Best practice media</p>
-                        <p className="bar-rate">95 %</p>
-                        <ProgressBar height="7px" borderRadius="0" bgcolor="#1CE5A2" completed={95} />
-                    </div>
+                        <div className="bars-area">
+                            <p className="bar-title">Best practice media</p>
+                            <p className="bar-rate">65 %</p>
+                            <ProgressBar height="7px" borderRadius="0" bgcolor="#FFDB48" completed={65} />
+                        </div>
 
-                    <div className="bars-area">
-                        <p className="bar-title">Best practice media</p>
-                        <p className="bar-rate">40 %</p>
-                        <ProgressBar height="7px" borderRadius="0" bgcolor="#E4002B" completed={40} />
-                    </div>
+                        <div className="bars-area">
+                            <p className="bar-title">Best practice media</p>
+                            <p className="bar-rate">95 %</p>
+                            <ProgressBar height="7px" borderRadius="0" bgcolor="#1CE5A2" completed={95} />
+                        </div>
+
+                        <div className="bars-area">
+                            <p className="bar-title">Best practice media</p>
+                            <p className="bar-rate">40 %</p>
+                            <ProgressBar height="7px" borderRadius="0" bgcolor="#E4002B" completed={40} />
+                        </div>
 
                     </div>
                     <button className="close-product-pop-up-btn" onClick={this.closePopUp} ><CloseIcon /></button>

@@ -14,9 +14,9 @@
 .small-product-conatiner {
   background-color: white;
   height: 606px;
-  max-height: 90%;
+  max-height: 80%;
   width: 1301px;
-  max-width: 90%;
+  max-width: 70%;
   display: flex;
   padding: 3vw;
 }
@@ -57,19 +57,20 @@
 .type-title {
   direction: rtl;
   position: relative;
-  right: 7vw;
-  top: 0.7vw;
+  margin: 0;
+  padding: 0;
 }
 
 .campaign-name-area {
   direction: rtl;
-  right: 7vw;
-  bottom: 0.7vw;
   position: relative;
+  margin: 0;
+  padding: 0;
 }
 
 .titlesInRightArea {
-  display: block;
+  display: flex;
+  direction: rtl;
 }
 
 .product-rate {
@@ -77,8 +78,6 @@
   height: 3vw;
   border-radius: 30px;
   background-color: #ffdb48;
-  position: absolute;
-  right: 17vw;
   margin: 1vw;
   font-size: 2vw;
   text-align: center;
@@ -93,7 +92,7 @@
   margin: 1vw;
   position: absolute;
   left: 14vw;
-  top: 7vw;
+  top: 30px;
   border-radius: 100%;
   display: inline-flex;
   justify-content: center;

@@ -91,18 +91,6 @@ export class TopReportNav extends Component<TopReportNavProps, TopReportNavState
     }
 
 
-    public removeClient = (clientId: number) => (event: any) => {
-
-        //Remove from clients in redux
-        const selectedClients = [...this.state.selectedClients];
-        const index = selectedClients.findIndex(c => c.clientId === clientId);
-        selectedClients.splice(index, 1);
-        this.setState({ selectedClients });
-
-        store.dispatch({ type: ActionType.removeClient, payLoad: clientId });
-
-    }
-
     public openPopUp = () => {
         store.dispatch({ type: ActionType.changeDisplayForPopUp, payLoad: false });
     }
@@ -118,9 +106,6 @@ export class TopReportNav extends Component<TopReportNavProps, TopReportNavState
 
                     {this.state?.selectedClients.map(client =>
                         <button className="campaigns-client-btn" onClick={this.filterByClientId(client.clientId as number)}>
-                            <button className="campaigns-remove-btn" onClick={this.removeClient(client.clientId as number)}>
-                                <span>&#10006;</span>
-                            </button>
                             <span className="campaigns-inside-client-btn">{client.clientName}</span>
                         </button>
                     )}
@@ -133,7 +118,7 @@ export class TopReportNav extends Component<TopReportNavProps, TopReportNavState
 
                 <div className="campaigns-top-scroll" style={{ top: this.props.isScroll ? "6vw" : 0 }}></div>
 
-                    <img className="campaigns-logo" src="./assets/images/logo_factory.svg" />
+                <img className="campaigns-logo" src="./assets/images/logo_factory.svg" />
 
                 {this.state.display &&
                     <AddClientPopUp />
