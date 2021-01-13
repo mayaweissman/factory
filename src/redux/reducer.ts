@@ -44,8 +44,8 @@ export function reducer(oldAppState: AppState, action: Action): AppState {
       break;
 
     case ActionType.resetFiltering:
-      newAppState.campaignsToDisplay = newAppState.selectedCampaigns;
-      newAppState.productsToDisplay = newAppState.selectedProducts;
+      newAppState.campaignsToDisplay = [];
+      newAppState.productsToDisplay = [];
       break;
 
     case ActionType.getSelectedCampaigns:
@@ -58,6 +58,24 @@ export function reducer(oldAppState: AppState, action: Action): AppState {
       }
       else {
         newAppState.isPopUpShow = true;
+      }
+      break;
+
+    case ActionType.changeDisplayForProductsPopUp:
+      if (newAppState.isProductsPopUpShow) {
+        newAppState.isProductsPopUpShow = false;
+      }
+      else {
+        newAppState.isProductsPopUpShow = true;
+      }
+      break;
+
+    case ActionType.changeDisplayForLinkPopUp:
+      if (newAppState.isLinksPopUpShow) {
+        newAppState.isLinksPopUpShow = false;
+      }
+      else {
+        newAppState.isLinksPopUpShow = true;
       }
       break;
 

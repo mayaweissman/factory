@@ -5,7 +5,7 @@ import { getAllClients } from "../../data/clients";
 import { store } from "../../redux/store";
 import { ActionType } from "../../redux/actionType";
 import { Unsubscribe } from "redux";
-
+import AddIcon from '@material-ui/icons/Add';
 
 interface AllClientsState {
     allClients: ClientModel[],
@@ -93,6 +93,8 @@ export class AllClients extends Component<any, AllClientsState>{
         this.setState({ clientsToShow });
     }
 
+
+
     public render() {
         return (
             <div className="all-clients">
@@ -100,7 +102,7 @@ export class AllClients extends Component<any, AllClientsState>{
 
                 <div className="filter-area">
                     <div className="left-filter">
-                        <img className="filter-by-date-img" src="/assets/images/filter_by_date.svg" />
+                        <img className="filter-by-date-img" src="./assets/images/filter_by_date.svg" />
                         <span className="filter-by-new">Latest</span>
                         <span className="separate">|</span>
                         <span className="filter-by-name" onClick={this.filterAlphabetically}>A <span className="inside-filter">to</span> Z</span>
@@ -118,12 +120,9 @@ export class AllClients extends Component<any, AllClientsState>{
                         <img src={client.clientImageSrc} />
                         <div className="client-info">
 
-                            <img src="/assets/images/add_button_before.svg"
-                                style={{ display: this.state.selectedClients.filter(c => c.clientId === client.clientId).length === 0 ? "inline-block" : "none" }}
-                                className="add-client-btn btn-before" onClick={this.selectClient(client)} />
-                            <img src="/assets/images/add_button_after.svg"
-                                style={{ display: this.state.selectedClients.filter(c => c.clientId === client.clientId).length === 0 ? "none" : "inline-block" }}
-                                className="add-client-btn btn-after" onClick={this.selectClient(client)} />
+                            <button className={this.state.selectedClients.filter(c => c.clientId === client.clientId).length === 0 ? "btn-before" : "btn-after"}>
+                                <AddIcon className="plus-icon" onClick={this.selectClient(client)} />
+                            </button>
                             <span>{client.clientName}</span>
                         </div>
                     </div>)}

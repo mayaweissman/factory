@@ -11,13 +11,16 @@ import { getAllCampaigns } from "../../data/campaigns";
 import { getAllProducts } from "../../data/products";
 import { ProductModel } from "../../models/productModel";
 import { getProductsTypes } from "../../data/products-types";
+import { ProductPopUp } from "../product-pop-up/product-pop-up";
 
 interface ReportMakerState {
     selectedClients: ClientModel[],
     selectedCampaigns: CampaignModel[],
     selectedProducts: ProductModel[]
     productsToDisplay: ProductModel[],
-    campaignsToDisplay: CampaignModel[]
+    campaignsToDisplay: CampaignModel[],
+    display: boolean,
+    productToPopUp: ProductModel
 }
 
 
@@ -34,7 +37,9 @@ export class Campaigns extends Component<any, ReportMakerState>{
             selectedCampaigns: store.getState().selectedCampaigns,
             selectedProducts: store.getState().selectedProducts,
             campaignsToDisplay: store.getState().campaignsToDisplay,
-            productsToDisplay: store.getState().campaignsToDisplay
+            productsToDisplay: store.getState().campaignsToDisplay,
+            display: store.getState().isPopUpShow,
+            productToPopUp: new ProductModel()
         }
 
         this.unsubscribeStore = store.subscribe(() => {
@@ -43,17 +48,19 @@ export class Campaigns extends Component<any, ReportMakerState>{
             const selectedProducts = store.getState().selectedProducts;
             const campaignsToDisplay = store.getState().campaignsToDisplay;
             const productsToDisplay = store.getState().productsToDisplay;
+            const display = store.getState().isProductsPopUpShow;
             this.setState({ selectedClients });
             this.setState({ selectedCampaigns });
             this.setState({ selectedProducts });
             this.setState({ campaignsToDisplay });
             this.setState({ productsToDisplay });
+            this.setState({ display });
         })
     }
 
     public getProductTypeName = (productTypeId: number) => {
-        for(const type of getProductsTypes()){
-            if(type.productsTypeId === productTypeId){
+        for (const type of getProductsTypes()) {
+            if (type.productsTypeId === productTypeId) {
                 return type.nameForSingle;
             }
         }
@@ -102,12 +109,17 @@ export class Campaigns extends Component<any, ReportMakerState>{
         }
     }
 
+    public setProductToDisplayInPopUp = (product: ProductModel) => (event: any) => {
+        this.setState({ productToPopUp: product });
+        store.dispatch({type: ActionType.changeDisplayForProductsPopUp});
+    }
+
     public render() {
         return (
             <div className="campaigns">
 
                 <div className="campaigns-left-filter">
-                    <img className="campaigns-filter-by-success-img" src="/assets/images/filter_by_date.svg" />
+                    <img className="campaigns-filter-by-success-img" src="./assets/images/filter_by_date.svg" />
                     <span className="campaigns-filter-by-high">Highest first</span>
                     <span className="campaigns-separate">|</span>
                     <span className="campaigns-filter-by-low">Lowest first</span>
@@ -155,7 +167,7 @@ export class Campaigns extends Component<any, ReportMakerState>{
                         <div className="grid">
                             {this.state.productsToDisplay.length === 0 && this.state.selectedProducts?.filter(product => product.campaignId === campaign.campaignId).map(product =>
                                 <div className="campaign">
-                                    <img className="campaign-img" src={product.imageSrc} />
+                                    <img className="campaign-img" src={product.imageSrc} onClick={this.setProductToDisplayInPopUp(product)} />
                                     <div className="campaign-info">
                                         <span className="product-type-title">{this.getProductTypeName(product.productTypeId as number)}</span>
                                         <span className="success-rate">
@@ -184,6 +196,7 @@ export class Campaigns extends Component<any, ReportMakerState>{
                         </div>
                     </div>
                 )}
+                {this.state.display && <ProductPopUp product={this.state.productToPopUp} />}
             </div>
         )
     }

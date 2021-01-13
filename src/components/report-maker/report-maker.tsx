@@ -6,20 +6,33 @@ import { getAllClients } from "../../data/clients";
 import "./report-maker.css";
 import { store } from "../../redux/store";
 import { ActionType } from "../../redux/actionType";
+import { Unsubscribe } from "redux";
+import { LinkPopUp } from "../link-pop-up/link-pop-up";
 
 interface ReportMakerState {
-    isScroll: boolean
+    isScroll: boolean,
+    display: boolean
+
 }
 
 export class ReportMaker extends Component<any, ReportMakerState>{
 
+    private unsubscribeStore: Unsubscribe;
 
     public constructor(props: any) {
         super(props);
         this.state = {
-            isScroll: false
+            isScroll: false,
+            display: store.getState().isLinksPopUpShow
+
         }
+
+        this.unsubscribeStore = store.subscribe(() => {
+            const display = store.getState().isLinksPopUpShow;
+            this.setState({ display });
+        })
     }
+    
 
     public componentDidMount() {
 
@@ -32,6 +45,10 @@ export class ReportMaker extends Component<any, ReportMakerState>{
                 this.setState({ isScroll: true });
             }
         });
+    }
+
+    public componentWillUnmount(): void {
+        this.unsubscribeStore();
     }
 
     public render() {
@@ -47,6 +64,7 @@ export class ReportMaker extends Component<any, ReportMakerState>{
                 <aside>
                     <FilteringSideMenu />
                 </aside>
+                {this.state.display && <LinkPopUp />}
 
             </div>
 

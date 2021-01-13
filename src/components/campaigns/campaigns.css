@@ -16,6 +16,10 @@
   column-gap: 0;
 }
 
+.campaign-img:hover{
+  cursor: pointer;
+}
+
 .client-in-campaigns > h2 {
   font-weight: bold;
 }

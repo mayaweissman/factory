@@ -114,15 +114,15 @@ export class TopClientsNav extends Component<TopClientsNavProps, TopClientsNavSt
 
 
                 <div className="top-scroll" style={{ top: this.props.isScroll ? "6vw" : 0 }}></div>
-                <img src="/assets/images/pink_btn_before.svg" className="next-btn-pink" style={{ display: this.state.selectedClients.length === 0 ? "block" : "none" }} />
-                <NavLink onClick={() => console.log(store.getState().selectedClients)} to="/report-maker" className="link-to-report-maker" exact>
-                    <img src="/assets/images/pink_btn_after.svg" className="next-btn-pink" style={{ display: this.state.selectedClients.length > 0 ? "block" : "none" }} />
+                <img src="./assets/images/pink_btn_before.svg" className="next-btn-pink" style={{ display: this.state.selectedClients.length === 0 ? "block" : "none" }} />
+                <NavLink onClick={() => console.log(store.getState().selectedClients)} to="/factory/report-maker" className="link-to-report-maker" exact>
+                    <img src="./assets/images/pink_btn_after.svg" className="next-btn-pink" style={{ display: this.state.selectedClients.length > 0 ? "block" : "none" }} />
                 </NavLink>
                 <div className="other-buttons">
                     <span className="remove-all" onClick={this.removeAllClients}>הסר הכל</span>
                 </div>
 
-                <img className="logo" src="/assets/images/logo_factory.svg" />
+                <img className="logo" src="./assets/images/logo_factory.svg" />
 
             </div>
 

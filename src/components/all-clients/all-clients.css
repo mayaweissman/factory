@@ -40,10 +40,54 @@
   cursor: pointer;
 }
 
+.btn-before{
+  border: 2px solid black;
+  top: 0.2vw;
+  margin: 0 0.3vw;
+  position: relative;
+  width: 1.3vw;
+  height: 1.3vw;
+  display: inline-flex;
+  border-radius: 100%;
+  background-color: white;
+  text-align: center;
+  justify-content: center;
+  outline: none;
+  align-items: center;
+}
+
+.btn-after{
+  outline: none;
+  color: white;
+  border: 2px solid  #f84a72;
+  top: 0.2vw;
+  margin: 0 0.3vw;
+  position: relative;
+  width: 1.3vw;
+  height: 1.3vw;
+  display: inline-flex;
+  border-radius: 100%;
+  background-color:  #f84a72;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-before:hover{
+  cursor: pointer;
+  background-color:  #f84a72;
+  border: 2px solid  #f84a72;
+  color: white;
+}
+
 .filter-by-date-img {
   width: 1vw;
   position: relative;
   bottom: 0.8vw;
+}
+.plus-icon{
+  position: relative;
+  font-size: 1.2vw !important;
 }
 
 .client > img {

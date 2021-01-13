@@ -8,11 +8,15 @@ import { store } from "../../redux/store";
 import "./filtering-side-menu.css";
 import { getProductsTypes } from "../../data/products-types";
 import { getAllProducts } from "../../data/products";
+import { LinkPopUp } from "../link-pop-up/link-pop-up";
+import { AddClientPopUp } from "../add-client-pop-up/add-client-pop-up";
 
 interface FilteringSideMenuState {
     selectedClients: ClientModel[],
     selectedCampaigns: CampaignModel[],
-    selectedProducts: ProductModel[]
+    campaignsToDisplay: CampaignModel[],
+    selectedProducts: ProductModel[],
+    productsToDisplay: ProductModel[],
 }
 
 export class FilteringSideMenu extends Component<any, FilteringSideMenuState>{
@@ -24,6 +28,8 @@ export class FilteringSideMenu extends Component<any, FilteringSideMenuState>{
         this.state = {
             selectedClients: store.getState().selectedClients,
             selectedCampaigns: store.getState().selectedCampaigns,
+            campaignsToDisplay: store.getState().campaignsToDisplay,
+            productsToDisplay: store.getState().productsToDisplay,
             selectedProducts: store.getState().selectedProducts
         }
 
@@ -31,9 +37,13 @@ export class FilteringSideMenu extends Component<any, FilteringSideMenuState>{
             const selectedClients = store.getState().selectedClients;
             const selectedCampaigns = store.getState().selectedCampaigns;
             const selectedProducts = store.getState().selectedProducts;
+            const campaignsToDisplay = store.getState().campaignsToDisplay;
+            const productsToDisplay = store.getState().productsToDisplay;
             this.setState({ selectedClients });
             this.setState({ selectedCampaigns });
             this.setState({ selectedProducts });
+            this.setState({ campaignsToDisplay });
+            this.setState({ productsToDisplay });
         })
     }
 
@@ -62,7 +72,6 @@ export class FilteringSideMenu extends Component<any, FilteringSideMenuState>{
     public filterByProductType = (productsTypeId: number) => (event: any) => {
         const productsToDisplay: ProductModel[] = [...store.getState().productsToDisplay];
         const duplictes = productsToDisplay.filter(p => p.productTypeId === productsTypeId);
-        console.log(duplictes);
         for (const p of duplictes) {
             const index = productsToDisplay.indexOf(p);
             productsToDisplay.splice(index, 1);
@@ -75,6 +84,27 @@ export class FilteringSideMenu extends Component<any, FilteringSideMenuState>{
 
         store.dispatch({ type: ActionType.updateProductsToDisplay, payLoad: productsToDisplay });
     }
+
+    public openPopUpLink = () => {
+        store.dispatch({ type: ActionType.changeDisplayForLinkPopUp });
+    }
+
+    public isCampaignChecked = (campaignId: number) => {
+        const campaigns: CampaignModel[] = [...this.state.campaignsToDisplay];
+        const c = campaigns.find(campaign=> campaign.campaignId === campaignId);
+        if(c !== undefined){
+            return true;
+        }
+        return false;
+    }
+
+    public isProductTypeChecked = (productTypeId: number)=>{
+        const products: ProductModel[] = [...this.state.productsToDisplay];
+        const p = products.find(product => product.productTypeId === productTypeId);
+        if(p !== undefined){
+            return true;
+        }
+        return false;    }
 
 
 
@@ -91,7 +121,7 @@ export class FilteringSideMenu extends Component<any, FilteringSideMenuState>{
                     <div className="campaigns-titles">
                         {this.state.selectedCampaigns.map(campaign =>
                             <label className="container">
-                                <input onClick={this.filterByCapmaign(campaign)} type="checkbox" />
+                                <input checked={this.isCampaignChecked(campaign.campaignId as number)} onClick={this.filterByCapmaign(campaign)} type="checkbox" />
                                 <span className="checkmark"></span>
                                 <span className="campaign-name-title">
                                     {campaign.campaignName}
@@ -108,7 +138,7 @@ export class FilteringSideMenu extends Component<any, FilteringSideMenuState>{
 
                         {getProductsTypes().map(type =>
                             <label className="container">
-                                <input type="checkbox" onClick={this.filterByProductType(type.productsTypeId)} />
+                                <input checked={this.isProductTypeChecked(type.productsTypeId as number)} type="checkbox" onClick={this.filterByProductType(type.productsTypeId)} />
                                 <span className="checkmark"></span>
                                 <span className="campaign-name-title">
                                     {type.nameForMany}
@@ -118,10 +148,14 @@ export class FilteringSideMenu extends Component<any, FilteringSideMenuState>{
                     </div>
                 </div>
 
-                <div className="url-sharing-area">
+
+                <div className="url-sharing-area" onClick={this.openPopUpLink}>
                     <span>יצירת URL לשיתוף</span>
                 </div>
+
             </div>
+
+
         )
     }
 }

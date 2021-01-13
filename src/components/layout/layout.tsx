@@ -12,9 +12,9 @@ export class Layout extends Component {
                 <BrowserRouter>
 
                     <Switch>
-                        <Route path="/home" component={Home} exact />
-                        <Route path="/report-maker" component={ReportMaker} exact />
-                        <Redirect from="/" to="/home" exact />
+                        <Route path="/factory/report-maker" component={ReportMaker} exact />
+                        <Route path="/factory/home" component={Home} exact />
+                        <Redirect from="/" to="/factory/home" />
                     </Switch>
 
                 </BrowserRouter>

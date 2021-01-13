@@ -12,6 +12,8 @@ export class AppState {
   public campaignsToDisplay: CampaignModel[];
   public productsToDisplay: CampaignModel[];
   public isPopUpShow: boolean;
+  public isProductsPopUpShow: boolean;
+  public isLinksPopUpShow: boolean;
 
   public constructor() {
     this.allClients = [];
@@ -23,5 +25,7 @@ export class AppState {
     this.campaignsToDisplay = [];
     this.productsToDisplay = [];
      this.isPopUpShow = false;
+     this.isProductsPopUpShow = false;
+     this.isLinksPopUpShow = false;
   }
 }

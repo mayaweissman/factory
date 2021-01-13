@@ -119,7 +119,7 @@ export class TopCampaignsNav extends Component<TopCampaignsNavProps, TopCampaign
                         <button className="campaigns-remove-btn" style={{ opacity: 0 }}>
                             <span>&#10006;</span>
                         </button>
-                        <NavLink className="back-to-home-page" to="/home"><span className="campaigns-inside-client-btn">All</span></NavLink>
+                        <NavLink className="back-to-home-page" to="/factory"><span className="campaigns-inside-client-btn">All</span></NavLink>
                     </button>
 
                     {this.state?.selectedClients.map(client =>
@@ -141,8 +141,8 @@ export class TopCampaignsNav extends Component<TopCampaignsNavProps, TopCampaign
 
                 <div className="campaigns-top-scroll" style={{ top: this.props.isScroll ? "6vw" : 0 }}></div>
 
-                <NavLink to="/home">
-                    <img className="campaigns-logo" src="/assets/images/logo_factory.svg" />
+                <NavLink to="/factory">
+                    <img className="campaigns-logo" src="./assets/images/logo_factory.svg" />
                 </NavLink>
 
                 {this.state.display &&

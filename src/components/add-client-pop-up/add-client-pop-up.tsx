@@ -8,6 +8,7 @@ import { CampaignModel } from "../../models/campaignModel";
 import { getAllCampaigns } from "../../data/campaigns";
 import { getAllProducts } from "../../data/products";
 import { ProductModel } from "../../models/productModel";
+import CloseIcon from '@material-ui/icons/Close';
 
 interface AddClientPopUpState {
     allClients: ClientModel[],
@@ -119,9 +120,9 @@ export class AddClientPopUp extends Component<any, AddClientPopUpState>{
 
     public render() {
         return (
-            <div className="full-screen-conatiner" onClick={this.closePopUp} style={{ display: this.props.display }}>
+            <div className="full-screen-conatiner" onClick={this.closePopUp}>
                 <div className="small-conatiner" onClick={this.stopPropagation}>
-                    <img className="close-pop-up-btn" src="/assets/images/X.svg" onClick={this.closePopUp} />
+                    <button className="close-pop-up-btn" onClick={this.closePopUp} ><CloseIcon/></button>
                     <div className="clients-in-pop-up">
                         {this.state.companies?.map(company =>
                             <div className="company">

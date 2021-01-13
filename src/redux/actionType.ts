@@ -12,6 +12,8 @@ export enum ActionType {
     updateCampaignsToDisplay,
     updateProductsToDisplay,
     changeDisplayForPopUp,
+    changeDisplayForProductsPopUp,
+    changeDisplayForLinkPopUp,
     removeCampaignByClientId,
     filterDisplayByClientId,
     resetFiltering

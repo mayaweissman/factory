@@ -145,12 +145,14 @@
   font-size: 0.8vw;
   right: 0.8vw;
   bottom: 2vw;
+  display: inline-flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
 }
 
 .campaigns-remove-btn > span {
   position: relative;
-  top: -0.1vw;
-  left: 0.1vw;
   font-size: 0.7vw;
 }
 
