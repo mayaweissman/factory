@@ -17,7 +17,74 @@
   max-height: 90%;
   width: 1301px;
   max-width: 90%;
+  display: flex;
   padding: 3vw;
+}
+
+.image-campaign {
+  width: 300px;
+  max-width: 350px;
+}
+
+.right-area {
+  width: 30%;
+  padding: 2vw;
+}
+
+.left-area {
+  width: 70%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2vw;
+}
+
+.bars-area{
+  height: 95px;
+}
+
+.bars-area span{
+  display: none;
+}
+
+.bar-title{
+  position: relative;
+  direction: rtl;
+  text-transform: uppercase;
+  top: 2vw;
+}
+
+.type-title {
+  direction: rtl;
+  position: relative;
+  right: 7vw;
+  top: 0.7vw;
+}
+
+.campaign-name-area {
+  direction: rtl;
+  right: 7vw;
+  bottom: 0.7vw;
+  position: relative;
+}
+
+.titlesInRightArea {
+  display: block;
+}
+
+.product-rate {
+  width: 6vw;
+  height: 3vw;
+  border-radius: 30px;
+  background-color: #ffdb48;
+  position: absolute;
+  right: 17vw;
+  margin: 1vw;
+  font-size: 2vw;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .close-product-pop-up-btn {

@@ -20,7 +20,8 @@ interface ReportMakerState {
     productsToDisplay: ProductModel[],
     campaignsToDisplay: CampaignModel[],
     display: boolean,
-    productToPopUp: ProductModel
+    productToPopUp: ProductModel,
+    campignToPopUp: CampaignModel
 }
 
 
@@ -39,7 +40,8 @@ export class Campaigns extends Component<any, ReportMakerState>{
             campaignsToDisplay: store.getState().campaignsToDisplay,
             productsToDisplay: store.getState().campaignsToDisplay,
             display: store.getState().isPopUpShow,
-            productToPopUp: new ProductModel()
+            productToPopUp: new ProductModel(),
+            campignToPopUp: new CampaignModel()
         }
 
         this.unsubscribeStore = store.subscribe(() => {
@@ -109,8 +111,9 @@ export class Campaigns extends Component<any, ReportMakerState>{
         }
     }
 
-    public setProductToDisplayInPopUp = (product: ProductModel) => (event: any) => {
+    public setProductToDisplayInPopUp = (product: ProductModel, campaign: CampaignModel) => (event: any) => {
         this.setState({ productToPopUp: product });
+        this.setState({ campignToPopUp: campaign });
         store.dispatch({type: ActionType.changeDisplayForProductsPopUp});
     }
 
@@ -167,7 +170,7 @@ export class Campaigns extends Component<any, ReportMakerState>{
                         <div className="grid">
                             {this.state.productsToDisplay.length === 0 && this.state.selectedProducts?.filter(product => product.campaignId === campaign.campaignId).map(product =>
                                 <div className="campaign">
-                                    <img className="campaign-img" src={product.imageSrc} onClick={this.setProductToDisplayInPopUp(product)} />
+                                    <img className="campaign-img" src={product.imageSrc} onClick={this.setProductToDisplayInPopUp(product, campaign)} />
                                     <div className="campaign-info">
                                         <span className="product-type-title">{this.getProductTypeName(product.productTypeId as number)}</span>
                                         <span className="success-rate">
@@ -196,7 +199,7 @@ export class Campaigns extends Component<any, ReportMakerState>{
                         </div>
                     </div>
                 )}
-                {this.state.display && <ProductPopUp product={this.state.productToPopUp} />}
+                {this.state.display && <ProductPopUp campaign={this.state.campignToPopUp} product={this.state.productToPopUp} />}
             </div>
         )
     }

@@ -4,17 +4,25 @@ import { store } from "../../redux/store";
 import "./product-pop-up.css";
 import { ProductModel } from "../../models/productModel";
 import CloseIcon from '@material-ui/icons/Close';
+import { ProductsType } from "../../models/productsTypeModel";
+import { getProductsTypes } from "../../data/products-types";
+import { CampaignModel } from "../../models/campaignModel";
+import ProgressBar from '@ramonak/react-progress-bar';
+
 
 
 interface ProductPopUpProps {
-    product: ProductModel
+    product: ProductModel,
+    campaign: CampaignModel
 }
+
 
 export class ProductPopUp extends Component<ProductPopUpProps>{
 
     public constructor(props: ProductPopUpProps) {
         super(props);
     }
+
 
     public closePopUp = () => {
         store.dispatch({ type: ActionType.changeDisplayForProductsPopUp });
@@ -24,13 +32,49 @@ export class ProductPopUp extends Component<ProductPopUpProps>{
         e.stopPropagation();
     }
 
+    public getProductType = (productTypeId: number) => {
+        const productType = getProductsTypes().filter(t => t.productsTypeId === productTypeId);
+        return productType[0].nameForSingle;
+    }
+
     public render() {
         return (
             <div className="full-screen-product-conatiner" onClick={this.closePopUp} >
                 <div className="small-product-conatiner" onClick={this.stopPropagation}>
-                   <img src={this.props.product.imageSrc}/>
-                    <button className="close-product-pop-up-btn" onClick={this.closePopUp} ><CloseIcon/></button>
+
+                    <div className="left-area">
+                        <img className="image-campaign" src={this.props.product.imageSrc} />
+                    </div>
+
+                    <div className="right-area">
+                        <div className="titlesInRightArea">
+                            <div className="product-rate">{this.props.product.successRates} %</div>
+                            <h1 className="type-title">{this.getProductType(this.props.product.productTypeId as number)}</h1>
+                            <p className="campaign-name-area">{this.props.campaign.campaignName}</p>
+                        </div>
                    
+
+                    <div className="bars-area">
+                        <p className="bar-title">Best practice media</p>
+                        <p className="bar-rate">65 %</p>
+                        <ProgressBar height="7px" borderRadius="0" bgcolor="#FFDB48" completed={65} />
+                    </div>
+
+                    <div className="bars-area">
+                        <p className="bar-title">Best practice media</p>
+                        <p className="bar-rate">95 %</p>
+                        <ProgressBar height="7px" borderRadius="0" bgcolor="#1CE5A2" completed={95} />
+                    </div>
+
+                    <div className="bars-area">
+                        <p className="bar-title">Best practice media</p>
+                        <p className="bar-rate">40 %</p>
+                        <ProgressBar height="7px" borderRadius="0" bgcolor="#E4002B" completed={40} />
+                    </div>
+
+                    </div>
+                    <button className="close-product-pop-up-btn" onClick={this.closePopUp} ><CloseIcon /></button>
+
                 </div>
             </div>
         )
