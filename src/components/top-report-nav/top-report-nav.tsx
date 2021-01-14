@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 import { Unsubscribe } from "redux";
 import { CampaignModel } from "../../models/campaignModel";
 import { ClientModel } from "../../models/clientModel";
+import { ProductModel } from "../../models/productModel";
 import { ActionType } from "../../redux/actionType";
 import { store } from "../../redux/store";
 import { AddClientPopUp } from "../add-client-pop-up/add-client-pop-up";
@@ -16,7 +17,12 @@ interface TopReportNavProps {
 interface TopReportNavState {
     selectedClients: ClientModel[],
     isButtonsScrolled: boolean,
-    display: boolean
+    display: boolean,
+    filteringBefore: {
+        beforeCampaignsToDisplay: CampaignModel[],
+        beforeProductsToDisplay: ProductModel[]
+
+    }
 }
 
 export class TopReportNav extends Component<TopReportNavProps, TopReportNavState>{
@@ -32,7 +38,11 @@ export class TopReportNav extends Component<TopReportNavProps, TopReportNavState
         this.state = {
             selectedClients: store.getState().selectedClients,
             isButtonsScrolled: false,
-            display: store.getState().isPopUpShow
+            display: store.getState().isPopUpShow,
+            filteringBefore: {
+                beforeCampaignsToDisplay: [],
+                beforeProductsToDisplay: []
+            }
         }
         this.unsubscribeStore = store.subscribe(() => {
             const selectedClients = store.getState().selectedClients;
@@ -58,7 +68,14 @@ export class TopReportNav extends Component<TopReportNavProps, TopReportNavState
     }
 
     public filterByClientId = (clientId: number) => (event: any) => {
+      
         const campaignsToDisplay: CampaignModel[] = [];
+
+        const filteringBefore = { ...this.state.filteringBefore };
+        filteringBefore.beforeCampaignsToDisplay = store.getState().campaignsToDisplay;
+        filteringBefore.beforeProductsToDisplay = store.getState().productsToDisplay;
+        this.setState({ filteringBefore });
+
         const allSelectedCampaigns = store.getState().selectedCampaigns;
         for (const c of allSelectedCampaigns) {
             if (c.clientId === clientId) {
@@ -66,6 +83,17 @@ export class TopReportNav extends Component<TopReportNavProps, TopReportNavState
             }
         }
         store.dispatch({ type: ActionType.updateCampaignsToDisplay, payLoad: campaignsToDisplay });
+     
+
+        const clientsToDisplay: ClientModel[] = [];
+        const allSelectedClients = store.getState().selectedClients;
+        for (const c of allSelectedClients) {
+            if (c.clientId === clientId) {
+                clientsToDisplay.push(c);
+            }
+        }
+
+        store.dispatch({ type: ActionType.updateClientsToDisplay, payLoad: clientsToDisplay });
     }
 
 
@@ -95,6 +123,12 @@ export class TopReportNav extends Component<TopReportNavProps, TopReportNavState
         store.dispatch({ type: ActionType.changeDisplayForPopUp, payLoad: false });
     }
 
+    public resetClientsToDisplay = () => {
+        store.dispatch({ type: ActionType.updateClientsToDisplay, payLoad: [] });
+        store.dispatch({ type: ActionType.updateCampaignsToDisplay, payLoad: this.state.filteringBefore.beforeCampaignsToDisplay });
+        store.dispatch({ type: ActionType.updateProductsToDisplay, payLoad: this.state.filteringBefore.beforeProductsToDisplay });
+    }
+
 
     public render() {
         return (
@@ -102,6 +136,13 @@ export class TopReportNav extends Component<TopReportNavProps, TopReportNavState
                 <div ref={this.buttonsRef} className="campaigns-buttons">
                     <div style={{ display: this.state.isButtonsScrolled ? "block" : "none" }}
                         className="campaigns-start-of-buttons-section" onMouseEnter={this.scrollToRight}></div>
+
+                    <button className="campaigns-client-btn" onClick={this.resetClientsToDisplay}>
+                        <button className="campaigns-remove-btn" style={{ opacity: 0 }}>
+                            <span>&#10006;</span>
+                        </button>
+                        <span className="campaigns-inside-client-btn">All</span>
+                    </button>
 
 
                     {this.state?.selectedClients.map(client =>

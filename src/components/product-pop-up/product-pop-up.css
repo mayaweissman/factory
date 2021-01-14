@@ -37,17 +37,19 @@
   justify-content: center;
   align-items: center;
   padding: 2vw;
+  overflow: auto;
 }
 
-.bars-area{
+
+.bars-area {
   height: 95px;
 }
 
-.bars-area span{
+.bars-area span {
   display: none;
 }
 
-.bar-title{
+.bar-title {
   position: relative;
   direction: rtl;
   text-transform: uppercase;
@@ -71,6 +73,18 @@
 .titlesInRightArea {
   display: flex;
   direction: rtl;
+}
+
+.grid-product {
+  column-count: 2;
+  column-gap: 0;
+}
+
+.product-img {
+  display: inline-block;
+  margin: 0;
+  width: 100%;
+  margin-bottom: 1vw;
 }
 
 .product-rate {

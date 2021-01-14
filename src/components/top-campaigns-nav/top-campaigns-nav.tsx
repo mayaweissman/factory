@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 import { Unsubscribe } from "redux";
 import { CampaignModel } from "../../models/campaignModel";
 import { ClientModel } from "../../models/clientModel";
+import { ProductModel } from "../../models/productModel";
 import { ProductsType } from "../../models/productsTypeModel";
 import { ActionType } from "../../redux/actionType";
 import { store } from "../../redux/store";
@@ -18,7 +19,12 @@ interface TopCampaignsNavState {
     selectedClients: ClientModel[],
     clientsToDisplay: ClientModel[],
     isButtonsScrolled: boolean,
-    display: boolean
+    display: boolean,
+    filteringBefore: {
+        beforeCampaignsToDisplay: CampaignModel[],
+        beforeProductsToDisplay: ProductModel[]
+
+    }
 }
 
 export class TopCampaignsNav extends Component<TopCampaignsNavProps, TopCampaignsNavState>{
@@ -35,7 +41,11 @@ export class TopCampaignsNav extends Component<TopCampaignsNavProps, TopCampaign
             selectedClients: store.getState().selectedClients,
             clientsToDisplay: store.getState().clientsToDisplay,
             isButtonsScrolled: false,
-            display: store.getState().isPopUpShow
+            display: store.getState().isPopUpShow,
+            filteringBefore: {
+                beforeCampaignsToDisplay: [],
+                beforeProductsToDisplay: []
+            }
         }
         this.unsubscribeStore = store.subscribe(() => {
             const selectedClients = store.getState().selectedClients;
@@ -63,21 +73,22 @@ export class TopCampaignsNav extends Component<TopCampaignsNavProps, TopCampaign
     }
 
     public filterByClientId = (clientId: number) => (event: any) => {
+
         const campaignsToDisplay: CampaignModel[] = [];
+
+        const filteringBefore = { ...this.state.filteringBefore };
+        filteringBefore.beforeCampaignsToDisplay = store.getState().campaignsToDisplay;
+        filteringBefore.beforeProductsToDisplay = store.getState().productsToDisplay;
+        this.setState({ filteringBefore });
+
         const allSelectedCampaigns = store.getState().selectedCampaigns;
         for (const c of allSelectedCampaigns) {
             if (c.clientId === clientId) {
                 campaignsToDisplay.push(c);
             }
         }
-
-        const productsToDisplay: ProductsType[] = [];
-        const allSelectedProducts = store.getState().selectedProducts;
-        for (const p of allSelectedProducts) {
-            if (p.clientId === clientId) {
-                productsToDisplay.push(p);
-            }
-        }
+        store.dispatch({ type: ActionType.updateCampaignsToDisplay, payLoad: campaignsToDisplay });
+     
 
         const clientsToDisplay: ClientModel[] = [];
         const allSelectedClients = store.getState().selectedClients;
@@ -87,8 +98,6 @@ export class TopCampaignsNav extends Component<TopCampaignsNavProps, TopCampaign
             }
         }
 
-        store.dispatch({ type: ActionType.updateCampaignsToDisplay, payLoad: campaignsToDisplay });
-        store.dispatch({ type: ActionType.updateProductsToDisplay, payLoad: productsToDisplay });
         store.dispatch({ type: ActionType.updateClientsToDisplay, payLoad: clientsToDisplay });
     }
 
@@ -133,6 +142,8 @@ export class TopCampaignsNav extends Component<TopCampaignsNavProps, TopCampaign
 
     public resetClientsToDisplay = () => {
         store.dispatch({ type: ActionType.updateClientsToDisplay, payLoad: [] });
+        store.dispatch({ type: ActionType.updateCampaignsToDisplay, payLoad: this.state.filteringBefore.beforeCampaignsToDisplay });
+        store.dispatch({ type: ActionType.updateProductsToDisplay, payLoad: this.state.filteringBefore.beforeProductsToDisplay });
     }
 
 
@@ -143,12 +154,7 @@ export class TopCampaignsNav extends Component<TopCampaignsNavProps, TopCampaign
                     <div style={{ display: this.state.isButtonsScrolled ? "block" : "none" }}
                         className="campaigns-start-of-buttons-section" onMouseEnter={this.scrollToRight}></div>
 
-                    <button className="campaigns-client-btn" onClick={this.resetClientsToDisplay}>
-                        <button className="campaigns-remove-btn" style={{ opacity: 0 }}>
-                            <span>&#10006;</span>
-                        </button>
-                        <span className="campaigns-inside-client-btn">All</span>
-                    </button>
+
 
                     {this.state.clientsToDisplay.length === 0 && this.state?.selectedClients.map(client =>
                         <button className="campaigns-client-btn" onClick={this.filterByClientId(client.clientId as number)}>
@@ -174,7 +180,11 @@ export class TopCampaignsNav extends Component<TopCampaignsNavProps, TopCampaign
                     </div>
                 </div>
 
-                <span className="add-client-span" onClick={this.openPopUp}>הוספת לקוח</span>
+                {this.state.clientsToDisplay.length === 0 &&
+                    <span className="add-client-span" onClick={this.openPopUp}>הוספת לקוח</span>}
+
+                {this.state.clientsToDisplay.length > 0 &&
+                    <span className="add-client-span" onClick={this.resetClientsToDisplay}>כל הלקוחות</span>}
 
                 <div className="campaigns-top-scroll" style={{ top: this.props.isScroll ? "6vw" : 0 }}></div>
 

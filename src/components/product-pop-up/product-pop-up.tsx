@@ -43,7 +43,10 @@ export class ProductPopUp extends Component<ProductPopUpProps>{
                 <div className="small-product-conatiner" onClick={this.stopPropagation}>
 
                     <div className="left-area">
-                        <img className="image-campaign" src={this.props.product.imageSrc} />
+                        <div className="grid-product">
+                            <img className="product-img" src={this.props.product.images?.img1} />
+
+                        </div>
                     </div>
 
                     <div className="right-area">
