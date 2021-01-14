@@ -1,12 +1,13 @@
 .top-companies-nav {
-  background-color: white;
   height: 6vw;
   position: fixed;
   margin: 0;
+  width: 88%;
   display: flex;
   direction: rtl;
-  width: 91%;
   z-index: 999;
+  background-color: white;
+  left: 4.8vw;
 }
 
 .no-selected-button {

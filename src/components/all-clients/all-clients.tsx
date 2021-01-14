@@ -99,6 +99,7 @@ export class AllClients extends Component<any, AllClientsState>{
         return (
             <div className="all-clients">
 
+                {this.state.allClients.length === 0 && <img className="loader" src="./assets/images/loading.gif" />}
 
                 <div className="filter-area">
                     <div className="left-filter">

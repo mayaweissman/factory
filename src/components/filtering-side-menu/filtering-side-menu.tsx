@@ -93,12 +93,6 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
 
     //Demo function
     public createReport = () => {
-        const report = new ReportModel();
-
-        report.clients = store.getState().selectedClients;
-        report.campaigns = store.getState().campaignsToDisplay;
-        report.products = store.getState().productsToDisplay;
-
         store.dispatch({ type: ActionType.changeDisplayForLinkPopUp });
     }
 
@@ -164,9 +158,9 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
 
 
                 {!this.props.isOnReport &&
-                    <div className="url-sharing-area" onClick={this.createReport}>
+                    <button disabled={this.state.selectedClients.length === 0} className="url-sharing-area" onClick={this.createReport}>
                         <span>יצירת URL לשיתוף</span>
-                    </div>
+                    </button>
                 }
 
 

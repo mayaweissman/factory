@@ -3,31 +3,37 @@ import { ClientModel } from "../models/clientModel";
 import { ProductModel } from "../models/productModel";
 
 export class AppState {
-  public allClients: ClientModel[];
-  public allProducts: ProductModel[];
-  public allCampaigns: CampaignModel[];
-  public selectedClients: ClientModel[];
-  public selectedCampaigns: CampaignModel[];
-  public selectedProducts: ProductModel[];
-  public campaignsToDisplay: CampaignModel[];
-  public productsToDisplay: CampaignModel[];
-  public isPopUpShow: boolean;
-  public isProductsPopUpShow: boolean;
-  public isLinksPopUpShow: boolean;
-  public isAuthSucceeded: boolean
+  public allClients: ClientModel[] = [];
+  public allProducts: ProductModel[] = [];
+  public allCampaigns: CampaignModel[] = [];
+  public selectedClients: ClientModel[] = [];
+  public selectedCampaigns: CampaignModel[] = [];
+  public selectedProducts: ProductModel[] = [];
+  public clientsToDisplay: ClientModel[] = [];
+  public campaignsToDisplay: CampaignModel[] = [];
+  public productsToDisplay: CampaignModel[] = [];
+  public isPopUpShow: boolean = false;
+  public isProductsPopUpShow: boolean = false;
+  public isLinksPopUpShow: boolean = false;
+  public isAuthSucceeded: boolean = true;
 
   public constructor() {
-    this.allClients = [];
-    this.allProducts = [];
-    this.allCampaigns = [];
-    this.selectedClients = [];
-    this.selectedCampaigns = [];
-    this.selectedProducts = [];
-    this.campaignsToDisplay = [];
-    this.productsToDisplay = [];
-    this.isPopUpShow = false;
-    this.isProductsPopUpShow = false;
-    this.isLinksPopUpShow = false;
-    this.isAuthSucceeded = true;
+    const json = sessionStorage.getItem("AppState");
+    if (json) {
+      const appState: AppState = JSON.parse(json);
+      this.allClients = appState.allClients;
+      this.allProducts = appState.allProducts;
+      this.allCampaigns = appState.allCampaigns;
+      this.selectedClients = appState.selectedClients;
+      this.selectedCampaigns = appState.selectedCampaigns;
+      this.selectedProducts = appState.selectedProducts;
+      this.campaignsToDisplay = appState.campaignsToDisplay;
+      this.clientsToDisplay = appState.clientsToDisplay;
+      this.productsToDisplay = appState.productsToDisplay;
+      this.isPopUpShow = appState.isPopUpShow;
+      this.isProductsPopUpShow = appState.isProductsPopUpShow;
+      this.isLinksPopUpShow = appState.isLinksPopUpShow;
+      this.isAuthSucceeded = appState.isAuthSucceeded;
+    }
   }
 }

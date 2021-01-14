@@ -82,6 +82,7 @@ export class AddClientPopUp extends Component<any, AddClientPopUpState>{
             selectedClients.push(c);
         }
         store.dispatch({ type: ActionType.updateSelectedClients, payLoad: selectedClients });
+        store.dispatch({ type: ActionType.updateClientsToDisplay, payLoad: [] });
 
         const selectedCampaigns: CampaignModel[] = store.getState().selectedCampaigns;
         this.state.clientsToAdd.map(client => {

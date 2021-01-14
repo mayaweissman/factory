@@ -4,56 +4,56 @@ export function getAllCampaigns() {
             campaignId: 1,
             clientId: 1,
             campaignName: "Partner Campaign",
-            lastUpdate: "10-01-2020",
+            lastUpdate: "10/01/2020",
 
         },
         {
             campaignId: 7,
             clientId: 1,
             campaignName: "Partner Campaign 2",
-            lastUpdate: "10-08-2020",
+            lastUpdate: "11/01/2020",
 
         },
         {
             campaignId: 2,
             clientId: 2,
             campaignName: "Yellow Campaign",
-            lastUpdate: "10-01-2020",
+            lastUpdate: "08/03/2019",
 
         },
         {
             campaignId: 3,
             clientId: 3,
             campaignName: "Max Campaign",
-            lastUpdate: "10-04-2020",
+            lastUpdate: "14/01/2021",
 
         },
         {
             campaignId: 4,
             clientId: 4,
             campaignName: "Pepper Campaign",
-            lastUpdate: "10-01-2019",
+            lastUpdate: "03/01/2021",
 
         },
         {
             campaignId: 5,
             clientId: 5,
             campaignName: "Nissan Campaign",
-            lastUpdate: "01-04-2020",
+            lastUpdate: "02/02/2020",
 
         },
         {
             campaignId: 6,
             clientId: 6,
             campaignName: "Teva Campaign",
-            lastUpdate: "03-10-2020",
+            lastUpdate: "15/03/2020",
 
         },
         {
             campaignId: 8,
             clientId: 7,
             campaignName: "AIG Campaign",
-            lastUpdate: "01-10-2020",
+            lastUpdate: "31/07/2018",
 
         },
     ];

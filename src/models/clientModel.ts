@@ -5,7 +5,8 @@ export class ClientModel {
     public clientId?: number,
     public clientImageSrc?: string,
     public clientName?: string,
-    public company?: string
+    public company?: string,
+    public lastUpdate?: string
   ) {
   }
 }

@@ -16,7 +16,28 @@
   column-gap: 0;
 }
 
-.campaign-img:hover{
+.no-clients {
+  position: relative;
+  top: 10vw;
+  margin: auto;
+  width: 80%;
+}
+
+.no-clients > h1 {
+  position: relative;
+  display: flex;
+  direction: rtl;
+}
+
+.no-clients > a {
+  position: relative;
+  display: flex;
+  direction: rtl;
+  color: black;
+  font-size: 1vw;
+}
+
+.campaign-img:hover {
   cursor: pointer;
 }
 

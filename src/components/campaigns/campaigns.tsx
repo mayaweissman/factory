@@ -12,6 +12,7 @@ import { getAllProducts } from "../../data/products";
 import { ProductModel } from "../../models/productModel";
 import { getProductsTypes } from "../../data/products-types";
 import { ProductPopUp } from "../product-pop-up/product-pop-up";
+import { NavLink } from "react-router-dom";
 
 interface ReportMakerState {
     selectedClients: ClientModel[],
@@ -114,13 +115,25 @@ export class Campaigns extends Component<any, ReportMakerState>{
     public setProductToDisplayInPopUp = (product: ProductModel, campaign: CampaignModel) => (event: any) => {
         this.setState({ productToPopUp: product });
         this.setState({ campignToPopUp: campaign });
-        store.dispatch({type: ActionType.changeDisplayForProductsPopUp});
+        store.dispatch({ type: ActionType.changeDisplayForProductsPopUp });
+    }
+
+    public isProductsToDisplayOnCampaign = (campaignId: number) => {
+        const productsToDisplay = this.state.productsToDisplay.filter(p => p.campaignId === campaignId);
+       
+        
     }
 
     public render() {
         return (
             <div className="campaigns">
 
+                {this.state.selectedClients.length === 0 &&
+                    <div className="no-clients">
+                        <h1>אין לקוחות להצגה</h1>
+                        <NavLink to="/home">להוספת לקוחות</NavLink>
+                    </div>
+                    }
                 <div className="campaigns-left-filter">
                     <img className="campaigns-filter-by-success-img" src="./assets/images/filter_by_date.svg" />
                     <span className="campaigns-filter-by-high">Highest first</span>
@@ -134,7 +147,7 @@ export class Campaigns extends Component<any, ReportMakerState>{
                         <div className="grid">
                             {this.state.productsToDisplay.length === 0 && this.state.selectedProducts?.filter(product => product.campaignId === campaign.campaignId).map(product =>
                                 <div className="campaign">
-                                    <img className="campaign-img" src={product.imageSrc} />
+                                    <img className="campaign-img" src={product.imageSrc} onClick={this.setProductToDisplayInPopUp(product, campaign)}/>
                                     <div className="campaign-info">
                                         <span className="product-type-title">{this.getProductTypeName(product.productTypeId as number)}</span>
                                         <span className="success-rate">
@@ -148,7 +161,7 @@ export class Campaigns extends Component<any, ReportMakerState>{
                             )}
                             {this.state.productsToDisplay.length !== 0 && this.state.productsToDisplay?.filter(product => product.campaignId === campaign.campaignId).map(product =>
                                 <div className="campaign">
-                                    <img className="campaign-img" src={product.imageSrc} />
+                                    <img className="campaign-img" src={product.imageSrc} onClick={this.setProductToDisplayInPopUp(product, campaign)}/>
                                     <div className="campaign-info">
                                         <span className="product-type-title">{this.getProductTypeName(product.productTypeId as number)}</span>
                                         <span className="success-rate">
@@ -184,7 +197,7 @@ export class Campaigns extends Component<any, ReportMakerState>{
                             )}
                             {this.state.productsToDisplay.length !== 0 && this.state.productsToDisplay?.filter(product => product.campaignId === campaign.campaignId).map(product =>
                                 <div className="campaign">
-                                    <img className="campaign-img" src={product.imageSrc} />
+                                    <img className="campaign-img" src={product.imageSrc} onClick={this.setProductToDisplayInPopUp(product, campaign)}/>
                                     <div className="campaign-info">
                                         <span className="product-type-title">{this.getProductTypeName(product.productTypeId as number)}</span>
                                         <span className="success-rate">

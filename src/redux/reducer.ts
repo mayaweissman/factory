@@ -39,6 +39,10 @@ export function reducer(oldAppState: AppState, action: Action): AppState {
       newAppState.campaignsToDisplay = action.payLoad;
       break;
 
+    case ActionType.updateClientsToDisplay:
+      newAppState.clientsToDisplay = action.payLoad;
+      break;
+
     case ActionType.updateProductsToDisplay:
       newAppState.productsToDisplay = action.payLoad;
       break;
@@ -46,6 +50,7 @@ export function reducer(oldAppState: AppState, action: Action): AppState {
     case ActionType.resetFiltering:
       newAppState.campaignsToDisplay = [];
       newAppState.productsToDisplay = [];
+      newAppState.clientsToDisplay = [];
       break;
 
     case ActionType.getSelectedCampaigns:
@@ -98,6 +103,7 @@ export function reducer(oldAppState: AppState, action: Action): AppState {
       newAppState.campaignsToDisplay = newAppState.campaignsToDisplay.filter(c => c.clientId !== action.payLoad);
       newAppState.selectedProducts = newAppState.selectedProducts.filter(c => c.clientId !== action.payLoad);
       newAppState.productsToDisplay = newAppState.productsToDisplay.filter(c => c.clientId !== action.payLoad);
+      newAppState.clientsToDisplay = newAppState.clientsToDisplay.filter(c => c.clientId !== action.payLoad);
       break;
 
     default:

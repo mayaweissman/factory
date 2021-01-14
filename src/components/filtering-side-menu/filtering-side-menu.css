@@ -77,7 +77,18 @@ br {
   height: 3vw;
   text-align: center;
   line-height: 3vw;
+  color: white;
   font-weight: bold;
+  font-size: 0.9vw;
+  border: 1px solid #f84a72;
+}
+
+.url-sharing-area:disabled{
+  background-color: #fd7292;
+}
+
+.url-sharing-area:disabled:hover{
+  cursor: not-allowed;
 }
 
 .url-sharing-area:hover {
