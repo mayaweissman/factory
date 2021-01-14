@@ -186,3 +186,7 @@ cursor: pointer;
   display: flex;
   direction: ltr;
 }
+
+.client-info{
+  margin-top: 0.4vw;
+}

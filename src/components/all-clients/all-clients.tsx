@@ -42,6 +42,15 @@ export class AllClients extends Component<any, AllClientsState>{
         this.setState({ clientsToShow: allClients });
 
         store.dispatch({ type: ActionType.getAllClients, payLoad: allClients });
+
+
+        const dates = ["04 Dec 1995", "01 Jan 2021","10 Jan 2020"];
+        const parses = [];
+        for(const date of dates){
+            parses.push(Date.parse(date));
+        }
+        console.log(parses);
+      
     }
 
     public componentWillUnmount(): void {
