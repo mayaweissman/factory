@@ -69,6 +69,7 @@ export class Campaigns extends Component<any, ReportMakerState>{
         }
     }
 
+
     public componentDidMount() {
         const selectedCampaigns: CampaignModel[] = [];
         this.state.selectedClients.map(client => {
@@ -99,6 +100,8 @@ export class Campaigns extends Component<any, ReportMakerState>{
         this.unsubscribeStore();
     }
 
+
+    //Return colors for light button by success rates (green/yellow/red)
     public getSuccessRateColor = (successRate: number) => {
         if (successRate <= 50) {
             return "#E4002B";
@@ -112,12 +115,15 @@ export class Campaigns extends Component<any, ReportMakerState>{
         }
     }
 
+    //Product is automaticlly sending to Pop Up by props 
     public setProductToDisplayInPopUp = (product: ProductModel, campaign: CampaignModel) => (event: any) => {
         this.setState({ productToPopUp: product });
         this.setState({ campignToPopUp: campaign });
         store.dispatch({ type: ActionType.changeDisplayForProductsPopUp });
     }
 
+
+    //If campaign have product to disaply - show his name on title
     public isProductsToDisplayOnCampaign = (campaignId: number) => {
         if(this.state.productsToDisplay.length !== 0){
             const productsToDisplay = this.state.productsToDisplay.filter(p => p.campaignId === campaignId);
@@ -131,6 +137,7 @@ export class Campaigns extends Component<any, ReportMakerState>{
             return true;
         }
     }
+
 
     public render() {
         return (

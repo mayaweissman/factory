@@ -45,6 +45,8 @@ export class AllClients extends Component<any, AllClientsState>{
 
     }
 
+
+    //Display latest campaigns who changed first  
     public filterByLatest = () => {
         const allClients = [...this.state.allClients];
         for (const client of allClients) {
@@ -60,12 +62,15 @@ export class AllClients extends Component<any, AllClientsState>{
 
 
 
+    //Add client to clients top list
     public selectClient = (client: ClientModel) => (event: any) => {
         const selectedClients: ClientModel[] = store.getState().selectedClients;
         let isUnique: boolean = true;
         selectedClients.map(selectedClient => {
             if (selectedClient.clientId === client.clientId) {
                 isUnique = false;
+                store.dispatch({ type: ActionType.removeClient, payLoad: client.clientId });
+                return;
             }
         })
         if (isUnique) {
@@ -77,7 +82,7 @@ export class AllClients extends Component<any, AllClientsState>{
     }
 
 
-
+    //Filter companies by company in Mccann
     public filterByCompany = (companyName: string) => (event: any) => {
 
         if (companyName === "הכל") {
@@ -128,7 +133,7 @@ export class AllClients extends Component<any, AllClientsState>{
 
                 {this.state.clientsToShow.map(client =>
                     <div className="client">
-                        <img src={client.clientImageSrc} />
+                        <img src={client.clientImageSrc} onClick={this.selectClient(client)}/>
                         <div className="client-info">
 
                             <button className={this.state.selectedClients.filter(c => c.clientId === client.clientId).length === 0 ? "btn-before" : "btn-after"}>

@@ -98,6 +98,7 @@ export function reducer(oldAppState: AppState, action: Action): AppState {
       const index = newAppState.selectedClients.findIndex(
         (c) => c.clientId === clientId
       );
+      
       newAppState.selectedClients.splice(index, 1);
       newAppState.selectedCampaigns = newAppState.selectedCampaigns.filter(c => c.clientId !== action.payLoad);
       newAppState.campaignsToDisplay = newAppState.campaignsToDisplay.filter(c => c.clientId !== action.payLoad);

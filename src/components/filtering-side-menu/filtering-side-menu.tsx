@@ -12,7 +12,6 @@ import { LinkPopUp } from "../link-pop-up/link-pop-up";
 import { AddClientPopUp } from "../add-client-pop-up/add-client-pop-up";
 import { ReportModel } from "../../models/reportModel";
 
-
 interface FilteringSideMenuProps {
     isOnReport: boolean
 
@@ -57,6 +56,8 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
         this.unsubscribeStore();
     }
 
+
+    //Display campaigns by campaign id (selected by name on filtering menu)
     public filterByCapmaign = (campaign: CampaignModel) => (event: any) => {
         const campaignsToDisplay: CampaignModel[] = [...store.getState().campaignsToDisplay];
         for (const c of campaignsToDisplay) {
@@ -71,10 +72,13 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
         store.dispatch({ type: ActionType.updateCampaignsToDisplay, payLoad: campaignsToDisplay });
     }
 
+    //Reset all previos filtering
     public resetFiltering = () => {
         store.dispatch({ type: ActionType.resetFiltering });
     }
 
+
+    //Display only products who match prodyctTypeId by filtering menu 
     public filterByProductType = (productsTypeId: number) => (event: any) => {
         const productsToDisplay: ProductModel[] = [...store.getState().productsToDisplay];
         const duplictes = productsToDisplay.filter(p => p.productTypeId === productsTypeId);
@@ -91,11 +95,12 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
         store.dispatch({ type: ActionType.updateProductsToDisplay, payLoad: productsToDisplay });
     }
 
-    //Demo function
+    //Open pop-up for link copy on click
     public createReport = () => {
         store.dispatch({ type: ActionType.changeDisplayForLinkPopUp });
     }
 
+    //Checked/unchecked campaigns who choosen on any time
     public isCampaignChecked = (campaignId: number) => {
         const campaigns: CampaignModel[] = [...this.state.campaignsToDisplay];
         const c = campaigns.find(campaign => campaign.campaignId === campaignId);
@@ -105,6 +110,7 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
         return false;
     }
 
+    //Checked/unchecked product type who choosen on any time
     public isProductTypeChecked = (productTypeId: number) => {
         const products: ProductModel[] = [...this.state.productsToDisplay];
         const p = products.find(product => product.productTypeId === productTypeId);
@@ -115,13 +121,23 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
     }
 
 
+    //Will change  
+    public filterByLatest = () => {
+        const campaigns:CampaignModel[] = store.getState().campaignsToDisplay;
+        for (const c of campaigns) {
+            c.timePassed = Date.parse(c.lastUpdate as string)
+        }
+        campaigns.sort((a, b) => ((a.timePassed as number) > (b.timePassed as number)) ? 1 : -1);
+        this.setState({campaignsToDisplay: campaigns});
+    }
+
 
     public render() {
         return (
             <div className="filtering-side-menu">
                 <span className="reset-filtering" onClick={this.resetFiltering}>איפוס סננים</span>
 
-                <input className="date-filtering-box" />
+                <input className="date-filtering-box" type="date"/>
 
                 <div className="campaigns-filtering-area">
                     <span className="campaign-filtering-title">קמפיין</span>
