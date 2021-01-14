@@ -6,6 +6,8 @@ export class CampaignModel {
     public clientId?: number,
     public campaignName?: string,
     public lastUpdate?: string,
+    public timePassed?: number
+
   ) {
   }
 }

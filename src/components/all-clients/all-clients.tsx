@@ -43,14 +43,15 @@ export class AllClients extends Component<any, AllClientsState>{
 
         store.dispatch({ type: ActionType.getAllClients, payLoad: allClients });
 
+    }
 
-        const dates = ["04 Dec 1995", "01 Jan 2021","10 Jan 2020"];
-        const parses = [];
-        for(const date of dates){
-            parses.push(Date.parse(date));
+    public filterByLatest = () => {
+        const allClients = [...this.state.allClients];
+        for (const client of allClients) {
+            client.timePassed = Date.parse(client.lastUpdate as string)
         }
-        console.log(parses);
-      
+        allClients.sort((a, b) => ((a.timePassed as number) > (b.timePassed as number)) ? 1 : -1);
+        this.setState({clientsToShow: allClients});
     }
 
     public componentWillUnmount(): void {
@@ -113,7 +114,7 @@ export class AllClients extends Component<any, AllClientsState>{
                 <div className="filter-area">
                     <div className="left-filter">
                         <img className="filter-by-date-img" src="./assets/images/filter_by_date.svg" />
-                        <span className="filter-by-new">Latest</span>
+                        <span className="filter-by-new" onClick={this.filterByLatest}>Latest</span>
                         <span className="separate">|</span>
                         <span className="filter-by-name" onClick={this.filterAlphabetically}>A <span className="inside-filter">to</span> Z</span>
                     </div>

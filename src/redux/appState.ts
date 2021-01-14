@@ -15,7 +15,7 @@ export class AppState {
   public isPopUpShow: boolean = false;
   public isProductsPopUpShow: boolean = false;
   public isLinksPopUpShow: boolean = false;
-  public isAuthSucceeded: boolean = true;
+  public isAuthSucceeded: boolean = false;
 
   public constructor() {
     const json = sessionStorage.getItem("AppState");
