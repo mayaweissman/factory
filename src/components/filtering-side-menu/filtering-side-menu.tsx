@@ -11,6 +11,12 @@ import { getAllProducts } from "../../data/products";
 import { LinkPopUp } from "../link-pop-up/link-pop-up";
 import { AddClientPopUp } from "../add-client-pop-up/add-client-pop-up";
 import { ReportModel } from "../../models/reportModel";
+import 'react-dates/initialize';
+import DateRangePicker from 'react-bootstrap-daterangepicker';
+// import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap-daterangepicker/daterangepicker.css';
+import DateRangeIcon from '@material-ui/icons/DateRange';
+
 
 interface FilteringSideMenuProps {
     isOnReport: boolean
@@ -22,6 +28,7 @@ interface FilteringSideMenuState {
     campaignsToDisplay: CampaignModel[],
     selectedProducts: ProductModel[],
     productsToDisplay: ProductModel[],
+    datesRange: string
 }
 
 export class FilteringSideMenu extends Component<FilteringSideMenuProps, FilteringSideMenuState>{
@@ -35,7 +42,8 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
             selectedCampaigns: store.getState().selectedCampaigns,
             campaignsToDisplay: store.getState().campaignsToDisplay,
             productsToDisplay: store.getState().productsToDisplay,
-            selectedProducts: store.getState().selectedProducts
+            selectedProducts: store.getState().selectedProducts,
+            datesRange: "--:--:--"
         }
 
         this.unsubscribeStore = store.subscribe(() => {
@@ -123,12 +131,12 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
 
     //Will change  
     public filterByLatest = () => {
-        const campaigns:CampaignModel[] = store.getState().campaignsToDisplay;
+        const campaigns: CampaignModel[] = store.getState().campaignsToDisplay;
         for (const c of campaigns) {
             c.timePassed = Date.parse(c.lastUpdate as string)
         }
         campaigns.sort((a, b) => ((a.timePassed as number) > (b.timePassed as number)) ? 1 : -1);
-        this.setState({campaignsToDisplay: campaigns});
+        this.setState({ campaignsToDisplay: campaigns });
     }
 
 
@@ -137,14 +145,26 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
             <div className="filtering-side-menu">
                 <span className="reset-filtering" onClick={this.resetFiltering}>איפוס סננים</span>
 
-                <input className="date-filtering-box" type="date"/>
+
+                <br />
+                <DateRangePicker
+                    initialSettings={{ startDate: '1/1/2014', endDate: '3/1/2014' }}
+                >
+                    <button className="date-picker-btn">
+                        {this.state.datesRange}
+                        <span className="date-range-icon">
+                        <DateRangeIcon />
+                        </span>
+                    </button>
+                </DateRangePicker>
+                <br />
 
                 <div className="campaigns-filtering-area">
                     <span className="campaign-filtering-title">קמפיין</span>
                     <br />
                     <div className="campaigns-titles">
                         {this.state.selectedCampaigns.map(campaign =>
-                            <label className="container">
+                            <label className="container-for-check">
                                 <input checked={this.isCampaignChecked(campaign.campaignId as number)} onClick={this.filterByCapmaign(campaign)} type="checkbox" />
                                 <span className="checkmark"></span>
                                 <span className="campaign-name-title">
@@ -161,7 +181,7 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
                     <div className="products-titles">
 
                         {getProductsTypes().map(type =>
-                            <label className="container">
+                            <label className="container-for-check">
                                 <input checked={this.isProductTypeChecked(type.productsTypeId as number)} type="checkbox" onClick={this.filterByProductType(type.productsTypeId)} />
                                 <span className="checkmark"></span>
                                 <span className="campaign-name-title">

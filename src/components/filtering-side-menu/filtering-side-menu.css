@@ -1,3 +1,4 @@
+
 .filtering-side-menu {
   display: block;
   height: 100%;
@@ -95,7 +96,7 @@ br {
   cursor: pointer;
 }
 
-.container {
+.container-for-check {
   display: block;
   position: relative;
   padding-left: 35px;
@@ -108,7 +109,7 @@ br {
 }
 
 /* Hide the browser's default checkbox */
-.container input {
+.container-for-check input {
   position: absolute;
   opacity: 0;
   cursor: pointer;
@@ -125,12 +126,12 @@ br {
   border: 1px solid white;
 }
 
-.container:hover input ~ .checkmark {
+.container-for-check:hover input ~ .checkmark {
   background-color: transparent;
   border: 1px solid #f84a72;
 }
 
-.container input:checked ~ .checkmark {
+.container-for-check input:checked ~ .checkmark {
   background-color: transparent;
   border: 1px solid #f84a72;
 }
@@ -141,11 +142,11 @@ br {
   display: none;
 }
 
-.container input:checked ~ .checkmark:after {
+.container-for-check input:checked ~ .checkmark:after {
   display: block;
 }
 
-.container .checkmark:after {
+.container-for-check .checkmark:after {
   top: -0.3vw;
   width: 0.4vw;
   height: 0.8vw;
@@ -154,4 +155,75 @@ br {
   transform: rotate(45deg);
   -ms-transform: rotate(45deg);
   transform: rotate(45deg);
+}
+
+.daterangepicker{
+  background-color: white !important;
+}
+.calendar-table{
+  background-color: white !important;
+  color: black !important;
+}
+
+.daterangepicker td.available:hover, .daterangepicker th.available:hover {
+  background-color: #f84a72 !important;
+  border-color: white !important;
+}
+
+.daterangepicker .drp-selected{
+  color: white !important;
+}
+
+.daterangepicker .drp-buttons .btn{
+  color: white !important;
+  background-color: #f84a72 !important;
+  border: 1px solid #f84a72 !important;
+  outline: none;
+
+}
+
+.daterangepicker:hover .drp-buttons:hover .btn:hover{
+  background-color: #fd7292 !important;
+  border: 1px solid #fd7292 !important;
+
+}
+
+.daterangepicker td.off, .daterangepicker td.off.in-range, .daterangepicker td.off.start-date, .daterangepicker td.off.end-date{
+  background-color: rgb(255, 255, 255) !important;
+  color: rgb(175, 175, 175) !important;
+}
+
+
+.daterangepicker td.in-range{
+background-color: #ffd2dc !important;
+}
+
+.calendar-table > .off{
+  background-color: rgb(255, 255, 255) !important;
+  color: black !important;
+}
+
+.daterangepicker td.active, .daterangepicker td.active:hover {
+background-color: #f84a72 !important;
+}
+
+.date-picker-btn{
+  background-color: black;
+  color: white;
+  border: none;
+  outline: none;
+  border-bottom: 1px solid white;
+  width: 90%;
+  font-size: 1vw;
+  position: relative;
+  margin-top: 52px;
+  height: 3vw;
+  letter-spacing: 0.4vw;
+  text-align: right;
+}
+
+.date-range-icon{
+  position: absolute;
+  direction: ltr;
+  left: 0;
 }

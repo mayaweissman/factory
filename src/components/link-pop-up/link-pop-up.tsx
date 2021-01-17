@@ -7,7 +7,6 @@ import { Config } from "../../config";
 import { config } from "process";
 import { ReportModel } from "../../models/reportModel";
 import { getAllReports } from "../../data/report";
-import axios from "axios";
 
 interface LinkPopUpState {
     url: string
