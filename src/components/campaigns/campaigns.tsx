@@ -13,6 +13,8 @@ import { ProductModel } from "../../models/productModel";
 import { getProductsTypes } from "../../data/products-types";
 import { ProductPopUp } from "../product-pop-up/product-pop-up";
 import { NavLink } from "react-router-dom";
+import Aos from "aos";
+import "aos/dist/aos.css";
 
 interface ReportMakerState {
     selectedClients: ClientModel[],
@@ -27,10 +29,11 @@ interface ReportMakerState {
 
 
 
-
 export class Campaigns extends Component<any, ReportMakerState>{
 
     private unsubscribeStore: Unsubscribe;
+
+    
 
     public constructor(props: any) {
         super(props);
@@ -71,6 +74,7 @@ export class Campaigns extends Component<any, ReportMakerState>{
 
 
     public componentDidMount() {
+        Aos.init({duration: 1000});
         const selectedCampaigns: CampaignModel[] = [];
         this.state.selectedClients.map(client => {
             getAllCampaigns().map(campaign => {
@@ -114,6 +118,7 @@ export class Campaigns extends Component<any, ReportMakerState>{
             return "#1CE5A2";
         }
     }
+    
 
     //Product is automaticlly sending to Pop Up by props 
     public setProductToDisplayInPopUp = (product: ProductModel, campaign: CampaignModel) => (event: any) => {
@@ -143,12 +148,6 @@ export class Campaigns extends Component<any, ReportMakerState>{
         return (
             <div className="campaigns">
 
-                {this.state.selectedClients.length === 0 &&
-                    <div className="no-clients">
-                        <h1>אין לקוחות להצגה</h1>
-                        <NavLink to="/home">להוספת לקוחות</NavLink>
-                    </div>
-                    }
                 <div className="campaigns-left-filter">
                     <img className="campaigns-filter-by-success-img" src="./assets/images/filter_by_date.svg" />
                     <span className="campaigns-filter-by-high">Highest first</span>
@@ -161,7 +160,7 @@ export class Campaigns extends Component<any, ReportMakerState>{
                         {this.isProductsToDisplayOnCampaign(campaign.campaignId as number) && <h2>{campaign.campaignName}</h2>}
                         <div className="grid">
                             {this.state.productsToDisplay.length === 0 && this.state.selectedProducts?.filter(product => product.campaignId === campaign.campaignId).map(product =>
-                                <div className="campaign">
+                                <div className="campaign" data-aos="fade-up">
                                     <img className="campaign-img" src={product.images?.img1} onClick={this.setProductToDisplayInPopUp(product, campaign)}/>
                                     <div className="campaign-info">
                                         <span className="product-type-title">{this.getProductTypeName(product.productTypeId as number)}</span>
@@ -175,7 +174,7 @@ export class Campaigns extends Component<any, ReportMakerState>{
 
                             )}
                             {this.state.productsToDisplay.length !== 0 && this.state.productsToDisplay?.filter(product => product.campaignId === campaign.campaignId).map(product =>
-                                <div className="campaign">
+                                <div className="campaign" data-aos="fade-up">
                                     <img className="campaign-img" src={product.images?.img1} onClick={this.setProductToDisplayInPopUp(product, campaign)}/>
                                     <div className="campaign-info">
                                         <span className="product-type-title">{this.getProductTypeName(product.productTypeId as number)}</span>
@@ -197,7 +196,7 @@ export class Campaigns extends Component<any, ReportMakerState>{
                         {this.isProductsToDisplayOnCampaign(campaign.campaignId as number) && <h2>{campaign.campaignName}</h2>}
                         <div className="grid">
                             {this.state.productsToDisplay.length === 0 && this.state.selectedProducts?.filter(product => product.campaignId === campaign.campaignId).map(product =>
-                                <div className="campaign">
+                                <div className="campaign" data-aos="fade-up">
                                     <img className="campaign-img" src={product.images?.img1} onClick={this.setProductToDisplayInPopUp(product, campaign)} />
                                     <div className="campaign-info">
                                         <span className="product-type-title">{this.getProductTypeName(product.productTypeId as number)}</span>
@@ -211,7 +210,7 @@ export class Campaigns extends Component<any, ReportMakerState>{
 
                             )}
                             {this.state.productsToDisplay.length !== 0 && this.state.productsToDisplay?.filter(product => product.campaignId === campaign.campaignId).map(product =>
-                                <div className="campaign">
+                                <div className="campaign" data-aos="fade-up">
                                     <img className="campaign-img" src={product.images?.img1} onClick={this.setProductToDisplayInPopUp(product, campaign)}/>
                                     <div className="campaign-info">
                                         <span className="product-type-title">{this.getProductTypeName(product.productTypeId as number)}</span>

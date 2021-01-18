@@ -39,7 +39,7 @@ export function getAllCampaigns() {
             campaignId: 5,
             clientId: 5,
             campaignName: "Nissan Campaign",
-            lastUpdate: "10 Dec 2019",
+            lastUpdate: "10 Jan 2021",
 
         },
         {

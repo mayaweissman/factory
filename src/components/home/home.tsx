@@ -11,7 +11,7 @@ interface HomeState {
     isAfterAuth: boolean
 }
 
-export class Home extends Component<any, HomeState>{
+export class Home extends Component<any, HomeState> {
 
     private unsubscribeStore: Unsubscribe;
 
@@ -22,7 +22,7 @@ export class Home extends Component<any, HomeState>{
             isAfterAuth: store.getState().isAuthSucceeded
         }
 
-        
+
         this.unsubscribeStore = store.subscribe(() => {
             const isAfterAuth = store.getState().isAuthSucceeded;
             this.setState({ isAfterAuth });
@@ -31,7 +31,7 @@ export class Home extends Component<any, HomeState>{
 
     componentDidMount() {
 
-        if(!this.state.isAfterAuth){
+        if (!this.state.isAfterAuth) {
             this.props.history.push("/auth");
         }
         window.addEventListener('scroll', (e) => {
@@ -45,7 +45,7 @@ export class Home extends Component<any, HomeState>{
         });
     }
 
-    
+
     public componentWillUnmount(): void {
         this.unsubscribeStore();
     }
@@ -54,10 +54,12 @@ export class Home extends Component<any, HomeState>{
     public render() {
         return (
             <div className="home">
-                
+
                 <TopClientsNav isScroll={this.state.isScroll} />
 
                 <AllClients />
+
+
             </div>
         )
     }

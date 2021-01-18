@@ -43,7 +43,7 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
             campaignsToDisplay: store.getState().campaignsToDisplay,
             productsToDisplay: store.getState().productsToDisplay,
             selectedProducts: store.getState().selectedProducts,
-            datesRange: "--:--:--"
+            datesRange: "- - / - - / - -"
         }
 
         this.unsubscribeStore = store.subscribe(() => {
@@ -59,6 +59,8 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
             this.setState({ productsToDisplay });
         })
     }
+
+
 
     public componentWillUnmount(): void {
         this.unsubscribeStore();
@@ -83,6 +85,7 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
     //Reset all previos filtering
     public resetFiltering = () => {
         store.dispatch({ type: ActionType.resetFiltering });
+        this.setState({ datesRange: "- - / - - / - -" })
     }
 
 
@@ -111,6 +114,7 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
     //Checked/unchecked campaigns who choosen on any time
     public isCampaignChecked = (campaignId: number) => {
         const campaigns: CampaignModel[] = [...this.state.campaignsToDisplay];
+        const allCampaigns: CampaignModel[] = [...store.getState().selectedCampaigns];
         const c = campaigns.find(campaign => campaign.campaignId === campaignId);
         if (c !== undefined) {
             return true;
@@ -139,21 +143,64 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
         this.setState({ campaignsToDisplay: campaigns });
     }
 
+    public filterByDatesRange = (event: any, picker: any) => {
+        const startDate = picker.startDate._d;
+        const endDate = picker.endDate._d;
+
+        const min = Date.parse(startDate);
+        const max = Date.parse(endDate);
+
+        const campaignsToDisplay: CampaignModel[] = store.getState().campaignsToDisplay;
+        if (campaignsToDisplay.length > 0) {
+            for (const campaign of campaignsToDisplay) {
+                campaign.timePassed = Date.parse(campaign.lastUpdate as string);
+            }
+
+            const newCampaignsToDisplay: CampaignModel[] = [];
+            for (const c of campaignsToDisplay) {
+                if ((c.timePassed as number) > min && (c.timePassed as number) < max) {
+                    newCampaignsToDisplay.push(c);
+                }
+            }
+            store.dispatch({ type: ActionType.updateCampaignsToDisplay, payLoad: newCampaignsToDisplay });
+        }
+        else {
+            const selectedCampaigns: CampaignModel[] = store.getState().selectedCampaigns;
+            for (const campaign of selectedCampaigns) {
+                campaign.timePassed = Date.parse(campaign.lastUpdate as string);
+            }
+
+            const newCampaignsToDisplay: CampaignModel[] = [];
+            for (const c of selectedCampaigns) {
+                if ((c.timePassed as number) > min && (c.timePassed as number) < max) {
+                    newCampaignsToDisplay.push(c);
+                }
+            }
+            store.dispatch({ type: ActionType.updateCampaignsToDisplay, payLoad: newCampaignsToDisplay });
+        }
+
+        //Update state for display
+        const startDateStr = new Date(startDate).toLocaleDateString().replace(".", "/");
+        const endDateStr = new Date(endDate).toLocaleDateString().replace(".", "/");
+        const strToState = `${startDateStr.replace(".", "/")} - ${endDateStr.replace(".", "/")}`;
+        this.setState({ datesRange: strToState });
+
+
+    }
+
 
     public render() {
         return (
             <div className="filtering-side-menu">
                 <span className="reset-filtering" onClick={this.resetFiltering}>איפוס סננים</span>
-
-
                 <br />
                 <DateRangePicker
-                    initialSettings={{ startDate: '1/1/2014', endDate: '3/1/2014' }}
+                    onApply={this.filterByDatesRange}
                 >
                     <button className="date-picker-btn">
                         {this.state.datesRange}
                         <span className="date-range-icon">
-                        <DateRangeIcon />
+                            <DateRangeIcon />
                         </span>
                     </button>
                 </DateRangePicker>

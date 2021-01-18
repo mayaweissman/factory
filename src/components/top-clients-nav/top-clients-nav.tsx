@@ -45,7 +45,7 @@ export class TopClientsNav extends Component<TopClientsNavProps, TopClientsNavSt
             if (buttonsWidth > maxWidth) {
                 this.setState({ isButtonsScrolled: true });
             }
-            else{
+            else {
                 this.setState({ isButtonsScrolled: false });
             }
         })
@@ -122,6 +122,7 @@ export class TopClientsNav extends Component<TopClientsNavProps, TopClientsNavSt
                     <span className="remove-all" onClick={this.removeAllClients}>הסר הכל</span>
                 </div>
 
+                <div className="logo-container"></div>
                 <img className="logo" src="./assets/images/logo_factory.svg" />
 
             </div>

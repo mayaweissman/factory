@@ -48,7 +48,6 @@ export class Report extends Component<any, ReportState>{
         store.dispatch({ type: ActionType.updateSelectedClients, payLoad: report.clients });
         store.dispatch({ type: ActionType.getSelectedProducts, payLoad: report.products });
         store.dispatch({ type: ActionType.getSelectedCampaigns, payLoad: report.campaigns });
-        console.log(report);
     }
 
     public componentWillUnmount(): void {

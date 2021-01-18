@@ -3,7 +3,19 @@
   margin: auto;
   padding-top: 6vw;
   direction: ltr;
+  animation: slideInVaryLeft 1s both;
+  animation-delay: 0.6s;
 }
+
+@keyframes slideInVaryLeft {
+  0% {
+    transform: translateX(1000px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}
+
 
 .client {
   display: inline-block;

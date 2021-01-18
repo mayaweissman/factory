@@ -11,14 +11,27 @@
   overflow: visible;
 }
 
+@keyframes slideInLeft {
+  0% {
+    transform: translateX(500px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}
+
+
+
+
 .grid {
   column-count: 5;
   column-gap: 0;
 }
 
 .no-clients {
-  position: relative;
+  position: fixed;
   top: 10vw;
+  right: 23vw;
   margin: auto;
   width: 80%;
 }
@@ -52,6 +65,7 @@
   width: 100%;
   margin-bottom: 1vw;
 }
+
 
 .campaign-img {
   width: 13vw;

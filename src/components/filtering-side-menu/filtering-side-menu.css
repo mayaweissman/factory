@@ -10,7 +10,18 @@
   color: white;
   direction: rtl;
   padding: 2vw;
+  animation: slideInRight 1s both;
 }
+
+@keyframes slideInRight {
+  0% {
+    transform: translateX(300px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}
+
 
 .reset-filtering {
   text-decoration: underline;
@@ -171,20 +182,23 @@ br {
 }
 
 .daterangepicker .drp-selected{
-  color: white !important;
+  color: rgb(0, 0, 0) !important;
 }
 
 .daterangepicker .drp-buttons .btn{
-  color: white !important;
-  background-color: #f84a72 !important;
-  border: 1px solid #f84a72 !important;
+  color: black !important;
+  background-color: #ffffff !important;
+  border: 1px solid #000000 !important;
+  width: 80px;
   outline: none;
 
 }
 
 .daterangepicker:hover .drp-buttons:hover .btn:hover{
-  background-color: #fd7292 !important;
-  border: 1px solid #fd7292 !important;
+  background-color: #000000 !important;
+  border: 1px solid #000000 !important;
+  color: white !important;
+  cursor: pointer;
 
 }
 
@@ -218,12 +232,13 @@ background-color: #f84a72 !important;
   position: relative;
   margin-top: 52px;
   height: 3vw;
-  letter-spacing: 0.4vw;
   text-align: right;
+  line-height: 4vw;
 }
 
 .date-range-icon{
   position: absolute;
   direction: ltr;
   left: 0;
+  line-height: 5vw;
 }

@@ -9,6 +9,17 @@
   right: 0;
   z-index: 10000000;
   background-color: #000000d7;
+  animation: fadeIn 1s both;
+}
+
+@keyframes fadeIn {
+
+  0%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 1;
+  }
 }
 
 .small-product-conatiner {

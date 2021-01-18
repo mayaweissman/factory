@@ -30,7 +30,7 @@ export class ReportMaker extends Component<any, ReportMakerState>{
             this.setState({ display });
         })
     }
-    
+
 
     public componentDidMount() {
 
@@ -56,11 +56,12 @@ export class ReportMaker extends Component<any, ReportMakerState>{
                     <div className="header">
                         <TopCampaignsNav isScroll={this.state.isScroll} />
                     </div>
+
                     <Campaigns />
                 </main>
 
                 <aside>
-                    <FilteringSideMenu isOnReport={false}/>
+                    <FilteringSideMenu isOnReport={false} />
                 </aside>
                 {this.state.display && <LinkPopUp />}
 
