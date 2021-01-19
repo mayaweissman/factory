@@ -200,7 +200,7 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
                     <button className="date-picker-btn">
                         {this.state.datesRange}
                         <span className="date-range-icon">
-                            <DateRangeIcon />
+                            <DateRangeIcon style={{fontSize: 25}}/>
                         </span>
                     </button>
                 </DateRangePicker>

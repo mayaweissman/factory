@@ -87,6 +87,7 @@ export class TopClientsNav extends Component<TopClientsNavProps, TopClientsNavSt
         store.dispatch({ type: ActionType.removeClient, payLoad: clientId });
     }
 
+
     public render() {
         return (
             <div ref={this.topNavRef} className="top-companies-nav">
@@ -113,7 +114,7 @@ export class TopClientsNav extends Component<TopClientsNavProps, TopClientsNavSt
                 </div>
 
 
-                <div className="top-scroll" style={{ top: this.props.isScroll ? "6vw" : 0 }}></div>
+                <div className="top-scroll" style={{ top: this.props.isScroll ? this.topNavRef.current?.clientHeight : 0 }}></div>
                 <img src="./assets/images/pink_btn_before.svg" className="next-btn-pink" style={{ display: this.state.selectedClients.length === 0 ? "block" : "none" }} />
                 <NavLink onClick={() => console.log(store.getState().selectedClients)} to="/report-maker" className="link-to-report-maker" exact>
                     <img src="./assets/images/pink_btn_after.svg" className="next-btn-pink" style={{ display: this.state.selectedClients.length > 0 ? "block" : "none" }} />

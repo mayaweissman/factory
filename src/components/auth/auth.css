@@ -7,6 +7,10 @@
   height: 100%;
 }
 
+.mobile .auth-logo{
+  width: 25vw;
+}
+
 .auth-box {
   position: relative;
   width: 1000px;
@@ -33,6 +37,17 @@
   text-align: left;
   font-size: 2vw;
   border-bottom: 4px solid black;
+}
+
+.mobile .phone-box {
+  width: 62%;
+  outline: none;
+  border: 1px solid black;
+  border-radius: 29px;
+  height: 9vw;
+  text-align: left;
+  padding: 2vw;
+  font-size: 7vw;
 }
 
 .code-box {
@@ -81,6 +96,61 @@
     background-color: white;
     color: black;
     cursor: pointer;
+}
+
+.mobile .code-box::placeholder {
+  font-size: 3vw;
+  text-align: center;
+}
+
+.mobile .phone-box::placeholder {
+  font-size: 5vw;
+  text-align: center;
+}
+
+.mobile .code-box {
+  width: 31%;
+  outline: none;
+  border: 1px solid black;
+  height: 10vw;
+  text-align: left;
+  font-size: 7vw;
+  /* border-bottom: 4px solid black; */
+  margin: 34vw;
+  animation: fadeIn 1s;
+  border-radius: 25px;
+}
+
+.mobile .message{
+  position: relative;
+  top: 1vw;
+  font-size: 4.5vw;
+  animation: fadeIn 1s;
+  margin-top: 2vw;
+}
+
+
+.mobile .auth-code-btn {
+  background-color: black;
+  color: white;
+  border: 2px solid;
+  width: 69vw;
+  height: 13vw;
+  font-size: 7vw;
+  animation: fadeIn 1s;
+}
+
+.mobile .send-btn {
+  width: 25vw;
+  margin-right: 1vw;
+  height: 12vw;
+  border: 2px solid black;
+  background-color: black;
+  font-size: 5.3vw;
+  color: white;
+  top: -2px;
+  position: relative;
+  border-radius: 30px;
 }
 
 .code-box::placeholder {

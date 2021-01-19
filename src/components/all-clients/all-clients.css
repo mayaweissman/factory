@@ -27,6 +27,50 @@
   font-weight: bold;
 }
 
+.mobile .client{
+  font-size: 4vw;
+}
+
+.mobile .filter-by-date-img {
+  width: 6vw;
+}
+
+.mobile .company-filter-pop-up-menu > span {
+  display: block;
+  font-size: 4.9vw;
+  margin: 2.8vw;
+}
+
+.mobile .company-filter-pop-up-menu {
+  width: 50vw;
+  top: 22.4vw;
+}
+
+.mobile .filter-area {
+  margin: 0;
+  margin-top: 20vw;
+  margin-bottom: 17vw;
+}
+
+.mobile .filter-by-company,
+.mobile .filter-by-name,
+.mobile .separate,
+.mobile .filter-by-new {
+  font-size: 4vw;
+}
+
+.mobile .client > img {
+  width: 42vw;
+  height: 30.5vw;
+  border-radius: 15px;
+  box-shadow: 0px 0px 9px -4px rgba(0, 0, 0, 0.75);
+}
+
+.mobile .MuiSvgIcon-root {
+  width: 5em;
+  height: 5em;
+}
+
 .add-inside-text {
   position: relative;
   bottom: 0.45vw;
@@ -66,6 +110,13 @@
   justify-content: center;
   outline: none;
   align-items: center;
+}
+
+.mobile .btn-after,
+.mobile .btn-before {
+  width: 6.3vw;
+  height: 6.3vw;
+  margin-right: 2vw;
 }
 
 .loader{

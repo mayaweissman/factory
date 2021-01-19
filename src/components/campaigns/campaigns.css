@@ -50,6 +50,11 @@
   font-size: 1vw;
 }
 
+.mobile .campaign-img {
+width: 33vw;
+}
+
+
 .campaign-img:hover {
   cursor: pointer;
 }
@@ -66,6 +71,9 @@
   margin-bottom: 1vw;
 }
 
+.mobile .grid{
+  column-count: 2;
+}
 
 .campaign-img {
   width: 13vw;
