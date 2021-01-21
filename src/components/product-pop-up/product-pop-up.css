@@ -88,7 +88,10 @@
 
 .grid-product {
   column-count: 2;
+  grid-column-gap: 0;
   column-gap: 0;
+  height: auto;
+  width: 600px;
 }
 
 .product-img {

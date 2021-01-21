@@ -13,14 +13,20 @@ import ProgressBar from '@ramonak/react-progress-bar';
 
 interface ProductPopUpProps {
     product: ProductModel,
-    campaign: CampaignModel
+    campaign: CampaignModel,
 }
 
+interface ProductPopUpState {
+    images: string[]
+}
 
-export class ProductPopUp extends Component<ProductPopUpProps>{
+export class ProductPopUp extends Component<ProductPopUpProps, ProductPopUpState>{
 
     public constructor(props: ProductPopUpProps) {
         super(props);
+        this.state = {
+            images: []
+        }
     }
 
 
@@ -33,8 +39,25 @@ export class ProductPopUp extends Component<ProductPopUpProps>{
     }
 
     public getProductType = (productTypeId: number) => {
-        const productType = getProductsTypes().filter(t => t.productsTypeId === productTypeId);
-        return productType[0].nameForSingle;
+        if (productTypeId) {
+            const productType = getProductsTypes().filter(t => t.productsTypeId === productTypeId);
+            return productType[0].nameForSingle;
+        }
+    }
+
+    public componentDidMount() {
+        if (!this.props.product) {
+            this.closePopUp();
+        }
+        const images: any[] = [];
+        let productImages = this.props.product.images;
+        if (productImages) {
+            Object.values(productImages).map(i => {
+                images.push(i);
+            })
+           
+        }
+        this.setState({ images });
     }
 
     public render() {
@@ -42,9 +65,12 @@ export class ProductPopUp extends Component<ProductPopUpProps>{
             <div className="full-screen-product-conatiner" onClick={this.closePopUp} >
                 <div className="small-product-conatiner" onClick={this.stopPropagation}>
 
+
                     <div className="left-area">
                         <div className="grid-product">
-                            <img className="product-img" src={this.props.product.images?.img1} />
+                            {this.state.images.map(i =>
+                                <img className="product-img" src={i} />
+                            )}
 
                         </div>
                     </div>
@@ -52,11 +78,11 @@ export class ProductPopUp extends Component<ProductPopUpProps>{
                     <div className="right-area">
                         <div className="titlesInRightArea">
                             <div className="right-in-titles">
-                                <div className="product-rate">{this.props.product.successRates} %</div>
+                                <div className="product-rate">{this.props.product?.successRates} %</div>
                             </div>
                             <div className="left-in-titles">
-                                <h1 className="type-title">{this.getProductType(this.props.product.productTypeId as number)}</h1>
-                                <p className="campaign-name-area">{this.props.campaign.campaignName}</p>
+                                <h1 className="type-title">{this.props.product && this.getProductType(this.props.product?.productTypeId as number)}</h1>
+                                <p className="campaign-name-area">{this.props.campaign?.campaignName}</p>
                             </div>
                         </div>
 
