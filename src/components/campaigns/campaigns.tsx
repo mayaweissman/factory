@@ -15,6 +15,8 @@ import { ProductPopUp } from "../product-pop-up/product-pop-up";
 import { NavLink } from "react-router-dom";
 import Aos from "aos";
 import "aos/dist/aos.css";
+import FilterListIcon from '@material-ui/icons/FilterList';
+import IconButton from '@material-ui/core/IconButton';
 
 interface ReportMakerState {
     selectedClients: ClientModel[],
@@ -32,6 +34,7 @@ interface ReportMakerState {
 export class Campaigns extends Component<any, ReportMakerState>{
 
     private unsubscribeStore: Unsubscribe;
+    private filteringMenuRef = React.createRef<HTMLDivElement>();
 
     
 
@@ -143,16 +146,24 @@ export class Campaigns extends Component<any, ReportMakerState>{
         }
     }
 
+    public changeDisplayForMobileMenu = ()=>{
+        store.dispatch({type: ActionType.changeDisplayForMobileMenu})
+    }
+
 
     public render() {
         return (
             <div className="campaigns">
 
-                <div className="campaigns-left-filter">
+                <div className="campaigns-left-filter" ref={this.filteringMenuRef}>
                     <img className="campaigns-filter-by-success-img" src="./assets/images/filter_by_date.svg" />
                     <span className="campaigns-filter-by-high">Highest first</span>
                     <span className="campaigns-separate">|</span>
                     <span className="campaigns-filter-by-low">Lowest first</span>
+
+                    <IconButton className="filter-icon" onClick={this.changeDisplayForMobileMenu}>
+                    <FilterListIcon/>
+                    </IconButton>
                 </div>
 
                 {this.state.campaignsToDisplay.length !== 0 && this.state.campaignsToDisplay?.map(campaign =>
@@ -226,6 +237,7 @@ export class Campaigns extends Component<any, ReportMakerState>{
                         </div>
                     </div>
                 )}
+                <img className="up-btn" onClick={() => this.filteringMenuRef.current?.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"})} src="/assets/images/pink_btn_after.svg"/>
                 {this.state.display && <ProductPopUp campaign={this.state.campignToPopUp} product={this.state.productToPopUp} />}
             </div>
         )

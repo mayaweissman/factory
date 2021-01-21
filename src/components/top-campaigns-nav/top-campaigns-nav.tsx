@@ -59,7 +59,7 @@ export class TopCampaignsNav extends Component<TopCampaignsNavProps, TopCampaign
 
     componentDidMount() {
         const topNavWidth: number = this.topNavRef.current?.clientWidth as number;
-        const maxWidth = topNavWidth / 100 * 70;
+        const maxWidth = topNavWidth / 100 * 60;
 
         window.addEventListener("click", () => {
             const buttonsWidth = this.buttonsRef.current?.scrollWidth as number;
@@ -186,7 +186,7 @@ export class TopCampaignsNav extends Component<TopCampaignsNavProps, TopCampaign
                 {this.state.clientsToDisplay.length > 0 &&
                     <span className="add-client-span" onClick={this.resetClientsToDisplay}>כל הלקוחות</span>}
 
-                <div className="campaigns-top-scroll" style={{ top: this.props.isScroll ? "6vw" : 0 }}></div>
+                <div className="campaigns-top-scroll" style={{ top: this.props.isScroll ? this.topNavRef.current?.clientHeight : 0 }}></div>
 
                 <NavLink to="/home">
                     <img className="campaigns-logo" src="./assets/images/logo_factory.svg" />

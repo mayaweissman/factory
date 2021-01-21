@@ -50,6 +50,17 @@
   font-size: 1vw;
 }
 
+.up-btn{
+  display: none;
+}
+
+.mobile .up-btn{
+  display: block;
+  position: fixed;
+  bottom: 10px;
+  transform: rotate(90deg);
+}
+
 .mobile .campaign-img {
 width: 33vw;
 }
@@ -112,6 +123,27 @@ width: 33vw;
   left: 1.2vw;
   bottom: 0.8vw;
 }
+
+.filter-icon{
+  display: none;
+}
+
+.mobile .filter-icon {
+    display: block;
+}
+
+
+.mobile .campaigns .MuiSvgIcon-root {
+  width: 5em;
+  height: 5em;
+  font-size: 1.5vw;
+  position: absolute;
+  left: 28vw;
+  bottom: 0.9vw;
+  color: black;
+}
+
+
 
 .campaigns-filter-by-low,
 .campaigns-filter-by-high:hover,

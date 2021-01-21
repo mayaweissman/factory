@@ -14,3 +14,8 @@
   width: 78%;
   padding: 1vw;
 }
+
+.mobile .report-maker > main {
+  width: 100%;
+  padding: 1vw;
+}

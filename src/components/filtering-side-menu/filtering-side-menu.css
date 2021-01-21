@@ -13,6 +13,44 @@
   animation: slideInRight 1s both;
 }
 
+
+.close-menu-icon{
+  display: none;
+}
+
+.mobile .close-menu-icon{
+  display: block;
+}
+
+.mobile .filtering-side-menu{
+  width: 100%;
+  padding: 10vw;
+  z-index: 1000;
+}
+
+.mobile .date-picker-btn {
+  background-color: black;
+  color: white;
+  border: none;
+  outline: none;
+  border-bottom: 1px solid white;
+  width: 47%;
+  font-size: 5vw;
+  position: relative;
+  margin-top: 52px;
+  height: 9vw;
+  text-align: right;
+  line-height: 4vw;
+}
+
+.mobile .campaign-filtering-title {
+  font-size: 5vw;
+}
+
+.mobile .campaigns-filtering-area {
+  margin-top: 5vw;
+}
+
 @keyframes slideInRight {
   0% {
     transform: translateX(300px);
@@ -20,6 +58,17 @@
   100% {
     transform: translateX(0px);
   }
+}
+
+.mobile .url-sharing-area {
+  height: 17vw;
+  font-size: 5vw;
+  bottom: 20vw;
+}
+
+.mobile .url-sharing-area > span {
+  position: relative;
+  left: 10vw;
 }
 
 
@@ -119,6 +168,16 @@ br {
   user-select: none;
 }
 
+.mobile .campaign-name-title {
+  font-size: 4vw;
+  right: 7.6vw;
+}
+
+.mobile .checkmark {
+  height: 4vw;
+  width: 4vw;
+}
+
 /* Hide the browser's default checkbox */
 .container-for-check input {
   position: absolute;
@@ -145,6 +204,40 @@ br {
 .container-for-check input:checked ~ .checkmark {
   background-color: transparent;
   border: 1px solid #f84a72;
+}
+
+.mobile .filtering-side-menu .close-menu-icon .MuiSvgIcon-root {
+  width: 9vw;
+  height: 9vw;
+  font-size: 1.5vw;
+  position: fixed;
+  top: 6vw;
+  left: 25vw;
+  color: white;
+}
+
+
+.mobile .container-for-check .checkmark:after {
+  top: -1.9vw;
+  width: 2.1vw;
+  height: 3.9vw;
+  border: solid white;
+  border-width: 0 2.5px 2.5px 0;
+}
+
+.mobile .reset-filtering {
+  font-size: 5vw;
+}
+
+.mobile .products-filtering-title {
+  font-weight: bold;
+  padding-bottom: 1vw;
+  font-size: 5vw;
+}
+
+.mobile .container-for-check input {
+  height: 4vw;
+  width: 4vw;
 }
 
 .checkmark:after {

@@ -16,7 +16,8 @@ import DateRangePicker from 'react-bootstrap-daterangepicker';
 // import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-daterangepicker/daterangepicker.css';
 import DateRangeIcon from '@material-ui/icons/DateRange';
-
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+import IconButton from '@material-ui/core/IconButton';
 
 interface FilteringSideMenuProps {
     isOnReport: boolean
@@ -188,10 +189,17 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
 
     }
 
+    public changeDisplayForMobileMenu = ()=>{
+        store.dispatch({type: ActionType.changeDisplayForMobileMenu})
+    }
 
     public render() {
         return (
             <div className="filtering-side-menu">
+
+                <IconButton className="close-menu-icon" onClick={this.changeDisplayForMobileMenu}>
+                    <HighlightOffIcon />
+                </IconButton>
                 <span className="reset-filtering" onClick={this.resetFiltering}>איפוס סננים</span>
                 <br />
                 <DateRangePicker
@@ -200,7 +208,7 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
                     <button className="date-picker-btn">
                         {this.state.datesRange}
                         <span className="date-range-icon">
-                            <DateRangeIcon style={{fontSize: 25}}/>
+                            <DateRangeIcon style={{ fontSize: "1.2vw" }} />
                         </span>
                     </button>
                 </DateRangePicker>

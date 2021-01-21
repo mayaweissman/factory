@@ -14,6 +14,7 @@ export class AppState {
   public productsToDisplay: CampaignModel[] = [];
   public isPopUpShow: boolean = false;
   public isProductsPopUpShow: boolean = false;
+  public isMobileMenuShow: boolean = false;
   public isLinksPopUpShow: boolean = false;
   public isAuthSucceeded: boolean = false;
 
@@ -33,6 +34,7 @@ export class AppState {
       this.isPopUpShow = appState.isPopUpShow;
       this.isProductsPopUpShow = appState.isProductsPopUpShow;
       this.isLinksPopUpShow = appState.isLinksPopUpShow;
+      this.isMobileMenuShow = appState.isMobileMenuShow;
       this.isAuthSucceeded = appState.isAuthSucceeded;
     }
   }

@@ -65,6 +65,14 @@ export function getAllClients() {
       company: "Mccann",
       lastUpdate: "30 Jan 2018"
     },
+    {
+      clientId: 9,
+      clientName: "Carolina Lemke",
+      clientImageSrc:
+        "https://icemalleilat.co.il/wp-content/uploads/elementor/thumbs/carolina_logo-nryjf6q3hd7sr7r687wofkymhxw0dt83ffo4lmo24w.jpg",
+      company: "UMD",
+      lastUpdate: "21 Jan 2021"
+    },
   ];
   return clients;
 }

@@ -93,6 +93,15 @@ export function reducer(oldAppState: AppState, action: Action): AppState {
       }
       break;
 
+    case ActionType.changeDisplayForMobileMenu:
+      if (newAppState.isMobileMenuShow) {
+        newAppState.isMobileMenuShow = false;
+      }
+      else {
+        newAppState.isMobileMenuShow = true;
+      }
+      break;
+
     case ActionType.removeClient:
       const clientId = action.payLoad;
       const index = newAppState.selectedClients.findIndex(

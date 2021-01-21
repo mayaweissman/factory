@@ -9,7 +9,8 @@ import { LinkPopUp } from "../link-pop-up/link-pop-up";
 
 interface ReportMakerState {
     isScroll: boolean,
-    display: boolean
+    display: boolean,
+    windowWidth: number
 
 }
 
@@ -21,7 +22,8 @@ export class ReportMaker extends Component<any, ReportMakerState>{
         super(props);
         this.state = {
             isScroll: false,
-            display: store.getState().isLinksPopUpShow
+            display: store.getState().isLinksPopUpShow,
+            windowWidth: 0
 
         }
 
@@ -43,6 +45,10 @@ export class ReportMaker extends Component<any, ReportMakerState>{
                 this.setState({ isScroll: true });
             }
         });
+
+        const windowWidth = window.screen.width;
+        this.setState({ windowWidth });
+        console.log(windowWidth);
     }
 
     public componentWillUnmount(): void {
@@ -61,7 +67,14 @@ export class ReportMaker extends Component<any, ReportMakerState>{
                 </main>
 
                 <aside>
-                    <FilteringSideMenu isOnReport={false} />
+                    {this.state.windowWidth > 600 &&
+                        <FilteringSideMenu isOnReport={false} />
+                    }
+
+
+                    {this.state.windowWidth <= 600 && store.getState().isMobileMenuShow &&
+                        <FilteringSideMenu isOnReport={false} />
+                    }
                 </aside>
                 {this.state.display && <LinkPopUp />}
 

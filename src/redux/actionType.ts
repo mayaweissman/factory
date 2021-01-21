@@ -15,6 +15,7 @@ export enum ActionType {
     changeDisplayForPopUp,
     changeDisplayForProductsPopUp,
     changeDisplayForLinkPopUp,
+    changeDisplayForMobileMenu,
     removeCampaignByClientId,
     filterDisplayByClientId,
     resetFiltering,

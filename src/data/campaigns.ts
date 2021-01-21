@@ -53,7 +53,14 @@ export function getAllCampaigns() {
             campaignId: 8,
             clientId: 7,
             campaignName: "AIG Campaign",
-            lastUpdate: "04 Jav 2021",
+            lastUpdate: "04 Jan 2021",
+
+        },
+        {
+            campaignId: 9,
+            clientId: 9,
+            campaignName: "Carolina Lemke Campaign",
+            lastUpdate: "21 Jan 2021",
 
         },
     ];

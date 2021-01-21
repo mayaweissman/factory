@@ -93,6 +93,19 @@
   margin-top: 2vw;
 }
 
+.mobile .pop-up-btn {
+  background-color: white;
+  border: 2px solid black;
+  margin: 1.2vw;
+  height: 7vw;
+  border-radius: 21px;
+  font-size: 4.9vw;
+  text-transform: uppercase;
+  padding: 4.3vw;
+  line-height: 0.3vw;
+  outline: none;
+}
+
 .pop-up-btn {
   background-color: white;
   border: 2px solid black;
@@ -129,7 +142,47 @@
   cursor: pointer;
 }
 
+.mobile .close-pop-up-btn .MuiSvgIcon-root {
+  width: 1.3em;
+  height: 2em;
+}
+
+.mobile .close-pop-up-btn {
+  width: 11vw;
+  height: 11vw;
+  margin: 1vw;
+  position: absolute;
+  left: 6vw;
+  top: 9vw;
+  border-radius: 100%;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  outline: none;
+  border: 2px solid black;
+}
+
+.mobile .company-name {
+  font-weight: bold;
+  font-size: 5.5vw;
+  margin:  2vw;
+}
+
 .add-client-in-pop-up:disabled {
   background-color: #fca5b9;
   border: 1px solid #fca5b9;
+}
+
+.mobile .add-client-in-pop-up {
+  background-color: #f84a72;
+  width: 82vw;
+  height: 12vw;
+  position: absolute;
+  right: 50%;
+  font-size: 7.5vw;
+  transform: translateX(50%);
+  color: white;
+  font-weight: 500;
+  bottom: 14vw;
 }
