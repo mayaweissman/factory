@@ -6,6 +6,7 @@ import { store } from "../../redux/store";
 import { ActionType } from "../../redux/actionType";
 import { Unsubscribe } from "redux";
 import AddIcon from '@material-ui/icons/Add';
+import axios from "axios";
 
 interface AllClientsState {
     allClients: ClientModel[],
@@ -35,13 +36,18 @@ export class AllClients extends Component<any, AllClientsState>{
         })
     }
 
-    componentDidMount() {
-
-        const allClients: ClientModel[] = getAllClients();
-        this.setState({ allClients });
-        this.setState({ clientsToShow: allClients });
-
-        store.dispatch({ type: ActionType.getAllClients, payLoad: allClients });
+    async componentDidMount() {
+        try{
+            const response = await axios.get("http://factory-dev.landing-page-media.co.il/all-clients/");
+            const allClients: ClientModel[] = response.data.clients;
+            this.setState({ allClients });
+            this.setState({ clientsToShow: allClients });
+    
+            store.dispatch({ type: ActionType.getAllClients, payLoad: allClients });
+        }
+        catch(err){
+            console.log(err.message);
+        }
 
     }
 

@@ -26,11 +26,11 @@ export class ReportMaker extends Component<any, ReportMakerState>{
             windowWidth: 0
 
         }
-
         this.unsubscribeStore = store.subscribe(() => {
             const display = store.getState().isLinksPopUpShow;
             this.setState({ display });
         })
+    
     }
 
 
@@ -48,7 +48,6 @@ export class ReportMaker extends Component<any, ReportMakerState>{
 
         const windowWidth = window.screen.width;
         this.setState({ windowWidth });
-        console.log(windowWidth);
     }
 
     public componentWillUnmount(): void {

@@ -8,7 +8,7 @@ import { ProductsType } from "../../models/productsTypeModel";
 import { getProductsTypes } from "../../data/products-types";
 import { CampaignModel } from "../../models/campaignModel";
 import ProgressBar from '@ramonak/react-progress-bar';
-
+import axios from "axios";
 
 
 interface ProductPopUpProps {
@@ -38,11 +38,20 @@ export class ProductPopUp extends Component<ProductPopUpProps, ProductPopUpState
         e.stopPropagation();
     }
 
-    public getProductType = (productTypeId: number) => {
-        if (productTypeId) {
-            const productType = getProductsTypes().filter(t => t.productsTypeId === productTypeId);
-            return productType[0].nameForSingle;
+    public getProductType =async (productTypeId: number) => {
+        try{
+            const response = await axios.get("http://factory-dev.landing-page-media.co.il/all-products-types/");
+            const productsTypes:ProductsType[]= response.data.productsTypes;
+            if (productTypeId) {
+                const productType = productsTypes.filter(t => t.productsTypeId === productTypeId);
+                return productType[0].nameForSingle;
+            }
+
         }
+        catch(err){
+            console.log(err.message);
+        }
+        
     }
 
     public componentDidMount() {

@@ -12,16 +12,6 @@ import "./layout.css";
 
 export class Layout extends Component {
 
-    async componentDidMount() {
-        try {
-            const response = await axios.get("http://factory-dev.landing-page-media.co.il/");
-            console.log(response.data);
-        }
-        catch (err) {
-            console.log(err.message);
-        }
-    }
-
     public render() {
         return (
             <div className="layout">

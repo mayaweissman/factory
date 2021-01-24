@@ -18,6 +18,8 @@ import 'bootstrap-daterangepicker/daterangepicker.css';
 import DateRangeIcon from '@material-ui/icons/DateRange';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import IconButton from '@material-ui/core/IconButton';
+import axios from "axios";
+import { ProductsType } from "../../models/productsTypeModel";
 
 interface FilteringSideMenuProps {
     isOnReport: boolean
@@ -29,7 +31,8 @@ interface FilteringSideMenuState {
     campaignsToDisplay: CampaignModel[],
     selectedProducts: ProductModel[],
     productsToDisplay: ProductModel[],
-    datesRange: string
+    datesRange: string,
+    productsTypes: ProductsType[]
 }
 
 export class FilteringSideMenu extends Component<FilteringSideMenuProps, FilteringSideMenuState>{
@@ -44,6 +47,7 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
             campaignsToDisplay: store.getState().campaignsToDisplay,
             productsToDisplay: store.getState().productsToDisplay,
             selectedProducts: store.getState().selectedProducts,
+            productsTypes: [],
             datesRange: "- - / - - / - -"
         }
 
@@ -61,7 +65,16 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
         })
     }
 
-
+    public async componentDidMount(){
+        try{
+            const response = await axios.get("http://factory-dev.landing-page-media.co.il/all-products-types/");
+            const productsTypes:ProductsType[] = response.data.productsTypes;
+            this.setState({productsTypes});
+        }
+        catch(err){
+            console.log(err.message);
+        }
+    }
 
     public componentWillUnmount(): void {
         this.unsubscribeStore();
@@ -91,20 +104,28 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
 
 
     //Display only products who match prodyctTypeId by filtering menu 
-    public filterByProductType = (productsTypeId: number) => (event: any) => {
-        const productsToDisplay: ProductModel[] = [...store.getState().productsToDisplay];
-        const duplictes = productsToDisplay.filter(p => p.productTypeId === productsTypeId);
-        for (const p of duplictes) {
-            const index = productsToDisplay.indexOf(p);
-            productsToDisplay.splice(index, 1);
-        }
+    public filterByProductType = (productsTypeId: number) => async (event: any) => {
+        try{
+            const productsToDisplay: ProductModel[] = [...store.getState().productsToDisplay];
+            const duplictes = productsToDisplay.filter(p => p.productTypeId === productsTypeId);
+            for (const p of duplictes) {
+                const index = productsToDisplay.indexOf(p);
+                productsToDisplay.splice(index, 1);
+            }
 
-        if (duplictes.length === 0) {
-            getAllProducts().filter(p => p.productTypeId === productsTypeId).
-                forEach(p => productsToDisplay.push(p));
+            const response = await axios.get("http://factory-dev.landing-page-media.co.il/all-products");
+            const allProducts:ProductModel[] = response.data.products;
+    
+            if (duplictes.length === 0) {
+                allProducts.filter(p => p.productTypeId === productsTypeId).
+                    forEach(p => productsToDisplay.push(p));
+            }
+    
+            store.dispatch({ type: ActionType.updateProductsToDisplay, payLoad: productsToDisplay });
         }
-
-        store.dispatch({ type: ActionType.updateProductsToDisplay, payLoad: productsToDisplay });
+        catch(err){
+            console.log(err.message);
+        }
     }
 
     //Open pop-up for link copy on click
@@ -235,9 +256,9 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
                     <br />
                     <div className="products-titles">
 
-                        {getProductsTypes().map(type =>
+                        {this.state.productsTypes.map(type =>
                             <label className="container-for-check">
-                                <input checked={this.isProductTypeChecked(type.productsTypeId as number)} type="checkbox" onClick={this.filterByProductType(type.productsTypeId)} />
+                                <input checked={this.isProductTypeChecked(type.productsTypeId as number)} type="checkbox" onClick={this.filterByProductType(type.productsTypeId as number)} />
                                 <span className="checkmark"></span>
                                 <span className="campaign-name-title">
                                     {type.nameForMany}
