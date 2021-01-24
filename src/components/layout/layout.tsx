@@ -5,9 +5,22 @@ import { Home } from "../home/home";
 import { PageNotFound } from "../page-not-found/page-not-found";
 import { ReportMaker } from "../report-maker/report-maker";
 import { Report } from "../report/report";
+import axios from "axios";
 import "./layout.css";
 
+
+
 export class Layout extends Component {
+
+    async componentDidMount() {
+        try {
+            const response = await axios.get("http://factory.landing-page-media.co.il/factory-admin/wp-json/wp/v2/factory/");
+            console.log(response);
+        }
+        catch (err) {
+            console.log(err.message);
+        }
+    }
 
     public render() {
         return (
