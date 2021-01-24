@@ -14,8 +14,8 @@ export class Layout extends Component {
 
     async componentDidMount() {
         try {
-            const response = await axios.get("http://factory.landing-page-media.co.il/factory-admin/wp-json/wp/v2/factory/");
-            console.log(response);
+            const response = await axios.get("http://factory-dev.landing-page-media.co.il/");
+            console.log(response.data);
         }
         catch (err) {
             console.log(err.message);
