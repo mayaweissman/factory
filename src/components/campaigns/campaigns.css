@@ -20,8 +20,9 @@
   }
 }
 
-
-
+.filter-icon {
+  display: none !important;
+}
 
 .grid {
   column-count: 5;
@@ -50,11 +51,11 @@
   font-size: 1vw;
 }
 
-.up-btn{
+.up-btn {
   display: none;
 }
 
-.mobile .up-btn{
+.mobile .up-btn {
   display: block;
   position: fixed;
   bottom: 10px;
@@ -62,9 +63,8 @@
 }
 
 .mobile .campaign-img {
-width: 33vw;
+  width: 33vw;
 }
-
 
 .campaign-img:hover {
   cursor: pointer;
@@ -74,7 +74,6 @@ width: 33vw;
   font-weight: bold;
 }
 
-
 .campaign {
   display: inline-block;
   margin: 0;
@@ -82,7 +81,7 @@ width: 33vw;
   margin-bottom: 1vw;
 }
 
-.mobile .grid{
+.mobile .grid {
   column-count: 2;
 }
 
@@ -124,14 +123,13 @@ width: 33vw;
   bottom: 0.8vw;
 }
 
-.filter-icon{
+.filter-icon {
   display: none;
 }
 
 .mobile .filter-icon {
-    display: block;
+  display: block;
 }
-
 
 .mobile .campaigns .MuiSvgIcon-root {
   width: 5em;
@@ -142,8 +140,6 @@ width: 33vw;
   bottom: 0.9vw;
   color: black;
 }
-
-
 
 .campaigns-filter-by-low,
 .campaigns-filter-by-high:hover,

@@ -28,6 +28,7 @@ interface ReportMakerState {
     campaignsToDisplay: CampaignModel[],
     display: boolean,
     productToPopUp: ProductModel,
+    productTypes: ProductsType[]
     campignToPopUp: CampaignModel
 }
 
@@ -50,7 +51,8 @@ export class Campaigns extends Component<any, ReportMakerState>{
             productsToDisplay: store.getState().campaignsToDisplay,
             display: store.getState().isPopUpShow,
             productToPopUp: new ProductModel(),
-            campignToPopUp: new CampaignModel()
+            campignToPopUp: new CampaignModel(),
+            productTypes: []
         }
 
         this.unsubscribeStore = store.subscribe(() => {
@@ -69,21 +71,7 @@ export class Campaigns extends Component<any, ReportMakerState>{
         })
     }
 
-    public getProductTypeName = async (productTypeId: number) => {
-        try{
-            const response = await axios.get("http://factory-dev.landing-page-media.co.il/all-products-types/");
-            const productsTypes:ProductsType[] = response.data.productsTypes;
-            for (const type of productsTypes) {
-                if (type.productsTypeId === productTypeId) {
-                    return type.nameForSingle;
-                }
-            }
-        }
-        catch(err){
-            console.log(err.message);
-        }
-       
-    }
+    
 
 
     public async componentDidMount() {
@@ -120,6 +108,10 @@ export class Campaigns extends Component<any, ReportMakerState>{
             
             this.setState({ selectedProducts });
             store.dispatch({ type: ActionType.getSelectedProducts, payLoad: selectedProducts });
+
+            const responseForTypes = await axios.get("http://factory-dev.landing-page-media.co.il/all-products-types/");
+            const productsTypes:ProductsType[] = responseForTypes.data.productsTypes;
+            this.setState({productTypes: productsTypes});
         }
         catch (err) {
             console.log(err.message);
@@ -130,6 +122,15 @@ export class Campaigns extends Component<any, ReportMakerState>{
         this.unsubscribeStore();
     }
 
+    public getProductTypeName = (productTypeId: number) => {
+         
+            for (const type of this.state.productTypes) {
+                if (type.productsTypeId === productTypeId) {
+                    return type.nameForSingle;
+                }
+            }
+       
+    }
 
     //Return colors for light button by success rates (green/yellow/red)
     public getSuccessRateColor = (successRate: number) => {

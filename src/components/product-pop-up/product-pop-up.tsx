@@ -17,7 +17,8 @@ interface ProductPopUpProps {
 }
 
 interface ProductPopUpState {
-    images: string[]
+    images: string[],
+    productsType: ProductsType
 }
 
 export class ProductPopUp extends Component<ProductPopUpProps, ProductPopUpState>{
@@ -25,7 +26,8 @@ export class ProductPopUp extends Component<ProductPopUpProps, ProductPopUpState
     public constructor(props: ProductPopUpProps) {
         super(props);
         this.state = {
-            images: []
+            images: [],
+            productsType: new ProductsType()
         }
     }
 
@@ -38,36 +40,33 @@ export class ProductPopUp extends Component<ProductPopUpProps, ProductPopUpState
         e.stopPropagation();
     }
 
-    public getProductType =async (productTypeId: number) => {
-        try{
-            const response = await axios.get("http://factory-dev.landing-page-media.co.il/all-products-types/");
-            const productsTypes:ProductsType[]= response.data.productsTypes;
-            if (productTypeId) {
-                const productType = productsTypes.filter(t => t.productsTypeId === productTypeId);
-                return productType[0].nameForSingle;
-            }
 
+    public async componentDidMount() {
+        try {
+            if (!this.props.product) {
+                this.closePopUp();
+            }
+            const images: any[] = [];
+            let productImages = this.props.product.images;
+            if (productImages) {
+                Object.values(productImages).map(i => {
+                    images.push(i);
+                })
+
+            }
+            this.setState({ images });
+
+            const response = await axios.get("http://factory-dev.landing-page-media.co.il/all-products-types/");
+            const productsTypes: ProductsType[] = response.data.productsTypes;
+            const productTypes = productsTypes.find(t => t.productsTypeId === this.props.product.productTypeId);
+            this.setState({productsType: productTypes as ProductsType});
         }
-        catch(err){
+        catch (err) {
             console.log(err.message);
         }
-        
     }
 
-    public componentDidMount() {
-        if (!this.props.product) {
-            this.closePopUp();
-        }
-        const images: any[] = [];
-        let productImages = this.props.product.images;
-        if (productImages) {
-            Object.values(productImages).map(i => {
-                images.push(i);
-            })
-           
-        }
-        this.setState({ images });
-    }
+
 
     public render() {
         return (
@@ -90,7 +89,7 @@ export class ProductPopUp extends Component<ProductPopUpProps, ProductPopUpState
                                 <div className="product-rate">{this.props.product?.successRates} %</div>
                             </div>
                             <div className="left-in-titles">
-                                <h1 className="type-title">{this.props.product && this.getProductType(this.props.product?.productTypeId as number)}</h1>
+                                <h1 className="type-title">{this.props.product.productId && this.state.productsType.nameForSingle}</h1>
                                 <p className="campaign-name-area">{this.props.campaign?.campaignName}</p>
                             </div>
                         </div>
