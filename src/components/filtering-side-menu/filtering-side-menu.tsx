@@ -32,6 +32,7 @@ interface FilteringSideMenuState {
     selectedProducts: ProductModel[],
     productsToDisplay: ProductModel[],
     datesRange: string,
+    allProducts: ProductModel[],
     productsTypes: ProductsType[]
 }
 
@@ -47,6 +48,7 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
             campaignsToDisplay: store.getState().campaignsToDisplay,
             productsToDisplay: store.getState().productsToDisplay,
             selectedProducts: store.getState().selectedProducts,
+            allProducts: [],
             productsTypes: [],
             datesRange: "- - / - - / - -"
         }
@@ -65,13 +67,17 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
         })
     }
 
-    public async componentDidMount(){
-        try{
+    public async componentDidMount() {
+        try {
             const response = await axios.get("http://factory-dev.landing-page-media.co.il/all-products-types/");
-            const productsTypes:ProductsType[] = response.data.productsTypes;
-            this.setState({productsTypes});
+            const productsTypes: ProductsType[] = response.data.productsTypes;
+            this.setState({ productsTypes });
+
+            const responseForProducts = await axios.get("http://factory-dev.landing-page-media.co.il/all-products");
+            const allProducts: ProductModel[] = responseForProducts.data.products;
+            this.setState({ allProducts });
         }
-        catch(err){
+        catch (err) {
             console.log(err.message);
         }
     }
@@ -104,28 +110,23 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
 
 
     //Display only products who match prodyctTypeId by filtering menu 
-    public filterByProductType = (productsTypeId: number) => async (event: any) => {
-        try{
-            const productsToDisplay: ProductModel[] = [...store.getState().productsToDisplay];
-            const duplictes = productsToDisplay.filter(p => p.productTypeId === productsTypeId);
-            for (const p of duplictes) {
-                const index = productsToDisplay.indexOf(p);
-                productsToDisplay.splice(index, 1);
-            }
+    public filterByProductType = (productsTypeId: number) => (event: any) => {
+        const productsToDisplay: ProductModel[] = [...store.getState().productsToDisplay];
+        const duplictes = productsToDisplay.filter(p => p.productTypeId === productsTypeId);
+        for (const p of duplictes) {
+            const index = productsToDisplay.indexOf(p);
+            productsToDisplay.splice(index, 1);
+        }
 
-            const response = await axios.get("http://factory-dev.landing-page-media.co.il/all-products");
-            const allProducts:ProductModel[] = response.data.products;
-    
-            if (duplictes.length === 0) {
-                allProducts.filter(p => p.productTypeId === productsTypeId).
-                    forEach(p => productsToDisplay.push(p));
-            }
-    
-            store.dispatch({ type: ActionType.updateProductsToDisplay, payLoad: productsToDisplay });
+
+
+        if (duplictes.length === 0) {
+            this.state.allProducts.filter(p => p.productTypeId === productsTypeId).
+                forEach(p => productsToDisplay.push(p));
         }
-        catch(err){
-            console.log(err.message);
-        }
+
+        store.dispatch({ type: ActionType.updateProductsToDisplay, payLoad: productsToDisplay });
+
     }
 
     //Open pop-up for link copy on click
@@ -210,8 +211,8 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
 
     }
 
-    public changeDisplayForMobileMenu = ()=>{
-        store.dispatch({type: ActionType.changeDisplayForMobileMenu})
+    public changeDisplayForMobileMenu = () => {
+        store.dispatch({ type: ActionType.changeDisplayForMobileMenu })
     }
 
     public render() {
