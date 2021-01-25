@@ -10,6 +10,7 @@ import { FilteringSideMenu } from "../filtering-side-menu/filtering-side-menu";
 import { LinkPopUp } from "../link-pop-up/link-pop-up";
 import { TopReportNav } from "../top-report-nav/top-report-nav";
 import { ActionType } from "../../redux/actionType";
+import axios from "axios";
 
 interface ReportState {
     report: ReportModel,
@@ -36,18 +37,24 @@ export class Report extends Component<any, ReportState>{
         })
     }
 
-    public componentDidMount() {
-        const uuid = this.props.match.params.uuid;
-        const report: ReportModel = getAllReports().filter(r => r.uuid === uuid)[0];
-        if(!report){
-            this.props.history.push("/page-not-found");
-            return;
+    public async componentDidMount() {
+        try{
+            const uuid = this.props.match.params.uuid;
+            const response = await axios.get("http://factory-dev.landing-page-media.co.il/all-reports/?uuid=" + uuid);
+            const report:ReportModel = response.data;
+            if(!report){
+                this.props.history.push("/page-not-found");
+                return;
+            }
+            this.setState({ report });
+    
+            store.dispatch({ type: ActionType.updateSelectedClients, payLoad: report.clients });
+            store.dispatch({ type: ActionType.getSelectedProducts, payLoad: report.products });
+            store.dispatch({ type: ActionType.getSelectedCampaigns, payLoad: report.campaigns });
         }
-        this.setState({ report });
-
-        store.dispatch({ type: ActionType.updateSelectedClients, payLoad: report.clients });
-        store.dispatch({ type: ActionType.getSelectedProducts, payLoad: report.products });
-        store.dispatch({ type: ActionType.getSelectedCampaigns, payLoad: report.campaigns });
+        catch(err){
+            console.log(err.message);
+        }
     }
 
     public componentWillUnmount(): void {

@@ -132,6 +132,7 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
     //Open pop-up for link copy on click
     public createReport = () => {
         store.dispatch({ type: ActionType.changeDisplayForLinkPopUp });
+   
     }
 
     //Checked/unchecked campaigns who choosen on any time

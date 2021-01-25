@@ -7,9 +7,11 @@ import { Config } from "../../config";
 import { config } from "process";
 import { ReportModel } from "../../models/reportModel";
 import { getAllReports } from "../../data/report";
+import axios from "axios";
 
 interface LinkPopUpState {
-    url: string
+    url: string,
+    uuid: string
 }
 export class LinkPopUp extends Component<any, LinkPopUpState>{
 
@@ -21,7 +23,8 @@ export class LinkPopUp extends Component<any, LinkPopUpState>{
     public constructor(props: any) {
         super(props);
         this.state = {
-            url: Config.serverUrl + "/213276a8-8eb2-4710-b97d-9d67e9aeaae9"
+            url:  "",
+            uuid: ""
         }
     }
 
@@ -42,20 +45,37 @@ export class LinkPopUp extends Component<any, LinkPopUpState>{
         return uuid.join('');
     }
 
+    public componentDidMount(){
+        const uuid =  this.uuid();
+        this.setState({uuid});
 
-    public postToReports = () => {
+        let url = Config.serverUrl + "/" + uuid;
+        this.setState({url});
+    }
 
-        //Made new report
-        const report = new ReportModel();
-        const allReports = getAllReports();
-        report.reportId = allReports.length + 1;
-        const uuid: string = this.uuid();
-        report.uuid = uuid;
+    public postToReports = async () => {
+        try {
+            //Made new report
+            const report = new ReportModel();
+            const allReports = getAllReports();
+            report.reportId = allReports.length + 1;
+            const uuid: string = this.state.uuid;
+            report.uuid = uuid;
 
-        //Push new report all selections
-        report.clients = store.getState().selectedClients;
-        report.campaigns = store.getState().campaignsToDisplay;
-        report.products = store.getState().productsToDisplay;
+            //Push new report all selections
+            report.clients = store.getState().selectedClients;
+            report.campaigns = store.getState().campaignsToDisplay;
+            report.products = store.getState().productsToDisplay;
+
+            let formData = new FormData();
+            formData.append("state", JSON.stringify(report));
+            formData.append("uuid", uuid);
+            await axios.post("http://factory-dev.landing-page-media.co.il/create-report/", formData);
+        }
+        catch (err) {
+            console.log(err.message);
+        }
+
     }
 
 
