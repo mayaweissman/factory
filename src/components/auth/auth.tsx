@@ -39,9 +39,30 @@ export class Auth extends Component<any, AuthState> {
         this.setState({ code });
     }
 
+    public isCodeLegal(){
+        new Promise((resolve, reject) => {
+            resolve(console.log("Clicked"));
+          })
+            .then(() =>
+              fetch(
+                `https://landing-page-media.co.il/projects/phone-auth/code_validation.php?code=${"1234"}&phone=${"0504751786"}`
+              )
+            )
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.auth) {
+               console.log("Success");
+              } else {
+                alert("הקוד אינו תקין, אנא נסה שנית");
+                // this.setState(() => ({ code: "" }));
+              }
+            })
+        
+    }
 
     //Demo functions
     public authPhoneNumber = () => {
+        
         const demoAnswer = "0501234567";
 
         let message = "";
@@ -50,6 +71,20 @@ export class Auth extends Component<any, AuthState> {
         if (this.state.phoneNumber === demoAnswer) {
             message = "שלחנו לך הודעה עם קוד בן 4 ספרות";
             isPhoneLegal = true;
+            new Promise((resolve, reject) =>
+            resolve(console.log("Resolve"))
+          )
+            .then(() =>
+              fetch(
+                `https://landing-page-media.co.il/projects/phone-auth/?phone=0504751786`
+              )
+            )
+            .then((data) => console.log(data.json()))
+            .then(()=>this.isCodeLegal())
+            .catch((e) => {
+              console.log(e)
+            });
+        
         }
         else {
             message = "מספר טלפון אינו מזוהה";
