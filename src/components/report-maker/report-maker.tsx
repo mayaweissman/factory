@@ -10,7 +10,9 @@ import { LinkPopUp } from "../link-pop-up/link-pop-up";
 interface ReportMakerState {
     isScroll: boolean,
     display: boolean,
-    windowWidth: number
+    windowWidth: number,
+    isAfterAuth: boolean
+
 
 }
 
@@ -23,18 +25,26 @@ export class ReportMaker extends Component<any, ReportMakerState>{
         this.state = {
             isScroll: false,
             display: store.getState().isLinksPopUpShow,
-            windowWidth: 0
+            windowWidth: 0,
+            isAfterAuth: store.getState().isAuthSucceeded
 
         }
         this.unsubscribeStore = store.subscribe(() => {
             const display = store.getState().isLinksPopUpShow;
             this.setState({ display });
+            const isAfterAuth = store.getState().isAuthSucceeded;
+            this.setState({ isAfterAuth });
         })
     
     }
 
 
     public componentDidMount() {
+
+        if (!this.state.isAfterAuth) {
+            this.props.history.push("/auth");
+            return;
+        }
 
         window.addEventListener('scroll', (e) => {
             const YPosition = window.pageYOffset;

@@ -6,17 +6,18 @@ import CloseIcon from '@material-ui/icons/Close';
 import { Config } from "../../config";
 import { config } from "process";
 import { ReportModel } from "../../models/reportModel";
-import { getAllReports } from "../../data/report";
 import axios from "axios";
+import { Unsubscribe } from "redux";
 
 interface LinkPopUpState {
     url: string,
     uuid: string
 }
+
 export class LinkPopUp extends Component<any, LinkPopUpState>{
 
     public urlInput = React.createRef<HTMLDivElement>();
-
+    private unsubscribeStore: Unsubscribe;
     public linkRef = React.createRef<HTMLInputElement>();
 
 
@@ -24,58 +25,23 @@ export class LinkPopUp extends Component<any, LinkPopUpState>{
         super(props);
         this.state = {
             url:  "",
-            uuid: ""
+            uuid: store.getState().uuid
         }
-    }
 
-
-    public uuid = () => {
-        const hashTable = [
-            'a', 'b', 'c', 'd', 'e', 'f',
-            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
-        ]
-        let uuid = []
-        for (let i = 0; i < 35; i++) {
-            if (i === 7 || i === 12 || i === 17 || i === 22) {
-                uuid[i] = '-'
-            } else {
-                uuid[i] = hashTable[Math.floor(Math.random() * hashTable.length - 1)]
-            }
-        }
-        return uuid.join('');
+        this.unsubscribeStore = store.subscribe(() => {
+            const uuid = store.getState().uuid;
+            this.setState({ uuid });
+        })
     }
 
     public componentDidMount(){
-        const uuid =  this.uuid();
-        this.setState({uuid});
 
-        let url = Config.serverUrl + "/" + uuid;
+        let url = Config.serverUrl + "/" + this.state.uuid;
         this.setState({url});
     }
 
-    public postToReports = async () => {
-        try {
-            //Made new report
-            const report = new ReportModel();
-            const allReports = getAllReports();
-            report.reportId = allReports.length + 1;
-            const uuid: string = this.state.uuid;
-            report.uuid = uuid;
-
-            //Push new report all selections
-            report.clients = store.getState().selectedClients;
-            report.campaigns = store.getState().campaignsToDisplay;
-            report.products = store.getState().productsToDisplay;
-
-            let formData = new FormData();
-            formData.append("state", JSON.stringify(report));
-            formData.append("uuid", uuid);
-            await axios.post("http://factory-dev.landing-page-media.co.il/create-report/", formData);
-        }
-        catch (err) {
-            console.log(err.message);
-        }
-
+    public componentWillUnmount(): void {
+        this.unsubscribeStore();
     }
 
 
@@ -88,7 +54,6 @@ export class LinkPopUp extends Component<any, LinkPopUpState>{
     }
 
     public copyToClipboard = () => {
-        this.postToReports();
 
         this.linkRef.current?.select();
         document.execCommand("copy");

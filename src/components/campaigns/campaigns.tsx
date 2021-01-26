@@ -29,7 +29,8 @@ interface ReportMakerState {
     display: boolean,
     productToPopUp: ProductModel,
     productTypes: ProductsType[]
-    campignToPopUp: CampaignModel
+    campignToPopUp: CampaignModel,
+    showLoader: boolean
 }
 
 
@@ -52,7 +53,8 @@ export class Campaigns extends Component<any, ReportMakerState>{
             display: store.getState().isPopUpShow,
             productToPopUp: new ProductModel(),
             campignToPopUp: new CampaignModel(),
-            productTypes: []
+            productTypes: [],
+            showLoader: false
         }
 
         this.unsubscribeStore = store.subscribe(() => {
@@ -68,50 +70,56 @@ export class Campaigns extends Component<any, ReportMakerState>{
             this.setState({ campaignsToDisplay });
             this.setState({ productsToDisplay });
             this.setState({ display });
+
         })
     }
 
-    
+
 
 
     public async componentDidMount() {
         try {
-            const response = await axios.get("http://factory-dev.landing-page-media.co.il/all-campaigns/");
-            const allCampaigns: CampaignModel[] = response.data.campaigns;
-            Aos.init({ duration: 1000 });
-            const selectedCampaigns: CampaignModel[] = [];
-            this.state.selectedClients.map(client => {
-                allCampaigns.map(campaign => {
-                    if (campaign.clientId === client.clientId) {
-                        selectedCampaigns.push(campaign);
-                    }
+            this.setState({ showLoader: true });
+            setTimeout(async ()=>{
+
+                const response = await axios.get("http://factory-dev.landing-page-media.co.il/all-campaigns/");
+                const allCampaigns: CampaignModel[] = response.data.campaigns;
+                Aos.init({ duration: 1000 });
+                const selectedCampaigns: CampaignModel[] = [];
+                this.state.selectedClients.map(client => {
+                    allCampaigns.map(campaign => {
+                        if (campaign.clientId === client.clientId) {
+                            selectedCampaigns.push(campaign);
+                        }
+                    })
                 })
-            })
+    
+                const responseForProducts = await axios.get("http://factory-dev.landing-page-media.co.il/all-products");
+                const allProductsFromDb: ProductModel[] = responseForProducts.data.products;
+    
+                this.setState({ showLoader: false });
+    
+                this.setState({ selectedCampaigns });
+                store.dispatch({ type: ActionType.getSelectedCampaigns, payLoad: selectedCampaigns });
+    
+                const selectedProducts: ProductModel[] = [];
+                selectedCampaigns.map(campaign => {
+                    allProductsFromDb.map(product => {
+                        if (product.campaignId === campaign.campaignId) {
+                            selectedProducts.push(product);
+    
+                        }
+                    })
+                });
+    
+                this.setState({ selectedProducts });
+                store.dispatch({ type: ActionType.getSelectedProducts, payLoad: selectedProducts });
+    
+                const responseForTypes = await axios.get("http://factory-dev.landing-page-media.co.il/all-products-types/");
+                const productsTypes: ProductsType[] = responseForTypes.data.productsTypes;
+                this.setState({ productTypes: productsTypes });
+            },1000);
 
-            const responseForProducts = await axios.get("http://factory-dev.landing-page-media.co.il/all-products");
-            const allProductsFromDb: ProductModel[]= responseForProducts.data.products;
-
-            this.setState({ selectedCampaigns });
-            store.dispatch({ type: ActionType.getSelectedCampaigns, payLoad: selectedCampaigns });
-            console.log(allProductsFromDb);
-            console.log(getAllProducts());
-
-            const selectedProducts: ProductModel[] = [];
-            selectedCampaigns.map(campaign => {
-                allProductsFromDb.map(product => {
-                    if (product.campaignId === campaign.campaignId) {
-                        selectedProducts.push(product);
-
-                    }
-                })
-            });
-            
-            this.setState({ selectedProducts });
-            store.dispatch({ type: ActionType.getSelectedProducts, payLoad: selectedProducts });
-
-            const responseForTypes = await axios.get("http://factory-dev.landing-page-media.co.il/all-products-types/");
-            const productsTypes:ProductsType[] = responseForTypes.data.productsTypes;
-            this.setState({productTypes: productsTypes});
         }
         catch (err) {
             console.log(err.message);
@@ -123,13 +131,13 @@ export class Campaigns extends Component<any, ReportMakerState>{
     }
 
     public getProductTypeName = (productTypeId: number) => {
-         
-            for (const type of this.state.productTypes) {
-                if (type.productsTypeId === productTypeId) {
-                    return type.nameForSingle;
-                }
+
+        for (const type of this.state.productTypes) {
+            if (type.productsTypeId === productTypeId) {
+                return type.nameForSingle;
             }
-       
+        }
+
     }
 
     //Return colors for light button by success rates (green/yellow/red)
@@ -178,6 +186,8 @@ export class Campaigns extends Component<any, ReportMakerState>{
     public render() {
         return (
             <div className="campaigns">
+
+                <img className="loader" src="./assets/images/loading.gif" style={{ display: this.state.showLoader ? "block" : "none" }} />
 
                 <div className="campaigns-left-filter" ref={this.filteringMenuRef}>
                     <img className="campaigns-filter-by-success-img" src="./assets/images/filter_by_date.svg" />

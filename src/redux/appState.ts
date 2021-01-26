@@ -16,7 +16,9 @@ export class AppState {
   public isProductsPopUpShow: boolean = false;
   public isMobileMenuShow: boolean = false;
   public isLinksPopUpShow: boolean = false;
-  public isAuthSucceeded: boolean = false;
+  public isAuthSucceeded: boolean = true;
+  public isAuthSucceededForReport: boolean = false;
+  public uuid: string = ""
 
   public constructor() {
     const json = sessionStorage.getItem("AppState");
@@ -36,6 +38,8 @@ export class AppState {
       this.isLinksPopUpShow = appState.isLinksPopUpShow;
       this.isMobileMenuShow = appState.isMobileMenuShow;
       this.isAuthSucceeded = appState.isAuthSucceeded;
+      this.isAuthSucceededForReport = appState.isAuthSucceededForReport;
+      this.uuid = appState.uuid;
     }
   }
 }

@@ -24,6 +24,13 @@
   display: none !important;
 }
 
+.loader {
+  width: 7vw;
+  position: fixed;
+  top: 50%;
+  left: 39%;
+}
+
 .grid {
   column-count: 5;
   column-gap: 0;

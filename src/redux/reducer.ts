@@ -57,12 +57,25 @@ export function reducer(oldAppState: AppState, action: Action): AppState {
       newAppState.selectedCampaigns = action.payLoad;
       break;
 
+    case ActionType.getUuid:
+      newAppState.uuid = action.payLoad;
+      break;
+
     case ActionType.changeAuth:
       if (!newAppState.isAuthSucceeded) {
         newAppState.isAuthSucceeded = true;
       }
       else {
         newAppState.isAuthSucceeded = false;
+      }
+      break;
+
+    case ActionType.changeAuthForReport:
+      if (!newAppState.isAuthSucceededForReport) {
+        newAppState.isAuthSucceededForReport = true;
+      }
+      else {
+        newAppState.isAuthSucceededForReport = false;
       }
       break;
 

@@ -3,11 +3,11 @@ import { Unsubscribe } from "redux";
 import { UserModel } from "../../models/userModel";
 import { ActionType } from "../../redux/actionType";
 import { store } from "../../redux/store";
-import "./auth.css";
+import "./auth-for-watching-only.css";
 import axios from "axios";
 import { rejects } from "assert";
 
-interface AuthState {
+interface AuthForWatchingOnlyState {
   phoneNumber: string,
   code: string,
   message: string,
@@ -18,7 +18,7 @@ interface AuthState {
   isSmsSent: boolean
 }
 
-export class Auth extends Component<any, AuthState> {
+export class AuthForWatchingOnly extends Component<any, AuthForWatchingOnlyState> {
 
 
   public constructor(props: any) {
@@ -63,13 +63,11 @@ export class Auth extends Component<any, AuthState> {
     const phoneNumber = this.state.phoneNumber;
     const allUsers = [...this.state.allUsers];
     const user = allUsers.find(u => u.phoneNumber?.toString() === phoneNumber);
-    console.log(user);
 
     let message = "";
     let isPhoneLegal = false;
 
     if (user) {
-      if(user.permission === "יצירת דוחות"){
         message = "שלחנו לך הודעה עם קוד בן 4 ספרות";
         isPhoneLegal = true;
         new Promise((resolve, reject) => {
@@ -89,10 +87,6 @@ export class Auth extends Component<any, AuthState> {
           .catch((e) => {
             console.log(e)
           });
-      }
-     else{
-      message = "לא קיימת הרשאה מתאימה";
-     }
     }
     else {
       message = "מספר טלפון אינו מזוהה";
@@ -121,8 +115,7 @@ export class Auth extends Component<any, AuthState> {
           if (data.auth) {
             message = "ברוכים הבאים";
             isCodeLegal = true;
-            store.dispatch({ type: ActionType.changeAuth });
-            this.props.history.push('/home');
+            store.dispatch({ type: ActionType.changeAuthForReport });
           } else {
             message = "קוד אינו חוקי";
             this.setState(() => ({ code: "" }));

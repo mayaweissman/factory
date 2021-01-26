@@ -33,7 +33,8 @@ interface FilteringSideMenuState {
     productsToDisplay: ProductModel[],
     datesRange: string,
     allProducts: ProductModel[],
-    productsTypes: ProductsType[]
+    productsTypes: ProductsType[],
+    uuid: string
 }
 
 export class FilteringSideMenu extends Component<FilteringSideMenuProps, FilteringSideMenuState>{
@@ -50,7 +51,8 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
             selectedProducts: store.getState().selectedProducts,
             allProducts: [],
             productsTypes: [],
-            datesRange: "- - / - - / - -"
+            datesRange: "- - / - - / - -",
+            uuid: ""
         }
 
         this.unsubscribeStore = store.subscribe(() => {
@@ -127,12 +129,6 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
 
         store.dispatch({ type: ActionType.updateProductsToDisplay, payLoad: productsToDisplay });
 
-    }
-
-    //Open pop-up for link copy on click
-    public createReport = () => {
-        store.dispatch({ type: ActionType.changeDisplayForLinkPopUp });
-   
     }
 
     //Checked/unchecked campaigns who choosen on any time
@@ -215,6 +211,50 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
     public changeDisplayForMobileMenu = () => {
         store.dispatch({ type: ActionType.changeDisplayForMobileMenu })
     }
+
+    public createReport = async () => {
+        try {
+            //Made new report
+            const report = new ReportModel();
+            const uuid =  this.uuid();
+            this.setState({uuid});
+            store.dispatch({type: ActionType.getUuid, payLoad: uuid});
+            report.uuid = uuid;
+
+            //Push new report all selections
+            report.clients = store.getState().selectedClients;
+            report.campaigns = store.getState().campaignsToDisplay;
+            report.products = store.getState().productsToDisplay;
+
+            let formData = new FormData();
+            formData.append("state", JSON.stringify(report));
+            formData.append("uuid", uuid);
+            await axios.post("http://factory-dev.landing-page-media.co.il/create-report/", formData);
+
+            store.dispatch({ type: ActionType.changeDisplayForLinkPopUp });
+        }
+        catch (err) {
+            console.log(err.message);
+        }
+
+    }
+
+    public uuid = () => {
+        const hashTable = [
+            'a', 'b', 'c', 'd', 'e', 'f',
+            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
+        ]
+        let uuid = []
+        for (let i = 0; i < 35; i++) {
+            if (i === 7 || i === 12 || i === 17 || i === 22) {
+                uuid[i] = '-'
+            } else {
+                uuid[i] = hashTable[Math.floor(Math.random() * hashTable.length - 1)]
+            }
+        }
+        return uuid.join('');
+    }
+
 
     public render() {
         return (

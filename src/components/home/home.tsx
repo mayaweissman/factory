@@ -33,6 +33,7 @@ export class Home extends Component<any, HomeState> {
 
         if (!this.state.isAfterAuth) {
             this.props.history.push("/auth");
+            return;
         }
         window.addEventListener('scroll', (e) => {
             const YPosition = window.pageYOffset;
