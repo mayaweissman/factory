@@ -49,14 +49,23 @@ export class Auth extends Component<any, AuthState> {
 
   public setPhoneNumber = (args: ChangeEvent<HTMLInputElement>) => {
     const phoneNumber = args.target.value;
-    this.setState({ phoneNumber });
+    const fixedPhone = phoneNumber.replace(/[a-zA-Z$&@#*^%()!]/g, "");
+    this.setState({ phoneNumber: fixedPhone });
   }
 
   public setCode = (args: ChangeEvent<HTMLInputElement>) => {
     const code = args.target.value;
-    this.setState({ isDisplayForBtn: true });
-    this.setState({ code });
-    console.log(code)
+    if (code.length < 5) {
+      const fixedCode = code.replace(/[a-zA-Z$&@#*^%()!]/g, "");
+      this.setState({ isDisplayForBtn: true });
+      this.setState({ code: fixedCode });
+    }
+    if(code.length===4){
+      setTimeout(() => {
+        this.authCode();
+      }, 500);
+    }
+
   }
 
   //Demo functions
@@ -64,7 +73,6 @@ export class Auth extends Component<any, AuthState> {
     const phoneNumber = this.state.phoneNumber;
     const allUsers = [...this.state.allUsers];
     const user = allUsers.find(u => u.phoneNumber?.toString() === phoneNumber);
-    console.log(user);
 
     let message = "";
     let isPhoneLegal = false;
@@ -126,7 +134,8 @@ export class Auth extends Component<any, AuthState> {
             this.props.history.push('/home');
           } else {
             message = "קוד אינו חוקי";
-            this.setState(() => ({ code: "" }));
+            isCodeLegal = false;
+            this.setState({ code: "" });
           }
           this.setState({ message })
           this.setState({ isCodeLegal })
@@ -151,9 +160,9 @@ export class Auth extends Component<any, AuthState> {
           {!this.state.isPhoneLegal &&
             <button onClick={this.authPhoneNumber} className="send-btn"><img src="./assets/images/pink_btn_after.svg" /></button>
           }
-          {!this.state.isPhoneLegal &&
-            <input onChange={this.setPhoneNumber} placeholder="אנא הזן מספר טלפון" type="tel" className="phone-box" />
-          }
+          <input onChange={this.setPhoneNumber} placeholder="אנא הזן מספר טלפון" type="tel"
+            className={this.state.isPhoneLegal ? "phone-box out" : "phone-box"} value={this.state.phoneNumber} />
+
           <br />
 
           {this.state.isPhoneLegal &&
@@ -171,11 +180,8 @@ export class Auth extends Component<any, AuthState> {
           }
 
 
-          <br />
-          {this.state.isDisplayForBtn &&
-            <button onClick={this.authCode} className="send-btn"><img src="./assets/images/pink_btn_after.svg" /></button>
-          }
-          <br />
+
+
 
 
         </div>

@@ -213,7 +213,7 @@ export class TopCampaignsNav extends Component<TopCampaignsNavProps, TopCampaign
                 {this.state.clientsToDisplay.length === 0 &&
                     <span className="add-client-span" onClick={this.openPopUp}>הוספת לקוח</span>}
 
-                <span className="logout-span" onClick={this.openPopUp}>התנתקות</span>
+                <span className="logout-span" onClick={()=>store.dispatch({type:ActionType.changeAuth})}>logout</span>
 
                 {this.state.clientsToDisplay.length > 0 &&
                     <span className="add-client-span" onClick={this.resetClientsToDisplay}>כל הלקוחות</span>}
