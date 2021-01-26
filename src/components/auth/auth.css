@@ -7,8 +7,29 @@
   height: 100%;
 }
 
+.code-num-box-visible{
+  position: absolute;
+  width: 4vw;
+  height: 4vw;
+  top: 1vw;
+  left: 1vw;
+  opacity: 0;
+}
 .mobile .auth-logo{
   width: 25vw;
+}
+
+.sub-title{
+  font-size: 1.1vw;
+}
+
+.auth-titles{
+  position: relative;
+  bottom: 6vw;
+}
+
+.auth-titles > h1{
+  margin: 0;
 }
 
 .auth-box {
@@ -17,12 +38,16 @@
   height: 600px;
   background-color: rgb(255, 255, 255);
   text-align: center;
-  display: block;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .auth-logo {
-  width: 10vw;
-  margin: 2vw;
+  width: 11vw;
+  position: fixed;
+  top: 2vw;
 }
 
 .auth-box > h1 {
@@ -32,11 +57,13 @@
 .phone-box {
   width: 34%;
   outline: none;
-  border: none;
-  height: 3vw;
+  border: 2px solid black;
+  border-radius: 28px;
   text-align: left;
   font-size: 2vw;
-  border-bottom: 4px solid black;
+  padding: 0.7vw;
+  position: relative;
+
 }
 
 .mobile .phone-box {
@@ -75,11 +102,11 @@
 }
 
 .message {
-    position: relative;
-    font-size: 1vw;
-    position: relative;
-    top: 1vw;
-    animation: fadeIn 1s;
+  position: relative;
+  font-size: 1vw;
+  position: relative;
+  bottom: 5vw;
+  animation: fadeIn 1s;
 }
 
 @keyframes fadeIn {
@@ -159,24 +186,54 @@
 }
 
 .phone-box::placeholder {
-  font-size: 1.2vw;
+  font-size: 1.5vw;
   text-align: center;
 }
 
-.send-btn {
-  width: 6vw;
-  margin-right: 1vw;
-  height: 2.4vw;
+.code-area{
+  position: relative;
+  bottom: 3vw;
+}
+
+.code-num-box-before{
   border: 2px solid black;
+  width: 4vw;
+  background-color: white;
+  height: 4vw;
+  margin: 1vw;
+  border-radius: 50%;
+  font-size: 2.7vw;
+  text-align: center;
+  outline: none;
+  color: black;
+}
+
+.code-num-box-after{
+  border: 2px solid black;
+  width: 4vw;
+  background-color: black;
+  height: 4vw;
+  margin: 1vw;
+  border-radius: 50%;
+  font-size: 2.7vw;
+  text-align: center;
+  outline: none;
+  color: white;
+}
+
+.send-btn {
+  width: 5vw;
+  margin-right: 1vw;
+  height: 4.4vw;
+  border: none;
   background-color: white;
   font-size: 1.3vw;
-  top: 0.5vw;
-  position: relative;
+  position: fixed;
+  bottom: 3vw;
+  outline: none;
   border-radius: 30px;
 }
 
 .send-btn:hover {
-  background-color: black;
-  color: white;
   cursor: pointer;
 }

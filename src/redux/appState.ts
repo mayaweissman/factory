@@ -16,7 +16,7 @@ export class AppState {
   public isProductsPopUpShow: boolean = false;
   public isMobileMenuShow: boolean = false;
   public isLinksPopUpShow: boolean = false;
-  public isAuthSucceeded: boolean = true;
+  public isAuthSucceeded: boolean = false;
   public isAuthSucceededForReport: boolean = false;
   public uuid: string = ""
 

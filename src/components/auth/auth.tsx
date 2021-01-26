@@ -26,7 +26,7 @@ export class Auth extends Component<any, AuthState> {
     this.state = {
       phoneNumber: "",
       code: "",
-      message: "",
+      message: "הזינו את מספר הטלפון שלכם כדי להיכנס למערכת",
       isPhoneLegal: false,
       isCodeLegal: false,
       isDisplayForBtn: false,
@@ -56,6 +56,7 @@ export class Auth extends Component<any, AuthState> {
     const code = args.target.value;
     this.setState({ isDisplayForBtn: true });
     this.setState({ code });
+    console.log(code)
   }
 
   //Demo functions
@@ -69,13 +70,13 @@ export class Auth extends Component<any, AuthState> {
     let isPhoneLegal = false;
 
     if (user) {
-      if(user.permission === "יצירת דוחות"){
+      if (user.permission === "יצירת דוחות") {
         message = "שלחנו לך הודעה עם קוד בן 4 ספרות";
         isPhoneLegal = true;
         new Promise((resolve, reject) => {
           resolve(() => console.log(""))
         }
-  
+
         )
           .then(() =>
             fetch(
@@ -90,12 +91,12 @@ export class Auth extends Component<any, AuthState> {
             console.log(e)
           });
       }
-     else{
-      message = "לא קיימת הרשאה מתאימה";
-     }
+      else {
+        message = "סליחה, אנחנו לא מכירים";
+      }
     }
     else {
-      message = "מספר טלפון אינו מזוהה";
+      message = "סליחה, אנחנו לא מכירים";
     }
     this.setState({ message })
     this.setState({ isPhoneLegal })
@@ -140,20 +141,42 @@ export class Auth extends Component<any, AuthState> {
         <div className="auth-box">
 
           <img className="auth-logo" src="/assets/images/logo_factory.svg" />
-          <h1>אימות</h1>
 
-          <button onClick={this.authPhoneNumber} className="send-btn">שלח</button>
-          <input onChange={this.setPhoneNumber} placeholder="אנא הזן מספר טלפון" type="tel" className="phone-box" />
-          <br />
+          <div className="auth-titles">
+            <h1>Welcome</h1>
+            <span className="sub-title">{this.state.message}</span>
+          </div>
 
-          <input onChange={this.setCode} style={{ display: this.state.isPhoneLegal ? "inline-block" : "none" }} placeholder="אנא הזן את הקוד שנשלח" type="text" className="code-box" />
-          <br />
-          {this.state.isDisplayForBtn &&
-            <button onClick={this.authCode} style={{ display: this.state.isPhoneLegal ? "inline-block" : "none" }} className="auth-code-btn">אמת</button>
+
+          {!this.state.isPhoneLegal &&
+            <button onClick={this.authPhoneNumber} className="send-btn"><img src="./assets/images/pink_btn_after.svg" /></button>
+          }
+          {!this.state.isPhoneLegal &&
+            <input onChange={this.setPhoneNumber} placeholder="אנא הזן מספר טלפון" type="tel" className="phone-box" />
           }
           <br />
 
-          <span className="message">{this.state.message}</span>
+          {this.state.isPhoneLegal &&
+            <div className="code-area">
+              <input onChange={this.setCode} className="code-num-box-visible" />
+              <input className={this.state.code.toString()[0] ? "code-num-box-after" : "code-num-box-before"}
+                value={this.state.code.toString()[0] ? this.state.code.toString()[0] : ""} />
+              <input className={this.state.code.toString()[1] ? "code-num-box-after" : "code-num-box-before"}
+                value={this.state.code.toString()[1] ? this.state.code.toString()[1] : ""} />
+              <input className={this.state.code.toString()[2] ? "code-num-box-after" : "code-num-box-before"}
+                value={this.state.code.toString()[2] ? this.state.code.toString()[2] : ""} />
+              <input className={this.state.code.toString()[3] ? "code-num-box-after" : "code-num-box-before"}
+                value={this.state.code.toString()[3] ? this.state.code.toString()[3] : ""} />
+            </div>
+          }
+
+
+          <br />
+          {this.state.isDisplayForBtn &&
+            <button onClick={this.authCode} className="send-btn"><img src="./assets/images/pink_btn_after.svg" /></button>
+          }
+          <br />
+
 
         </div>
 

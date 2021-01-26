@@ -88,7 +88,7 @@ export class TopCampaignsNav extends Component<TopCampaignsNavProps, TopCampaign
             }
         }
         store.dispatch({ type: ActionType.updateCampaignsToDisplay, payLoad: campaignsToDisplay });
-     
+
 
         const clientsToDisplay: ClientModel[] = [];
         const allSelectedClients = store.getState().selectedClients;
@@ -174,6 +174,36 @@ export class TopCampaignsNav extends Component<TopCampaignsNavProps, TopCampaign
                         </button>
                     )}
 
+                    <button className="campaigns-client-btn">
+                        <button className="campaigns-remove-btn">
+                            <span>&#10006;</span>
+                        </button>
+                        <span className="campaigns-inside-client-btn">Client</span>
+                    </button>
+
+                    <button className="campaigns-client-btn">
+                        <button className="campaigns-remove-btn">
+                            <span>&#10006;</span>
+                        </button>
+                        <span className="campaigns-inside-client-btn">Client</span>
+                    </button>
+
+                    <button className="campaigns-client-btn">
+                        <button className="campaigns-remove-btn">
+                            <span>&#10006;</span>
+                        </button>
+                        <span className="campaigns-inside-client-btn">Client</span>
+                    </button>
+
+                    <button className="campaigns-client-btn">
+                        <button className="campaigns-remove-btn">
+                            <span>&#10006;</span>
+                        </button>
+                        <span className="campaigns-inside-client-btn">Client</span>
+                    </button>
+
+                    
+
                     <div style={{ display: this.state.isButtonsScrolled ? "block" : "none" }}
                         className="campaigns-end-of-buttons-section" onMouseEnter={this.scrollToLeft}>
                         <span className="campaigns-more-buttons-icon">|</span>
@@ -182,6 +212,8 @@ export class TopCampaignsNav extends Component<TopCampaignsNavProps, TopCampaign
 
                 {this.state.clientsToDisplay.length === 0 &&
                     <span className="add-client-span" onClick={this.openPopUp}>הוספת לקוח</span>}
+
+                <span className="logout-span" onClick={this.openPopUp}>התנתקות</span>
 
                 {this.state.clientsToDisplay.length > 0 &&
                     <span className="add-client-span" onClick={this.resetClientsToDisplay}>כל הלקוחות</span>}

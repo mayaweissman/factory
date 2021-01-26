@@ -130,7 +130,7 @@
 .campaigns-logo {
   position: absolute;
   left: 0;
-  top: 2.4vw;
+  top: 1.4vw;
   width: 10vw;
 }
 
@@ -190,6 +190,14 @@
   font-size: 1vw;
   margin: 2vw 0;
   font-weight: bold;
+}
+
+.logout-span{
+      font-size: 1vw;
+      margin: 2vw 0;
+      position: absolute;
+      left: 10.5vw;
+      top: 1.4vw;
 }
 
 .add-client-span:hover {
