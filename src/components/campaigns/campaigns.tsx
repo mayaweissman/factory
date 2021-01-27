@@ -80,45 +80,57 @@ export class Campaigns extends Component<any, ReportMakerState>{
     public async componentDidMount() {
         try {
             this.setState({ showLoader: true });
-            setTimeout(async ()=>{
+            setTimeout(async () => {
 
                 const response = await axios.get("http://factory-dev.landing-page-media.co.il/all-campaigns/");
                 const allCampaigns: CampaignModel[] = response.data.campaigns;
                 Aos.init({ duration: 1000 });
-                const selectedCampaigns: CampaignModel[] = [];
-                this.state.selectedClients.map(client => {
-                    allCampaigns.map(campaign => {
-                        if (campaign.clientId === client.clientId) {
-                            selectedCampaigns.push(campaign);
-                        }
+
+                const selectedCampaigns: CampaignModel[] = store.getState().selectedCampaigns;
+
+                if (store.getState().selectedCampaigns.length === 0) {
+                    this.state.selectedClients.map(client => {
+                        allCampaigns.map(campaign => {
+                            if (campaign.clientId === client.clientId) {
+                                selectedCampaigns.push(campaign);
+                            }
+                        })
                     })
-                })
-    
-                const responseForProducts = await axios.get("http://factory-dev.landing-page-media.co.il/all-products");
-                const allProductsFromDb: ProductModel[] = responseForProducts.data.products;
-    
+                    this.setState({ selectedCampaigns });
+                    store.dispatch({ type: ActionType.getSelectedCampaigns, payLoad: selectedCampaigns });
+                }
                 this.setState({ showLoader: false });
-    
-                this.setState({ selectedCampaigns });
-                store.dispatch({ type: ActionType.getSelectedCampaigns, payLoad: selectedCampaigns });
-    
-                const selectedProducts: ProductModel[] = [];
-                selectedCampaigns.map(campaign => {
-                    allProductsFromDb.map(product => {
-                        if (product.campaignId === campaign.campaignId) {
-                            selectedProducts.push(product);
-    
-                        }
-                    })
-                });
-    
-                this.setState({ selectedProducts });
-                store.dispatch({ type: ActionType.getSelectedProducts, payLoad: selectedProducts });
-    
+
+                if (store.getState().selectedProducts.length === 0) {
+                    const responseForProducts = await axios.get("http://factory-dev.landing-page-media.co.il/all-products");
+                    const allProductsFromDb: ProductModel[] = responseForProducts.data.products;
+
+
+                    const selectedProducts: ProductModel[] = [];
+                    selectedCampaigns.map(campaign => {
+                        allProductsFromDb.map(product => {
+                            if (product.campaignId === campaign.campaignId) {
+                                selectedProducts.push(product);
+
+                            }
+                        })
+                    });
+
+                    this.setState({ selectedProducts });
+                    store.dispatch({ type: ActionType.getSelectedProducts, payLoad: selectedProducts });
+                }
+
+
+
+
+
+
+
+
                 const responseForTypes = await axios.get("http://factory-dev.landing-page-media.co.il/all-products-types/");
                 const productsTypes: ProductsType[] = responseForTypes.data.productsTypes;
                 this.setState({ productTypes: productsTypes });
-            },1000);
+            }, 1000);
 
         }
         catch (err) {

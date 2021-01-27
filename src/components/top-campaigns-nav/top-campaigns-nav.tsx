@@ -59,10 +59,22 @@ export class TopCampaignsNav extends Component<TopCampaignsNavProps, TopCampaign
 
     componentDidMount() {
         const topNavWidth: number = this.topNavRef.current?.clientWidth as number;
-        const maxWidth = topNavWidth / 100 * 60;
+        const maxWidth = topNavWidth / 100 * 70;
+        const buttonsWidth = this.buttonsRef.current?.scrollWidth as number;
+
+        if (buttonsWidth > maxWidth) {
+            this.setState({ isButtonsScrolled: true });
+        }
+        else {
+            this.setState({ isButtonsScrolled: false });
+        }
 
         window.addEventListener("click", () => {
+            const topNavWidth: number = this.topNavRef.current?.clientWidth as number;
+            const maxWidth = topNavWidth / 100 * 70;
             const buttonsWidth = this.buttonsRef.current?.scrollWidth as number;
+            console.log(maxWidth);
+            console.log(buttonsWidth);
             if (buttonsWidth > maxWidth) {
                 this.setState({ isButtonsScrolled: true });
             }
@@ -71,6 +83,7 @@ export class TopCampaignsNav extends Component<TopCampaignsNavProps, TopCampaign
             }
         })
     }
+    
 
     public filterByClientId = (clientId: number) => (event: any) => {
 
@@ -213,7 +226,7 @@ export class TopCampaignsNav extends Component<TopCampaignsNavProps, TopCampaign
                 {this.state.clientsToDisplay.length === 0 &&
                     <span className="add-client-span" onClick={this.openPopUp}>הוספת לקוח</span>}
 
-                <span className="logout-span" onClick={()=>store.dispatch({type:ActionType.changeAuth})}>logout</span>
+                <span className="logout-span" onClick={()=>store.dispatch({type:ActionType.logoutEditingMode})}>logout</span>
 
                 {this.state.clientsToDisplay.length > 0 &&
                     <span className="add-client-span" onClick={this.resetClientsToDisplay}>כל הלקוחות</span>}

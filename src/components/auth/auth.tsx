@@ -46,11 +46,17 @@ export class Auth extends Component<any, AuthState> {
     }
   }
 
+  public linsenToKeyPress = (e: any) => {
+    e.keyCode === 13 &&
+     this.authPhoneNumber();
+  }
+
 
   public setPhoneNumber = (args: ChangeEvent<HTMLInputElement>) => {
     const phoneNumber = args.target.value;
     const fixedPhone = phoneNumber.replace(/[a-zA-Z$&@#*^%()!]/g, "");
     this.setState({ phoneNumber: fixedPhone });
+
   }
 
   public setCode = (args: ChangeEvent<HTMLInputElement>) => {
@@ -127,15 +133,15 @@ export class Auth extends Component<any, AuthState> {
         )
         .then((response) => response.json())
         .then((data) => {
+          console.log(data);
+          console.log(code);
           if (data.auth) {
             message = "ברוכים הבאים";
             isCodeLegal = true;
-            store.dispatch({ type: ActionType.changeAuth });
+            store.dispatch({ type: ActionType.loginEditingMode });
             this.props.history.push('/home');
           } else {
             message = "קוד אינו חוקי";
-            isCodeLegal = false;
-            this.setState({ code: "" });
           }
           this.setState({ message })
           this.setState({ isCodeLegal })
@@ -160,14 +166,17 @@ export class Auth extends Component<any, AuthState> {
           {!this.state.isPhoneLegal &&
             <button onClick={this.authPhoneNumber} className="send-btn"><img src="./assets/images/pink_btn_after.svg" /></button>
           }
-          <input onChange={this.setPhoneNumber} placeholder="אנא הזן מספר טלפון" type="tel"
+          <input onChange={this.setPhoneNumber} onKeyDown={this.linsenToKeyPress} placeholder="אנא הזן מספר טלפון" type="tel"
             className={this.state.isPhoneLegal ? "phone-box out" : "phone-box"} value={this.state.phoneNumber} />
 
           <br />
 
           {this.state.isPhoneLegal &&
             <div className="code-area">
-              <input onChange={this.setCode} className="code-num-box-visible" />
+              <input onChange={this.setCode} value={this.state.code} maxLength={4} className="code-num-box-visible-first" />
+              <input onChange={this.setCode} value={this.state.code} maxLength={4} className="code-num-box-visible-second" />
+              <input onChange={this.setCode} value={this.state.code} maxLength={4} className="code-num-box-visible-third" />
+              <input onChange={this.setCode} value={this.state.code} maxLength={4} className="code-num-box-visible-fourth" />
               <input className={this.state.code.toString()[0] ? "code-num-box-after" : "code-num-box-before"}
                 value={this.state.code.toString()[0] ? this.state.code.toString()[0] : ""} />
               <input className={this.state.code.toString()[1] ? "code-num-box-after" : "code-num-box-before"}

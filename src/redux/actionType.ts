@@ -19,8 +19,10 @@ export enum ActionType {
     removeCampaignByClientId,
     filterDisplayByClientId,
     resetFiltering,
-    changeAuth,
-    changeAuthForReport,
+    loginEditingMode,
+    logoutEditingMode,
+    loginWatchingMode,
+    logoutWatchingMode,
     getUuid
 
 }

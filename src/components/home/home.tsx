@@ -55,12 +55,15 @@ export class Home extends Component<any, HomeState> {
     public render() {
         return (
             <div className="home">
+                {!this.state.isAfterAuth &&
+                    this.props.history.push("/auth")
 
-                <TopClientsNav isScroll={this.state.isScroll} />
-
-                <AllClients />
-
-
+                }
+                {this.state.isAfterAuth &&
+                    <>
+                        <TopClientsNav isScroll={this.state.isScroll} />
+                        <AllClients />
+                    </>}
             </div>
         )
     }

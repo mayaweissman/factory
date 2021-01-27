@@ -26,7 +26,7 @@ export class AuthForWatchingOnly extends Component<any, AuthForWatchingOnlyState
     this.state = {
       phoneNumber: "",
       code: "",
-      message: "",
+      message: "הזינו את מספר הטלפון שלכם כדי להיכנס לצפות בתוצרים",
       isPhoneLegal: false,
       isCodeLegal: false,
       isDisplayForBtn: false,
@@ -46,19 +46,34 @@ export class AuthForWatchingOnly extends Component<any, AuthForWatchingOnlyState
     }
   }
 
+  public linsenToKeyPress = (e: any) => {
+    e.keyCode === 13 &&
+     this.authPhoneNumber();
+  }
+
 
   public setPhoneNumber = (args: ChangeEvent<HTMLInputElement>) => {
     const phoneNumber = args.target.value;
-    this.setState({ phoneNumber });
+    const fixedPhone = phoneNumber.replace(/[a-zA-Z$&@#*^%()!]/g, "");
+    this.setState({ phoneNumber: fixedPhone });
   }
 
   public setCode = (args: ChangeEvent<HTMLInputElement>) => {
     const code = args.target.value;
-    this.setState({ isDisplayForBtn: true });
-    this.setState({ code });
+    console.log(code);
+    if (code.length < 5) {
+      const fixedCode = code.replace(/[a-zA-Z$&@#*^%()!]/g, "");
+      this.setState({ isDisplayForBtn: true });
+      this.setState({ code: fixedCode });
+    }
+    if(code.length===4){
+      setTimeout(() => {
+        this.authCode();
+      }, 500);
+    }
+
   }
 
-  //Demo functions
   public authPhoneNumber = () => {
     const phoneNumber = this.state.phoneNumber;
     const allUsers = [...this.state.allUsers];
@@ -73,7 +88,7 @@ export class AuthForWatchingOnly extends Component<any, AuthForWatchingOnlyState
         new Promise((resolve, reject) => {
           resolve(() => console.log(""))
         }
-  
+
         )
           .then(() =>
             fetch(
@@ -89,7 +104,7 @@ export class AuthForWatchingOnly extends Component<any, AuthForWatchingOnlyState
           });
     }
     else {
-      message = "מספר טלפון אינו מזוהה";
+      message = "סליחה, אנחנו לא מכירים";
     }
     this.setState({ message })
     this.setState({ isPhoneLegal })
@@ -115,10 +130,9 @@ export class AuthForWatchingOnly extends Component<any, AuthForWatchingOnlyState
           if (data.auth) {
             message = "ברוכים הבאים";
             isCodeLegal = true;
-            store.dispatch({ type: ActionType.changeAuthForReport });
+            store.dispatch({ type: ActionType.loginWatchingMode });
           } else {
             message = "קוד אינו חוקי";
-            this.setState(() => ({ code: "" }));
           }
           this.setState({ message })
           this.setState({ isCodeLegal })
@@ -133,20 +147,42 @@ export class AuthForWatchingOnly extends Component<any, AuthForWatchingOnlyState
         <div className="auth-box">
 
           <img className="auth-logo" src="/assets/images/logo_factory.svg" />
-          <h1>אימות</h1>
 
-          <button onClick={this.authPhoneNumber} className="send-btn">שלח</button>
-          <input onChange={this.setPhoneNumber} placeholder="אנא הזן מספר טלפון" type="tel" className="phone-box" />
-          <br />
+          <div className="auth-titles">
+            <h1>Welcome</h1>
+            <span className="sub-title">{this.state.message}</span>
+          </div>
 
-          <input onChange={this.setCode} style={{ display: this.state.isPhoneLegal ? "inline-block" : "none" }} placeholder="אנא הזן את הקוד שנשלח" type="text" className="code-box" />
-          <br />
-          {this.state.isDisplayForBtn &&
-            <button onClick={this.authCode} style={{ display: this.state.isPhoneLegal ? "inline-block" : "none" }} className="auth-code-btn">אמת</button>
+
+          {!this.state.isPhoneLegal &&
+            <button onClick={this.authPhoneNumber} className="send-btn"><img src="./assets/images/pink_btn_after.svg" /></button>
           }
+          <input onChange={this.setPhoneNumber} onKeyDown={this.linsenToKeyPress} placeholder="אנא הזן מספר טלפון" type="tel"
+            className={this.state.isPhoneLegal ? "phone-box out" : "phone-box"} value={this.state.phoneNumber} />
+
           <br />
 
-          <span className="message">{this.state.message}</span>
+          {this.state.isPhoneLegal &&
+            <div className="code-area">
+              <input onChange={this.setCode} value={this.state.code} maxLength={4} className="code-num-box-visible-first" />
+              <input onChange={this.setCode} value={this.state.code} maxLength={4} className="code-num-box-visible-second" />
+              <input onChange={this.setCode} value={this.state.code} maxLength={4} className="code-num-box-visible-third" />
+              <input onChange={this.setCode} value={this.state.code} maxLength={4} className="code-num-box-visible-fourth" />
+              <input className={this.state.code.toString()[0] ? "code-num-box-after" : "code-num-box-before"}
+                value={this.state.code.toString()[0] ? this.state.code.toString()[0] : ""} />
+              <input className={this.state.code.toString()[1] ? "code-num-box-after" : "code-num-box-before"}
+                value={this.state.code.toString()[1] ? this.state.code.toString()[1] : ""} />
+              <input className={this.state.code.toString()[2] ? "code-num-box-after" : "code-num-box-before"}
+                value={this.state.code.toString()[2] ? this.state.code.toString()[2] : ""} />
+              <input className={this.state.code.toString()[3] ? "code-num-box-after" : "code-num-box-before"}
+                value={this.state.code.toString()[3] ? this.state.code.toString()[3] : ""} />
+            </div>
+          }
+
+
+
+
+
 
         </div>
 

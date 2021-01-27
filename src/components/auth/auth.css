@@ -7,14 +7,45 @@
   height: 100%;
 }
 
-.code-num-box-visible {
+.code-num-box-visible-first {
   position: absolute;
   width: 4vw;
   height: 4vw;
   top: 1vw;
+  z-index: 999;
   left: 1vw;
   opacity: 0;
 }
+.code-num-box-visible-second {
+  position: absolute;
+  width: 4vw;
+  height: 4vw;
+  top: 1vw;
+  left: 7vw;
+  opacity: 0;
+  z-index: 999;
+}
+.code-num-box-visible-third {
+  position: absolute;
+  width: 4vw;
+  height: 4vw;
+  top: 1vw;
+  left: 14vw;
+  opacity: 0;
+  z-index: 999;
+
+}
+.code-num-box-visible-fourth {
+  position: absolute;
+  width: 4vw;
+  height: 4vw;
+  top: 1vw;
+  left: 20vw;
+  opacity: 0;
+  z-index: 999;
+
+}
+
 .mobile .auth-logo {
   width: 25vw;
 }
@@ -58,7 +89,7 @@
   width: 22%;
   outline: none;
   border: 2px solid black;
-  border-radius: 28px;
+  border-radius: 35px;
   text-align: left;
   font-size: 2vw;
   padding: 0.7vw;
@@ -74,7 +105,7 @@
     transform: translateX(0);
   }
   100% {
-    transform: translateX(1000px);
+    transform: translateX(2000px);
   }
 }
 

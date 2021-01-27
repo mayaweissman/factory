@@ -35,7 +35,7 @@ export class ReportMaker extends Component<any, ReportMakerState>{
             const isAfterAuth = store.getState().isAuthSucceeded;
             this.setState({ isAfterAuth });
         })
-    
+
     }
 
 
@@ -67,25 +67,33 @@ export class ReportMaker extends Component<any, ReportMakerState>{
     public render() {
         return (
             <div className="report-maker">
-                <main>
-                    <div className="header">
-                        <TopCampaignsNav isScroll={this.state.isScroll} />
-                    </div>
+                {!this.state.isAfterAuth &&
+                    this.props.history.push("/auth")
 
-                    <Campaigns />
-                </main>
+                }
+                {this.state.isAfterAuth &&
+                    <>
+                        <main>
+                            <div className="header">
+                                <TopCampaignsNav isScroll={this.state.isScroll} />
+                            </div>
 
-                <aside>
-                    {this.state.windowWidth > 600 &&
-                        <FilteringSideMenu isOnReport={false} />
-                    }
+                            <Campaigns />
+                        </main>
+
+                        <aside>
+                            {this.state.windowWidth > 600 &&
+                                <FilteringSideMenu isOnReport={false} />
+                            }
 
 
-                    {this.state.windowWidth <= 600 && store.getState().isMobileMenuShow &&
-                        <FilteringSideMenu isOnReport={false} />
-                    }
-                </aside>
-                {this.state.display && <LinkPopUp />}
+                            {this.state.windowWidth <= 600 && store.getState().isMobileMenuShow &&
+                                <FilteringSideMenu isOnReport={false} />
+                            }
+                        </aside>
+                        {this.state.display && <LinkPopUp />}
+                    </>
+                }
 
             </div>
 

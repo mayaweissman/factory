@@ -61,23 +61,24 @@ export function reducer(oldAppState: AppState, action: Action): AppState {
       newAppState.uuid = action.payLoad;
       break;
 
-    case ActionType.changeAuth:
-      if (!newAppState.isAuthSucceeded) {
-        newAppState.isAuthSucceeded = true;
-      }
-      else {
-        newAppState.isAuthSucceeded = false;
-      }
+    case ActionType.loginEditingMode:
+      newAppState.isAuthSucceeded = true;
       break;
 
-    case ActionType.changeAuthForReport:
-      if (!newAppState.isAuthSucceededForReport) {
-        newAppState.isAuthSucceededForReport = true;
-      }
-      else {
-        newAppState.isAuthSucceededForReport = false;
-      }
+    case ActionType.logoutEditingMode:
+      newAppState.isAuthSucceeded = false;
       break;
+
+    case ActionType.loginWatchingMode:
+      newAppState.isAuthSucceededForReport = true;
+      break;
+
+    case ActionType.logoutWatchingMode:
+      newAppState.isAuthSucceededForReport = false;
+      newAppState.isAuthSucceeded = false;
+      break;
+
+  
 
     case ActionType.changeDisplayForPopUp:
       if (newAppState.isPopUpShow) {

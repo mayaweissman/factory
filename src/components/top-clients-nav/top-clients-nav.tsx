@@ -123,6 +123,8 @@ export class TopClientsNav extends Component<TopClientsNavProps, TopClientsNavSt
                     <span className="remove-all" onClick={this.removeAllClients}>הסר הכל</span>
                 </div>
 
+                <span className="logout-span" onClick={()=>store.dispatch({type:ActionType.logoutEditingMode})}>logout</span>
+
                 <div className="logo-container"></div>
                 <img className="logo" src="./assets/images/logo_factory.svg" />
 

@@ -1,5 +1,5 @@
 .top-companies-nav {
-  height: 6vw;
+  height: 7vw;
   position: fixed;
   margin: 0;
   width: 88%;
@@ -8,6 +8,7 @@
   z-index: 999;
   background-color: white;
   left: 4.8vw;
+  align-items: center;
   animation: slideDown 0.6s both;
   animation-delay: 0.6s;
 }
@@ -49,7 +50,7 @@
 .logo {
   position: absolute;
   left: 0;
-  top: 2.4vw;
+  top: 1.4vw;
   animation: zoomOut 1s both;
   animation-delay: 0.7s;
   z-index: 1000;
@@ -219,9 +220,9 @@ left: 32vw;
 
 .remove-all {
   text-decoration: underline;
-  font-size: 0.9vw;
+  font-size: 1vw;
+  margin: 4vw 0;
   font-weight: bold;
-  top: 2vw;
   position: relative;
   margin: 1vw;
 }
@@ -316,6 +317,7 @@ left: 32vw;
 .more-buttons-icon {
   position: absolute;
   left: 0;
-  font-size: 3.5vw;
+  font-weight: 300;
+  font-size: 4.5vw;
   top: -1.5vw;
 }

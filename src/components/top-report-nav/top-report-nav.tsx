@@ -157,6 +157,8 @@ export class TopReportNav extends Component<TopReportNavProps, TopReportNavState
                     </div>
                 </div>
 
+                <span className="logout-span" onClick={()=>store.dispatch({type:ActionType.logoutWatchingMode})}>logout</span>
+
                 <div className="campaigns-top-scroll" style={{ top: this.props.isScroll ? "6vw" : 0 }}></div>
 
                 <img className="campaigns-logo" src="./assets/images/logo_factory.svg" />

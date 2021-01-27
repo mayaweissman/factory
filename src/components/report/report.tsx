@@ -58,11 +58,11 @@ export class Report extends Component<any, ReportState>{
             this.setState({ report });
 
             store.dispatch({ type: ActionType.updateSelectedClients, payLoad: report.clients });
-            console.log("1");
-            if (report.campaigns && report.campaigns.length > 0) {
+            if (report.products && report.products.length > 0) {
+                console.log(report.products);
                 store.dispatch({ type: ActionType.getSelectedProducts, payLoad: report.products });
             }
-            if (report.products && report.products.length > 0) {
+            if (report.campaigns && report.campaigns.length > 0) {
                 store.dispatch({ type: ActionType.getSelectedCampaigns, payLoad: report.campaigns });
             }
         }
