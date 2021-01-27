@@ -77,7 +77,6 @@ export function reducer(oldAppState: AppState, action: Action): AppState {
       newAppState.isAuthSucceededForReport = false;
       newAppState.isAuthSucceeded = false;
       break;
-
   
 
     case ActionType.changeDisplayForPopUp:

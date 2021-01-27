@@ -58,7 +58,7 @@ export class AllClients extends Component<any, AllClientsState>{
         for (const client of allClients) {
             client.timePassed = Date.parse(client.lastUpdate as string)
         }
-        allClients.sort((a, b) => ((a.timePassed as number) > (b.timePassed as number)) ? 1 : -1);
+        allClients.sort((a, b) => ((a.timePassed as number) > (b.timePassed as number)) ? -1 : 1);
         this.setState({clientsToShow: allClients});
     }
 

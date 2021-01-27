@@ -46,6 +46,10 @@ export class ReportMaker extends Component<any, ReportMakerState>{
             return;
         }
 
+       window.addEventListener("click", ()=>{
+            console.log("click");
+        })
+
         window.addEventListener('scroll', (e) => {
             const YPosition = window.pageYOffset;
             if (YPosition === 0) {

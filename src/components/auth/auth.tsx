@@ -119,6 +119,7 @@ export class Auth extends Component<any, AuthState> {
   public authCode = () => {
     const code = this.state.code;
     const phoneNumber = this.state.phoneNumber;
+    console.log(phoneNumber);
     let message = "";
     let isCodeLegal = false;
 
@@ -173,7 +174,7 @@ export class Auth extends Component<any, AuthState> {
 
           {this.state.isPhoneLegal &&
             <div className="code-area">
-              <input onChange={this.setCode} value={this.state.code} maxLength={4} className="code-num-box-visible-first" />
+              <input onChange={this.setCode} autoFocus value={this.state.code} maxLength={4} className="code-num-box-visible-first" />
               <input onChange={this.setCode} value={this.state.code} maxLength={4} className="code-num-box-visible-second" />
               <input onChange={this.setCode} value={this.state.code} maxLength={4} className="code-num-box-visible-third" />
               <input onChange={this.setCode} value={this.state.code} maxLength={4} className="code-num-box-visible-fourth" />

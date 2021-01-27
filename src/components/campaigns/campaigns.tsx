@@ -216,6 +216,7 @@ export class Campaigns extends Component<any, ReportMakerState>{
                     <div className="client-in-campaigns">
                         {this.isProductsToDisplayOnCampaign(campaign.campaignId as number) && <h2>{campaign.campaignName}</h2>}
                         <div className="grid">
+                            
                             {this.state.productsToDisplay.length === 0 && this.state.selectedProducts?.filter(product => product.campaignId === campaign.campaignId).map(product =>
                                 <div className="campaign" data-aos="fade-up">
                                     <img className="campaign-img" src={product.images?.img1} onClick={this.setProductToDisplayInPopUp(product, campaign)} />
@@ -228,8 +229,8 @@ export class Campaigns extends Component<any, ReportMakerState>{
                                     </div>
                                 </div>
 
-
                             )}
+                           
                             {this.state.productsToDisplay.length !== 0 && this.state.productsToDisplay?.filter(product => product.campaignId === campaign.campaignId).map(product =>
                                 <div className="campaign" data-aos="fade-up">
                                     <img className="campaign-img" src={product.images?.img1} onClick={this.setProductToDisplayInPopUp(product, campaign)} />

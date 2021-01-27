@@ -14,6 +14,7 @@ interface TopClientsNavProps {
 interface TopClientsNavState {
     selectedClients: ClientModel[],
     isButtonsScrolled: boolean,
+    showLogout: boolean
 }
 
 export class TopClientsNav extends Component<TopClientsNavProps, TopClientsNavState>{
@@ -28,7 +29,8 @@ export class TopClientsNav extends Component<TopClientsNavProps, TopClientsNavSt
 
         this.state = {
             selectedClients: store.getState().selectedClients,
-            isButtonsScrolled: false
+            isButtonsScrolled: false,
+            showLogout: false
         }
         this.unsubscribeStore = store.subscribe(() => {
             const selectedClients = store.getState().selectedClients;
@@ -87,7 +89,6 @@ export class TopClientsNav extends Component<TopClientsNavProps, TopClientsNavSt
         store.dispatch({ type: ActionType.removeClient, payLoad: clientId });
     }
 
-
     public render() {
         return (
             <div ref={this.topNavRef} className="top-companies-nav">
@@ -123,10 +124,21 @@ export class TopClientsNav extends Component<TopClientsNavProps, TopClientsNavSt
                     <span className="remove-all" onClick={this.removeAllClients}>הסר הכל</span>
                 </div>
 
-                <span className="logout-span" onClick={()=>store.dispatch({type:ActionType.logoutEditingMode})}>logout</span>
+                <span className="logout-span" onClick={()=>this.setState({showLogout: true})}>logout</span>
 
                 <div className="logo-container"></div>
                 <img className="logo" src="./assets/images/logo_factory.svg" />
+
+                {this.state.showLogout &&
+                    <div className="logout-dialog" >
+                        <span className="logout-subtitle">התנתקות מהמערכת תמחק את כל הבחירות הנוכחיות</span>
+                        <br/>
+                        <span className="logout-title">מה ברצונך לעשות?</span>
+                        <br/>
+                        <button className="logout-cancel-btn" onClick={()=>this.setState({showLogout: false})}>אני רוצה להישאר</button>
+                        <button className="logout-confirm-btn" onClick={()=>store.dispatch({ type: ActionType.logoutEditingMode })}>אני רוצה להתנתק</button>
+                    </div>
+                }
 
             </div>
 

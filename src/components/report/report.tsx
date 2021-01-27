@@ -57,6 +57,17 @@ export class Report extends Component<any, ReportState>{
             }
             this.setState({ report });
 
+            window.addEventListener('scroll', (e) => {
+                const YPosition = window.pageYOffset;
+                if (YPosition === 0) {
+                    this.setState({ isScroll: false });
+                }
+                else {
+                    this.setState({ isScroll: true });
+                }
+            });
+    
+
             store.dispatch({ type: ActionType.updateSelectedClients, payLoad: report.clients });
             if (report.products && report.products.length > 0) {
                 console.log(report.products);

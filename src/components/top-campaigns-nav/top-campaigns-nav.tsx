@@ -24,7 +24,8 @@ interface TopCampaignsNavState {
         beforeCampaignsToDisplay: CampaignModel[],
         beforeProductsToDisplay: ProductModel[]
 
-    }
+    },
+    showLogout: boolean
 }
 
 export class TopCampaignsNav extends Component<TopCampaignsNavProps, TopCampaignsNavState>{
@@ -45,7 +46,8 @@ export class TopCampaignsNav extends Component<TopCampaignsNavProps, TopCampaign
             filteringBefore: {
                 beforeCampaignsToDisplay: [],
                 beforeProductsToDisplay: []
-            }
+            },
+            showLogout: false
         }
         this.unsubscribeStore = store.subscribe(() => {
             const selectedClients = store.getState().selectedClients;
@@ -54,7 +56,19 @@ export class TopCampaignsNav extends Component<TopCampaignsNavProps, TopCampaign
             this.setState({ selectedClients });
             this.setState({ display });
             this.setState({ clientsToDisplay });
+
+
+            const topNavWidth: number = this.topNavRef.current?.clientWidth as number;
+            const maxWidth = topNavWidth / 100 * 70;
+            const buttonsWidth = this.buttonsRef.current?.scrollWidth as number;
+            if (buttonsWidth > maxWidth) {
+                this.setState({ isButtonsScrolled: true });
+            }
+            else {
+                this.setState({ isButtonsScrolled: false });
+            }
         })
+
     }
 
     componentDidMount() {
@@ -69,12 +83,11 @@ export class TopCampaignsNav extends Component<TopCampaignsNavProps, TopCampaign
             this.setState({ isButtonsScrolled: false });
         }
 
+
         window.addEventListener("click", () => {
             const topNavWidth: number = this.topNavRef.current?.clientWidth as number;
             const maxWidth = topNavWidth / 100 * 70;
             const buttonsWidth = this.buttonsRef.current?.scrollWidth as number;
-            console.log(maxWidth);
-            console.log(buttonsWidth);
             if (buttonsWidth > maxWidth) {
                 this.setState({ isButtonsScrolled: true });
             }
@@ -83,7 +96,7 @@ export class TopCampaignsNav extends Component<TopCampaignsNavProps, TopCampaign
             }
         })
     }
-    
+
 
     public filterByClientId = (clientId: number) => (event: any) => {
 
@@ -215,7 +228,7 @@ export class TopCampaignsNav extends Component<TopCampaignsNavProps, TopCampaign
                         <span className="campaigns-inside-client-btn">Client</span>
                     </button>
 
-                    
+
 
                     <div style={{ display: this.state.isButtonsScrolled ? "block" : "none" }}
                         className="campaigns-end-of-buttons-section" onMouseEnter={this.scrollToLeft}>
@@ -226,7 +239,7 @@ export class TopCampaignsNav extends Component<TopCampaignsNavProps, TopCampaign
                 {this.state.clientsToDisplay.length === 0 &&
                     <span className="add-client-span" onClick={this.openPopUp}>הוספת לקוח</span>}
 
-                <span className="logout-span" onClick={()=>store.dispatch({type:ActionType.logoutEditingMode})}>logout</span>
+                <span className="logout-span" onClick={()=>this.setState({showLogout: true})}>logout</span>
 
                 {this.state.clientsToDisplay.length > 0 &&
                     <span className="add-client-span" onClick={this.resetClientsToDisplay}>כל הלקוחות</span>}
@@ -239,6 +252,18 @@ export class TopCampaignsNav extends Component<TopCampaignsNavProps, TopCampaign
 
                 {this.state.display &&
                     <AddClientPopUp />
+                }
+
+
+                {this.state.showLogout &&
+                    <div className="logout-dialog" >
+                        <span className="logout-subtitle">התנתקות מהמערכת תמחק את כל הבחירות הנוכחיות</span>
+                        <br />
+                        <span className="logout-title">מה ברצונך לעשות?</span>
+                        <br />
+                        <button className="logout-cancel-btn" onClick={() => this.setState({ showLogout: false })}>אני רוצה להישאר</button>
+                        <button className="logout-confirm-btn" onClick={() => store.dispatch({ type: ActionType.logoutEditingMode })}>אני רוצה להתנתק</button>
+                    </div>
                 }
 
             </div>

@@ -226,6 +226,7 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
             report.campaigns = store.getState().campaignsToDisplay;
             report.products = store.getState().productsToDisplay;
 
+            console.log(report);
             let formData = new FormData();
             formData.append("state", JSON.stringify(report));
             formData.append("uuid", uuid);

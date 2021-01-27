@@ -55,9 +55,21 @@ export class TopReportNav extends Component<TopReportNavProps, TopReportNavState
     componentDidMount() {
         const topNavWidth: number = this.topNavRef.current?.clientWidth as number;
         const maxWidth = topNavWidth / 100 * 70;
+        const buttonsWidth = this.buttonsRef.current?.scrollWidth as number;
+
+        if (buttonsWidth > maxWidth) {
+            this.setState({ isButtonsScrolled: true });
+        }
+        else {
+            this.setState({ isButtonsScrolled: false });
+        }
 
         window.addEventListener("click", () => {
+            const topNavWidth: number = this.topNavRef.current?.clientWidth as number;
+            const maxWidth = topNavWidth / 100 * 70;
             const buttonsWidth = this.buttonsRef.current?.scrollWidth as number;
+            console.log(maxWidth);
+            console.log(buttonsWidth);
             if (buttonsWidth > maxWidth) {
                 this.setState({ isButtonsScrolled: true });
             }
@@ -159,7 +171,7 @@ export class TopReportNav extends Component<TopReportNavProps, TopReportNavState
 
                 <span className="logout-span" onClick={()=>store.dispatch({type:ActionType.logoutWatchingMode})}>logout</span>
 
-                <div className="campaigns-top-scroll" style={{ top: this.props.isScroll ? "6vw" : 0 }}></div>
+                <div className="campaigns-top-scroll" style={{ top: this.props.isScroll ? "7vw" : 0 }}></div>
 
                 <img className="campaigns-logo" src="./assets/images/logo_factory.svg" />
 
