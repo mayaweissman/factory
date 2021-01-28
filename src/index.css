@@ -7,6 +7,10 @@ body, html, #root{
   font-family: 'Heebo', sans-serif;
 }
 
+body > *{
+  font-family: 'Heebo', sans-serif;
+}
+
 body::-webkit-scrollbar {
   width: 0;
   height: 0;

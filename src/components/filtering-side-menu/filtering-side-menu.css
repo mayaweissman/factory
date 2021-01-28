@@ -140,7 +140,8 @@ br {
   line-height: 3vw;
   color: white;
   font-weight: bold;
-  font-size: 0.9vw;
+  font-family: 'Heebo', sans-serif;
+  font-size: 1.1vw;
   border: 1px solid #f84a72;
 }
 
@@ -326,7 +327,7 @@ background-color: #f84a72 !important;
   margin-top: 52px;
   height: 3vw;
   text-align: right;
-  line-height: 4vw;
+  line-height: 4.4vw;
 }
 
 .date-range-icon{

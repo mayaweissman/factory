@@ -39,6 +39,7 @@
 
 .right-area {
   width: 30%;
+  opacity: 0;
   padding: 2vw;
 }
 
@@ -119,8 +120,8 @@
   height: 1.9vw;
   margin: 1vw;
   position: absolute;
-  left: 14vw;
-  top: 6vw;
+  left: 173px;
+  top: 30px;
   border-radius: 100%;
   display: inline-flex;
   justify-content: center;

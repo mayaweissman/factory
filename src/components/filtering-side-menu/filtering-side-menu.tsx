@@ -34,6 +34,7 @@ interface FilteringSideMenuState {
     datesRange: string,
     allProducts: ProductModel[],
     productsTypes: ProductsType[],
+    productsTypesToDisplay: ProductsType[],
     uuid: string
 }
 
@@ -48,6 +49,7 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
             selectedCampaigns: store.getState().selectedCampaigns,
             campaignsToDisplay: store.getState().campaignsToDisplay,
             productsToDisplay: store.getState().productsToDisplay,
+            productsTypesToDisplay: [],
             selectedProducts: store.getState().selectedProducts,
             allProducts: [],
             productsTypes: [],
@@ -74,6 +76,30 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
             const response = await axios.get("http://factory-dev.landing-page-media.co.il/all-products-types/");
             const productsTypes: ProductsType[] = response.data.productsTypes;
             this.setState({ productsTypes });
+
+            const selectedProducts: ProductModel[] = store.getState().selectedProducts;
+            const productsTypesToDisplay: ProductsType[] = [];
+            const allExistingTypes: ProductsType[] = [];
+            selectedProducts.map(p =>
+                productsTypes.map(t => {
+                    if (t.productsTypeId === p.productTypeId) {
+                        allExistingTypes.push(t);
+                    }
+                }));
+
+            allExistingTypes.map(t => {
+                let isUnique = true;
+                productsTypesToDisplay.map(d => {
+                    if (d.productsTypeId === t.productsTypeId) {
+                        isUnique = false;
+                    }
+                })
+                if (isUnique) {
+                    productsTypesToDisplay.push(t);
+                }
+            });
+
+            this.setState({ productsTypesToDisplay });
 
             const responseForProducts = await axios.get("http://factory-dev.landing-page-media.co.il/all-products");
             const allProducts: ProductModel[] = responseForProducts.data.products;
@@ -202,7 +228,7 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
         //Update state for display
         const startDateStr = new Date(startDate).toLocaleDateString().replace(".", "/");
         const endDateStr = new Date(endDate).toLocaleDateString().replace(".", "/");
-        const strToState = `${startDateStr.replace(".", "/")} - ${endDateStr.replace(".", "/")}`;
+        const strToState = `${endDateStr.replace(".", "/")} - ${startDateStr.replace(".", "/")}`;
         this.setState({ datesRange: strToState });
 
 
@@ -293,6 +319,7 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
                     <span className="campaign-filtering-title">קמפיין</span>
                     <br />
                     <div className="campaigns-titles">
+
                         {this.state.selectedCampaigns.map(campaign =>
                             <label className="container-for-check">
                                 <input checked={this.isCampaignChecked(campaign.campaignId as number)} onClick={this.filterByCapmaign(campaign)} type="checkbox" />
@@ -310,7 +337,7 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
                     <br />
                     <div className="products-titles">
 
-                        {this.state.productsTypes.map(type =>
+                        {this.state.productsTypesToDisplay.map(type =>
                             <label className="container-for-check">
                                 <input checked={this.isProductTypeChecked(type.productsTypeId as number)} type="checkbox" onClick={this.filterByProductType(type.productsTypeId as number)} />
                                 <span className="checkmark"></span>
@@ -325,7 +352,7 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
 
                 {!this.props.isOnReport &&
                     <button disabled={this.state.selectedClients.length === 0} className="url-sharing-area" onClick={this.createReport}>
-                        <span>יצירת URL לשיתוף</span>
+                        <span>הפקת דו"ח תוצרים</span>
                     </button>
                 }
 

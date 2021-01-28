@@ -105,7 +105,6 @@ export class Campaigns extends Component<any, ReportMakerState>{
                     const responseForProducts = await axios.get("http://factory-dev.landing-page-media.co.il/all-products");
                     const allProductsFromDb: ProductModel[] = responseForProducts.data.products;
 
-
                     const selectedProducts: ProductModel[] = [];
                     selectedCampaigns.map(campaign => {
                         allProductsFromDb.map(product => {

@@ -127,6 +127,7 @@
   font-size: 1vw;
   font-weight: bold;
   left: 1.2vw;
+  opacity: 0;
   bottom: 0.8vw;
 }
 
@@ -158,6 +159,7 @@
   position: absolute;
   display: flex;
   direction: ltr;
+  opacity: 0;
   text-transform: uppercase;
   top: 9vw;
   left: 6vw;
