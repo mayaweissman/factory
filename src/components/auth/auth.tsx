@@ -15,10 +15,16 @@ interface AuthState {
   isCodeLegal: boolean,
   isDisplayForBtn: boolean,
   allUsers: UserModel[],
-  isSmsSent: boolean
+  isSmsSent: boolean,
+  title: string
 }
 
 export class Auth extends Component<any, AuthState> {
+
+  private firstInput = React.createRef<HTMLInputElement>();
+  private secondInput = React.createRef<HTMLInputElement>();
+  private thirdInput = React.createRef<HTMLInputElement>();
+  private fourthInput = React.createRef<HTMLInputElement>();
 
 
   public constructor(props: any) {
@@ -26,8 +32,9 @@ export class Auth extends Component<any, AuthState> {
     this.state = {
       phoneNumber: "",
       code: "",
-      message: "הזינו את מספר הטלפון שלכם כדי להיכנס למערכת",
-      isPhoneLegal: false,
+      message: "",
+      title: "יש להזין מספר טלפון על מנת להתחבר",
+      isPhoneLegal: true,
       isCodeLegal: false,
       isDisplayForBtn: false,
       allUsers: [],
@@ -48,7 +55,7 @@ export class Auth extends Component<any, AuthState> {
 
   public linsenToKeyPress = (e: any) => {
     e.keyCode === 13 &&
-     this.authPhoneNumber();
+      this.authPhoneNumber();
   }
 
 
@@ -56,23 +63,10 @@ export class Auth extends Component<any, AuthState> {
     const phoneNumber = args.target.value;
     const fixedPhone = phoneNumber.replace(/[a-zA-Z$&@#*^%()!]/g, "");
     this.setState({ phoneNumber: fixedPhone });
+    this.setState({ message: "" })
 
   }
 
-  public setCode = (args: ChangeEvent<HTMLInputElement>) => {
-    const code = args.target.value;
-    if (code.length < 5) {
-      const fixedCode = code.replace(/[a-zA-Z$&@#*^%()!]/g, "");
-      this.setState({ isDisplayForBtn: true });
-      this.setState({ code: fixedCode });
-    }
-    if(code.length===4){
-      setTimeout(() => {
-        this.authCode();
-      }, 500);
-    }
-
-  }
 
   //Demo functions
   public authPhoneNumber = () => {
@@ -85,8 +79,9 @@ export class Auth extends Component<any, AuthState> {
 
     if (user) {
       if (user.permission === "יצירת דוחות") {
-        message = "שלחנו לך הודעה עם קוד בן 4 ספרות";
+        message = "";
         isPhoneLegal = true;
+        this.setState({ title: "יש להזין את הקוד שקיבלת" })
         new Promise((resolve, reject) => {
           resolve(() => console.log(""))
         }
@@ -106,11 +101,11 @@ export class Auth extends Component<any, AuthState> {
           });
       }
       else {
-        message = "סליחה, אנחנו לא מכירים";
+        message = "מספר הטלפון שהוזן אינו מספר מורשה";
       }
     }
     else {
-      message = "סליחה, אנחנו לא מכירים";
+      message = "מספר הטלפון שהוזן אינו מספר מורשה";
     }
     this.setState({ message })
     this.setState({ isPhoneLegal })
@@ -150,6 +145,33 @@ export class Auth extends Component<any, AuthState> {
     }
   }
 
+
+  public setCode = (args: ChangeEvent<HTMLInputElement>) => {
+    const number = args.target.value;
+    let currentCode = this.state.code;
+    const code = currentCode += number;
+
+    const fixedCode = code.replace(/[a-zA-Z$&@#*^%()!]/g, "");
+    this.setState({ isDisplayForBtn: true });
+    this.setState({ code: fixedCode });
+
+    if (code.length === 1) {
+      this.secondInput.current?.focus();
+    }
+    else if (code.length === 2) {
+      this.thirdInput.current?.focus();
+    }
+    else if (code.length === 3) {
+      this.fourthInput.current?.focus();
+    }
+    else if (code.length === 4) {
+      setTimeout(() => {
+        this.authCode();
+      }, 500);
+    }
+
+  }
+
   public render() {
     return (
       <div className="auth">
@@ -159,36 +181,39 @@ export class Auth extends Component<any, AuthState> {
           <img className="auth-logo" src="/assets/images/logo_factory.svg" />
 
           <div className="auth-titles">
-            <h1>Welcome</h1>
-            <span className="sub-title">{this.state.message}</span>
+            <h1>מערכת תוצר</h1>
+            <span className="sub-title">{this.state.title}</span>
           </div>
 
 
           {!this.state.isPhoneLegal &&
             <button onClick={this.authPhoneNumber} className="send-btn"><img src="./assets/images/pink_btn_after.svg" /></button>
           }
-          <input onChange={this.setPhoneNumber} onKeyDown={this.linsenToKeyPress} placeholder="אנא הזן מספר טלפון" type="tel"
-            className={this.state.isPhoneLegal ? "phone-box out" : "phone-box"} value={this.state.phoneNumber} />
+          <div className="phone-field">
+            <span className="err-message">{this.state.message}</span>
+            <input onChange={this.setPhoneNumber} onKeyDown={this.linsenToKeyPress}
+              style={{ border: this.state.message === "" ? "2px solid black" : "2px solid red" }}
+              placeholder="אנא הזן מספר טלפון" type="tel" className={this.state.isPhoneLegal ? "phone-box out" : "phone-box"}
+              value={this.state.phoneNumber} />
 
-          <br />
+            <br />
+          </div>
+
 
           {this.state.isPhoneLegal &&
             <div className="code-area">
-              <input onChange={this.setCode} autoFocus value={this.state.code} maxLength={4} className="code-num-box-visible-first" />
-              <input onChange={this.setCode} value={this.state.code} maxLength={4} className="code-num-box-visible-second" />
-              <input onChange={this.setCode} value={this.state.code} maxLength={4} className="code-num-box-visible-third" />
-              <input onChange={this.setCode} value={this.state.code} maxLength={4} className="code-num-box-visible-fourth" />
-              <input className={this.state.code.toString()[0] ? "code-num-box-after" : "code-num-box-before"}
-                value={this.state.code.toString()[0] ? this.state.code.toString()[0] : ""} />
+
+              <input autoFocus className={this.state.code.toString()[0] ? "code-num-box-after" : "code-num-box-before"}
+                maxLength={1} onChange={this.setCode} ref={this.firstInput} />
               <input className={this.state.code.toString()[1] ? "code-num-box-after" : "code-num-box-before"}
-                value={this.state.code.toString()[1] ? this.state.code.toString()[1] : ""} />
+                maxLength={1} onChange={this.setCode} ref={this.secondInput} />
               <input className={this.state.code.toString()[2] ? "code-num-box-after" : "code-num-box-before"}
-                value={this.state.code.toString()[2] ? this.state.code.toString()[2] : ""} />
+                maxLength={1} onChange={this.setCode} ref={this.thirdInput} />
               <input className={this.state.code.toString()[3] ? "code-num-box-after" : "code-num-box-before"}
-                value={this.state.code.toString()[3] ? this.state.code.toString()[3] : ""} />
+                maxLength={1} onChange={this.setCode} ref={this.fourthInput} />
+
             </div>
           }
-
 
 
 

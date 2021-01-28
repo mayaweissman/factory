@@ -15,10 +15,16 @@ interface AuthForWatchingOnlyState {
   isCodeLegal: boolean,
   isDisplayForBtn: boolean,
   allUsers: UserModel[],
-  isSmsSent: boolean
+  isSmsSent: boolean,
+  title: string
 }
 
 export class AuthForWatchingOnly extends Component<any, AuthForWatchingOnlyState> {
+
+  private firstInput = React.createRef<HTMLInputElement>();
+  private secondInput = React.createRef<HTMLInputElement>();
+  private thirdInput = React.createRef<HTMLInputElement>();
+  private fourthInput = React.createRef<HTMLInputElement>();
 
 
   public constructor(props: any) {
@@ -26,7 +32,8 @@ export class AuthForWatchingOnly extends Component<any, AuthForWatchingOnlyState
     this.state = {
       phoneNumber: "",
       code: "",
-      message: "הזינו את מספר הטלפון שלכם כדי להיכנס לצפות בתוצרים",
+      message: "",
+      title: "יש להזין מספר טלפון על מנת לצפות בתוצרים",
       isPhoneLegal: false,
       isCodeLegal: false,
       isDisplayForBtn: false,
@@ -48,7 +55,7 @@ export class AuthForWatchingOnly extends Component<any, AuthForWatchingOnlyState
 
   public linsenToKeyPress = (e: any) => {
     e.keyCode === 13 &&
-     this.authPhoneNumber();
+      this.authPhoneNumber();
   }
 
 
@@ -56,17 +63,18 @@ export class AuthForWatchingOnly extends Component<any, AuthForWatchingOnlyState
     const phoneNumber = args.target.value;
     const fixedPhone = phoneNumber.replace(/[a-zA-Z$&@#*^%()!]/g, "");
     this.setState({ phoneNumber: fixedPhone });
+    this.setState({ message: "" })
+
   }
 
   public setCode = (args: ChangeEvent<HTMLInputElement>) => {
     const code = args.target.value;
-    console.log(code);
     if (code.length < 5) {
       const fixedCode = code.replace(/[a-zA-Z$&@#*^%()!]/g, "");
       this.setState({ isDisplayForBtn: true });
       this.setState({ code: fixedCode });
     }
-    if(code.length===4){
+    if (code.length === 4) {
       setTimeout(() => {
         this.authCode();
       }, 500);
@@ -74,6 +82,7 @@ export class AuthForWatchingOnly extends Component<any, AuthForWatchingOnlyState
 
   }
 
+  //Demo functions
   public authPhoneNumber = () => {
     const phoneNumber = this.state.phoneNumber;
     const allUsers = [...this.state.allUsers];
@@ -83,8 +92,10 @@ export class AuthForWatchingOnly extends Component<any, AuthForWatchingOnlyState
     let isPhoneLegal = false;
 
     if (user) {
-        message = "שלחנו לך הודעה עם קוד בן 4 ספרות";
+      if (user.permission === "יצירת דוחות") {
+        message = "";
         isPhoneLegal = true;
+        this.setState({ title: "יש להזין את הקוד שקיבלת" })
         new Promise((resolve, reject) => {
           resolve(() => console.log(""))
         }
@@ -102,9 +113,13 @@ export class AuthForWatchingOnly extends Component<any, AuthForWatchingOnlyState
           .catch((e) => {
             console.log(e)
           });
+      }
+      else {
+        message = "מספר הטלפון שהוזן אינו מספר מורשה";
+      }
     }
     else {
-      message = "סליחה, אנחנו לא מכירים";
+      message = "מספר הטלפון שהוזן אינו מספר מורשה";
     }
     this.setState({ message })
     this.setState({ isPhoneLegal })
@@ -113,6 +128,7 @@ export class AuthForWatchingOnly extends Component<any, AuthForWatchingOnlyState
   public authCode = () => {
     const code = this.state.code;
     const phoneNumber = this.state.phoneNumber;
+    console.log(phoneNumber);
     let message = "";
     let isCodeLegal = false;
 
@@ -127,6 +143,8 @@ export class AuthForWatchingOnly extends Component<any, AuthForWatchingOnlyState
         )
         .then((response) => response.json())
         .then((data) => {
+          console.log(data);
+          console.log(code);
           if (data.auth) {
             message = "ברוכים הבאים";
             isCodeLegal = true;
@@ -140,6 +158,10 @@ export class AuthForWatchingOnly extends Component<any, AuthForWatchingOnlyState
     }
   }
 
+  public moveToNextInput = ()=>{
+    this.secondInput.current?.focus();
+  }
+
   public render() {
     return (
       <div className="auth">
@@ -149,22 +171,28 @@ export class AuthForWatchingOnly extends Component<any, AuthForWatchingOnlyState
           <img className="auth-logo" src="/assets/images/logo_factory.svg" />
 
           <div className="auth-titles">
-            <h1>Welcome</h1>
-            <span className="sub-title">{this.state.message}</span>
+            <h1>מערכת תוצר</h1>
+            <span className="sub-title">{this.state.title}</span>
           </div>
 
 
           {!this.state.isPhoneLegal &&
             <button onClick={this.authPhoneNumber} className="send-btn"><img src="./assets/images/pink_btn_after.svg" /></button>
           }
-          <input onChange={this.setPhoneNumber} onKeyDown={this.linsenToKeyPress} placeholder="אנא הזן מספר טלפון" type="tel"
-            className={this.state.isPhoneLegal ? "phone-box out" : "phone-box"} value={this.state.phoneNumber} />
+          <div className="phone-field">
+            <span className="err-message">{this.state.message}</span>
+            <input onChange={this.setPhoneNumber} onKeyDown={this.linsenToKeyPress}
+              style={{ border: this.state.message === "" ? "2px solid black" : "2px solid red" }}
+              placeholder="אנא הזן מספר טלפון" type="tel" className={this.state.isPhoneLegal ? "phone-box out" : "phone-box"}
+              value={this.state.phoneNumber} />
 
-          <br />
+            <br />
+          </div>
+
 
           {this.state.isPhoneLegal &&
             <div className="code-area">
-              <input onChange={this.setCode} value={this.state.code} maxLength={4} className="code-num-box-visible-first" />
+              {/* <input onChange={this.setCode} autoFocus value={this.state.code} maxLength={4} className="code-num-box-visible-first" />
               <input onChange={this.setCode} value={this.state.code} maxLength={4} className="code-num-box-visible-second" />
               <input onChange={this.setCode} value={this.state.code} maxLength={4} className="code-num-box-visible-third" />
               <input onChange={this.setCode} value={this.state.code} maxLength={4} className="code-num-box-visible-fourth" />
@@ -175,7 +203,11 @@ export class AuthForWatchingOnly extends Component<any, AuthForWatchingOnlyState
               <input className={this.state.code.toString()[2] ? "code-num-box-after" : "code-num-box-before"}
                 value={this.state.code.toString()[2] ? this.state.code.toString()[2] : ""} />
               <input className={this.state.code.toString()[3] ? "code-num-box-after" : "code-num-box-before"}
-                value={this.state.code.toString()[3] ? this.state.code.toString()[3] : ""} />
+                value={this.state.code.toString()[3] ? this.state.code.toString()[3] : ""} /> */}
+              <input onChange={this.moveToNextInput} ref={this.firstInput}/>
+              <input onChange={this.moveToNextInput} ref={this.secondInput}/>
+              <input onChange={this.moveToNextInput} ref={this.thirdInput}/>
+              <input onChange={this.moveToNextInput} ref={this.fourthInput}/>
             </div>
           }
 

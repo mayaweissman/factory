@@ -16,6 +16,15 @@
   left: 1vw;
   opacity: 0;
 }
+
+.err-message {
+  position: absolute;
+  font-size: 13px;
+  top: -18px;
+  right: 5px;
+  color: red;
+}
+
 .code-num-box-visible-second {
   position: absolute;
   width: 4vw;
@@ -33,7 +42,6 @@
   left: 14vw;
   opacity: 0;
   z-index: 999;
-
 }
 .code-num-box-visible-fourth {
   position: absolute;
@@ -43,7 +51,6 @@
   left: 20vw;
   opacity: 0;
   z-index: 999;
-
 }
 
 .mobile .auth-logo {
@@ -66,7 +73,7 @@
 .auth-box {
   position: relative;
   width: 1000px;
-  height: 600px;
+  height: 400px;
   background-color: rgb(255, 255, 255);
   text-align: center;
   display: flex;
@@ -86,16 +93,21 @@
 }
 
 .phone-box {
-  width: 22%;
+  width: 100%;
   outline: none;
-  border: 2px solid black;
   border-radius: 35px;
-  text-align: left;
+  text-align: center;
   font-size: 2vw;
   padding: 0.7vw;
-  position: fixed;
+  font-family: "Heebo", sans-serif;
 }
 
+.phone-field {
+  position: fixed;
+  display: flex;
+  width: 22%;
+  flex-direction: column;
+}
 .out {
   animation: SlideOut 1s both;
 }
@@ -257,6 +269,9 @@
   outline: none;
   color: black;
 }
+.code-num-box-before:focus {
+  border: 2px solid rgb(248 74 114);
+}
 
 .code-num-box-after {
   border: 2px solid rgb(248 74 114);
@@ -273,15 +288,14 @@
 
 .send-btn {
   width: 5vw;
-  margin-right: 1vw;
   height: 4.4vw;
   border: none;
   background-color: white;
   font-size: 1.3vw;
-  position: fixed;
-  bottom: 3vw;
   outline: none;
+  position: relative;
   border-radius: 30px;
+  top: 8vw;
 }
 
 .send-btn:hover {
