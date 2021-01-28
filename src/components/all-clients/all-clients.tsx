@@ -37,15 +37,15 @@ export class AllClients extends Component<any, AllClientsState>{
     }
 
     async componentDidMount() {
-        try{
+        try {
             const response = await axios.get("http://factory-dev.landing-page-media.co.il/all-clients/");
             const allClients: ClientModel[] = response.data.clients;
             this.setState({ allClients });
             this.setState({ clientsToShow: allClients });
-    
+
             store.dispatch({ type: ActionType.getAllClients, payLoad: allClients });
         }
-        catch(err){
+        catch (err) {
             console.log(err.message);
         }
 
@@ -59,7 +59,7 @@ export class AllClients extends Component<any, AllClientsState>{
             client.timePassed = Date.parse(client.lastUpdate as string)
         }
         allClients.sort((a, b) => ((a.timePassed as number) > (b.timePassed as number)) ? -1 : 1);
-        this.setState({clientsToShow: allClients});
+        this.setState({ clientsToShow: allClients });
     }
 
     public componentWillUnmount(): void {
@@ -120,8 +120,6 @@ export class AllClients extends Component<any, AllClientsState>{
         return (
             <div className="all-clients">
 
-                {this.state.allClients.length === 0 && <img className="loader" src="./assets/images/loading.gif" />}
-
                 <div className="filter-area">
                     <div className="left-filter">
                         <img className="filter-by-date-img" src="./assets/images/filter_by_date.svg" />
@@ -137,9 +135,15 @@ export class AllClients extends Component<any, AllClientsState>{
 
                 </div>
 
-                {this.state.clientsToShow.map(client =>
+                {this.state.clientsToShow.length === 0 &&
+                    <div className="no-clients-area">
+                        <h1>אין לקוחות להצגה</h1>
+                    </div>
+                }
+
+                {this.state.clientsToShow.length !== 0 && this.state.clientsToShow.map(client =>
                     <div className="client">
-                        <img src={client.clientImageSrc} onClick={this.selectClient(client)}/>
+                        <img src={client.clientImageSrc} onClick={this.selectClient(client)} />
                         <div className="client-info">
 
                             <button className={this.state.selectedClients.filter(c => c.clientId === client.clientId).length === 0 ? "btn-before" : "btn-after"}>
@@ -148,6 +152,8 @@ export class AllClients extends Component<any, AllClientsState>{
                             <span>{client.clientName}</span>
                         </div>
                     </div>)}
+
+             
 
                 <div style={{ display: this.state.isPopUpShow ? "block" : "none" }} className="company-filter-pop-up-menu"
                     onMouseEnter={() => this.setState({ isPopUpShow: true })}

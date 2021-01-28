@@ -216,17 +216,28 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
         try {
             //Made new report
             const report = new ReportModel();
-            const uuid =  this.uuid();
-            this.setState({uuid});
-            store.dispatch({type: ActionType.getUuid, payLoad: uuid});
+            const uuid = this.uuid();
+            this.setState({ uuid });
+            store.dispatch({ type: ActionType.getUuid, payLoad: uuid });
             report.uuid = uuid;
 
+            const allClients: ClientModel[] = store.getState().selectedClients;
             //Push new report all selections
-            report.clients = store.getState().selectedClients;
+            report.clients = allClients;
             report.campaigns = store.getState().campaignsToDisplay;
             report.products = store.getState().productsToDisplay;
 
-            console.log(report);
+            if (report.campaigns && report.campaigns?.length > 0) {
+                report.clients = [];
+                const filteredClients: ClientModel[] = [];
+                report.campaigns?.map(campaign => {
+                    allClients.filter(client => client.clientId === campaign.clientId)
+                        .forEach(c => filteredClients.push(c));
+                });
+                report.clients = filteredClients;
+            }
+
+
             let formData = new FormData();
             formData.append("state", JSON.stringify(report));
             formData.append("uuid", uuid);
