@@ -34,7 +34,7 @@ export class Auth extends Component<any, AuthState> {
       code: "",
       message: "",
       title: "יש להזין מספר טלפון על מנת להתחבר",
-      isPhoneLegal: true,
+      isPhoneLegal: false,
       isCodeLegal: false,
       isDisplayForBtn: false,
       allUsers: [],
