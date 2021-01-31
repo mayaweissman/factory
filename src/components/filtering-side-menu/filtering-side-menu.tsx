@@ -34,8 +34,7 @@ interface FilteringSideMenuState {
     datesRange: string,
     allProducts: ProductModel[],
     productsTypes: ProductsType[],
-    productsTypesToDisplay: ProductsType[],
-    uuid: string
+    productsTypesToDisplay: ProductsType[]
 }
 
 export class FilteringSideMenu extends Component<FilteringSideMenuProps, FilteringSideMenuState>{
@@ -53,8 +52,7 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
             selectedProducts: store.getState().selectedProducts,
             allProducts: [],
             productsTypes: [],
-            datesRange: "- - / - - / - -",
-            uuid: ""
+            datesRange: "- - / - - / - -"
         }
 
         this.unsubscribeStore = store.subscribe(() => {
@@ -238,60 +236,6 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
         store.dispatch({ type: ActionType.changeDisplayForMobileMenu })
     }
 
-    public createReport = async () => {
-        try {
-            //Made new report
-            const report = new ReportModel();
-            const uuid = this.uuid();
-            this.setState({ uuid });
-            store.dispatch({ type: ActionType.getUuid, payLoad: uuid });
-            report.uuid = uuid;
-
-            const allClients: ClientModel[] = store.getState().selectedClients;
-            //Push new report all selections
-            report.clients = allClients;
-            report.campaigns = store.getState().campaignsToDisplay;
-            report.products = store.getState().productsToDisplay;
-
-            if (report.campaigns && report.campaigns?.length > 0) {
-                report.clients = [];
-                const filteredClients: ClientModel[] = [];
-                report.campaigns?.map(campaign => {
-                    allClients.filter(client => client.clientId === campaign.clientId)
-                        .forEach(c => filteredClients.push(c));
-                });
-                report.clients = filteredClients;
-            }
-
-
-            let formData = new FormData();
-            formData.append("state", JSON.stringify(report));
-            formData.append("uuid", uuid);
-            await axios.post("http://factory-dev.landing-page-media.co.il/create-report/", formData);
-
-            store.dispatch({ type: ActionType.changeDisplayForLinkPopUp });
-        }
-        catch (err) {
-            console.log(err.message);
-        }
-
-    }
-
-    public uuid = () => {
-        const hashTable = [
-            'a', 'b', 'c', 'd', 'e', 'f',
-            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
-        ]
-        let uuid = []
-        for (let i = 0; i < 35; i++) {
-            if (i === 7 || i === 12 || i === 17 || i === 22) {
-                uuid[i] = '-'
-            } else {
-                uuid[i] = hashTable[Math.floor(Math.random() * hashTable.length - 1)]
-            }
-        }
-        return uuid.join('');
-    }
 
 
     public render() {
@@ -314,45 +258,47 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
                     </button>
                 </DateRangePicker>
                 <br />
+                <div className="scrolling-area">
+                    <div className="campaigns-filtering-area">
+                        <span className="campaign-filtering-title">קמפיין</span>
+                        <br />
+                        <div className="campaigns-titles">
 
-                <div className="campaigns-filtering-area">
-                    <span className="campaign-filtering-title">קמפיין</span>
-                    <br />
-                    <div className="campaigns-titles">
+                            {this.state.selectedCampaigns.map(campaign =>
+                                <label className="container-for-check">
+                                    <input checked={this.isCampaignChecked(campaign.campaignId as number)} onClick={this.filterByCapmaign(campaign)} type="checkbox" />
+                                    <span className="checkmark"></span>
+                                    <span className="campaign-name-title">
+                                        {campaign.campaignName}
+                                    </span>
+                                </label>
+                            )}
 
-                        {this.state.selectedCampaigns.map(campaign =>
-                            <label className="container-for-check">
-                                <input checked={this.isCampaignChecked(campaign.campaignId as number)} onClick={this.filterByCapmaign(campaign)} type="checkbox" />
-                                <span className="checkmark"></span>
-                                <span className="campaign-name-title">
-                                    {campaign.campaignName}
-                                </span>
-                            </label>
-                        )}
+                        </div>
+                    </div>
+
+                    <div className="products-filtering-area">
+                        <span className="products-filtering-title">סוג תוצר</span>
+                        <br />
+                        <div className="products-titles">
+
+                            {this.state.productsTypesToDisplay.map(type =>
+                                <label className="container-for-check">
+                                    <input checked={this.isProductTypeChecked(type.productsTypeId as number)} type="checkbox" onClick={this.filterByProductType(type.productsTypeId as number)} />
+                                    <span className="checkmark"></span>
+                                    <span className="campaign-name-title">
+                                        {type.nameForMany}
+                                    </span>
+                                </label>
+                            )}
+                        </div>
                     </div>
                 </div>
-
-                <div className="products-filtering-area">
-                    <span className="products-filtering-title">סוג תוצר</span>
-                    <br />
-                    <div className="products-titles">
-
-                        {this.state.productsTypesToDisplay.map(type =>
-                            <label className="container-for-check">
-                                <input checked={this.isProductTypeChecked(type.productsTypeId as number)} type="checkbox" onClick={this.filterByProductType(type.productsTypeId as number)} />
-                                <span className="checkmark"></span>
-                                <span className="campaign-name-title">
-                                    {type.nameForMany}
-                                </span>
-                            </label>
-                        )}
-                    </div>
-                </div>
-
 
                 {!this.props.isOnReport &&
-                    <button disabled={this.state.selectedClients.length === 0} className="url-sharing-area" onClick={this.createReport}>
-                        <span>הפקת דו"ח תוצרים</span>
+                    <button disabled={this.state.selectedClients.length === 0} className="url-sharing-area" 
+                        onClick={() => store.dispatch({ type: ActionType.changeDisplayForLinkPopUp })}>
+                <span>הפקת דו"ח תוצרים</span>
                     </button>
                 }
 

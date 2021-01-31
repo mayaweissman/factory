@@ -16,7 +16,8 @@ interface AuthState {
   isDisplayForBtn: boolean,
   allUsers: UserModel[],
   isSmsSent: boolean,
-  title: string
+  title: string,
+  user: UserModel
 }
 
 export class Auth extends Component<any, AuthState> {
@@ -38,7 +39,8 @@ export class Auth extends Component<any, AuthState> {
       isCodeLegal: false,
       isDisplayForBtn: false,
       allUsers: [],
-      isSmsSent: false
+      isSmsSent: false,
+      user: new UserModel()
     }
   }
 
@@ -78,6 +80,7 @@ export class Auth extends Component<any, AuthState> {
     let isPhoneLegal = false;
 
     if (user) {
+      this.setState({user});
       if (user.permission === "יצירת דוחות") {
         message = "";
         isPhoneLegal = true;
@@ -114,7 +117,6 @@ export class Auth extends Component<any, AuthState> {
   public authCode = () => {
     const code = this.state.code;
     const phoneNumber = this.state.phoneNumber;
-    console.log(phoneNumber);
     let message = "";
     let isCodeLegal = false;
 
@@ -134,7 +136,7 @@ export class Auth extends Component<any, AuthState> {
           if (data.auth) {
             message = "ברוכים הבאים";
             isCodeLegal = true;
-            store.dispatch({ type: ActionType.loginEditingMode });
+            store.dispatch({ type: ActionType.loginEditingMode , payLoad: this.state.user});
             this.props.history.push('/home');
           } else {
             message = "קוד אינו חוקי";
@@ -155,19 +157,23 @@ export class Auth extends Component<any, AuthState> {
     this.setState({ isDisplayForBtn: true });
     this.setState({ code: fixedCode });
 
-    if (code.length === 1) {
-      this.secondInput.current?.focus();
-    }
-    else if (code.length === 2) {
-      this.thirdInput.current?.focus();
-    }
-    else if (code.length === 3) {
-      this.fourthInput.current?.focus();
-    }
-    else if (code.length === 4) {
-      setTimeout(() => {
-        this.authCode();
-      }, 500);
+    switch (code.length) {
+      case 1:
+        this.secondInput.current?.focus();
+        break;
+      case 2:
+        this.thirdInput.current?.focus();
+        break;
+      case 3:
+        this.fourthInput.current?.focus();
+        break;
+      case 4:
+        setTimeout(() => {
+          this.authCode();
+        }, 500); break;
+
+      default:
+        this.secondInput.current?.focus();
     }
 
   }

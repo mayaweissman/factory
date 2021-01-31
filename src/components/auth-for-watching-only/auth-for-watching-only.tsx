@@ -67,20 +67,6 @@ export class AuthForWatchingOnly extends Component<any, AuthForWatchingOnlyState
 
   }
 
-  public setCode = (args: ChangeEvent<HTMLInputElement>) => {
-    const code = args.target.value;
-    if (code.length < 5) {
-      const fixedCode = code.replace(/[a-zA-Z$&@#*^%()!]/g, "");
-      this.setState({ isDisplayForBtn: true });
-      this.setState({ code: fixedCode });
-    }
-    if (code.length === 4) {
-      setTimeout(() => {
-        this.authCode();
-      }, 500);
-    }
-
-  }
 
   //Demo functions
   public authPhoneNumber = () => {
@@ -92,7 +78,6 @@ export class AuthForWatchingOnly extends Component<any, AuthForWatchingOnlyState
     let isPhoneLegal = false;
 
     if (user) {
-      if (user.permission === "יצירת דוחות") {
         message = "";
         isPhoneLegal = true;
         this.setState({ title: "יש להזין את הקוד שקיבלת" })
@@ -117,10 +102,8 @@ export class AuthForWatchingOnly extends Component<any, AuthForWatchingOnlyState
       else {
         message = "מספר הטלפון שהוזן אינו מספר מורשה";
       }
-    }
-    else {
-      message = "מספר הטלפון שהוזן אינו מספר מורשה";
-    }
+    
+   
     this.setState({ message })
     this.setState({ isPhoneLegal })
   }
@@ -158,8 +141,35 @@ export class AuthForWatchingOnly extends Component<any, AuthForWatchingOnlyState
     }
   }
 
-  public moveToNextInput = ()=>{
-    this.secondInput.current?.focus();
+
+  public setCode = (args: ChangeEvent<HTMLInputElement>) => {
+    const number = args.target.value;
+    let currentCode = this.state.code;
+    const code = currentCode += number;
+
+    const fixedCode = code.replace(/[a-zA-Z$&@#*^%()!]/g, "");
+    this.setState({ isDisplayForBtn: true });
+    this.setState({ code: fixedCode });
+
+    switch (code.length) {
+      case 1:
+        this.secondInput.current?.focus();
+        break;
+      case 2:
+        this.thirdInput.current?.focus();
+        break;
+      case 3:
+        this.fourthInput.current?.focus();
+        break;
+      case 4:
+        setTimeout(() => {
+          this.authCode();
+        }, 500); break;
+
+      default:
+        this.secondInput.current?.focus();
+    }
+
   }
 
   public render() {
@@ -192,25 +202,18 @@ export class AuthForWatchingOnly extends Component<any, AuthForWatchingOnlyState
 
           {this.state.isPhoneLegal &&
             <div className="code-area">
-              {/* <input onChange={this.setCode} autoFocus value={this.state.code} maxLength={4} className="code-num-box-visible-first" />
-              <input onChange={this.setCode} value={this.state.code} maxLength={4} className="code-num-box-visible-second" />
-              <input onChange={this.setCode} value={this.state.code} maxLength={4} className="code-num-box-visible-third" />
-              <input onChange={this.setCode} value={this.state.code} maxLength={4} className="code-num-box-visible-fourth" />
-              <input className={this.state.code.toString()[0] ? "code-num-box-after" : "code-num-box-before"}
-                value={this.state.code.toString()[0] ? this.state.code.toString()[0] : ""} />
+
+              <input autoFocus className={this.state.code.toString()[0] ? "code-num-box-after" : "code-num-box-before"}
+                maxLength={1} onChange={this.setCode} ref={this.firstInput} />
               <input className={this.state.code.toString()[1] ? "code-num-box-after" : "code-num-box-before"}
-                value={this.state.code.toString()[1] ? this.state.code.toString()[1] : ""} />
+                maxLength={1} onChange={this.setCode} ref={this.secondInput} />
               <input className={this.state.code.toString()[2] ? "code-num-box-after" : "code-num-box-before"}
-                value={this.state.code.toString()[2] ? this.state.code.toString()[2] : ""} />
+                maxLength={1} onChange={this.setCode} ref={this.thirdInput} />
               <input className={this.state.code.toString()[3] ? "code-num-box-after" : "code-num-box-before"}
-                value={this.state.code.toString()[3] ? this.state.code.toString()[3] : ""} /> */}
-              <input onChange={this.moveToNextInput} ref={this.firstInput}/>
-              <input onChange={this.moveToNextInput} ref={this.secondInput}/>
-              <input onChange={this.moveToNextInput} ref={this.thirdInput}/>
-              <input onChange={this.moveToNextInput} ref={this.fourthInput}/>
+                maxLength={1} onChange={this.setCode} ref={this.fourthInput} />
+
             </div>
           }
-
 
 
 

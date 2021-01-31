@@ -23,6 +23,7 @@ export enum ActionType {
     logoutEditingMode,
     loginWatchingMode,
     logoutWatchingMode,
-    getUuid
+    getUuid,
+    saveReport
 
 }

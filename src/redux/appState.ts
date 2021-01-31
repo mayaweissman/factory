@@ -1,6 +1,7 @@
 import { CampaignModel } from "../models/campaignModel";
 import { ClientModel } from "../models/clientModel";
 import { ProductModel } from "../models/productModel";
+import { UserModel } from "../models/userModel";
 
 export class AppState {
   public allClients: ClientModel[] = [];
@@ -16,9 +17,10 @@ export class AppState {
   public isProductsPopUpShow: boolean = false;
   public isMobileMenuShow: boolean = false;
   public isLinksPopUpShow: boolean = false;
+  public isReportSave: boolean = false;
   public isAuthSucceeded: boolean = false;
   public isAuthSucceededForReport: boolean = false;
-  public uuid: string = ""
+  public user: UserModel = new UserModel();
 
   public constructor() {
     const json = sessionStorage.getItem("AppState");
@@ -39,7 +41,8 @@ export class AppState {
       this.isMobileMenuShow = appState.isMobileMenuShow;
       this.isAuthSucceeded = appState.isAuthSucceeded;
       this.isAuthSucceededForReport = appState.isAuthSucceededForReport;
-      this.uuid = appState.uuid;
+      this.user = appState.user;
+      this.isReportSave = appState.isReportSave;
     }
   }
 }

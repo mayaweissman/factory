@@ -33,6 +33,7 @@
 
 .close-link-pop-up-btn {
   width: 1.9vw;
+  z-index: 100000;
   height: 1.9vw;
   margin: 1vw;
   position: absolute;
@@ -72,6 +73,60 @@
   direction: ltr;
   border-bottom: 5px solid black;
   font-size: 1vw;
+}
+
+.inner-content-second{
+  transform: translateX(-1300px);
+  position: relative;
+  bottom: 190px;
+}
+
+.out{
+  animation: SlideOut 1s both;
+}
+
+.in{
+  animation: SlideIn 1s both;
+}
+
+@keyframes SlideOut{
+  0%{
+    transform: translateX(0);
+    opacity: 1;
+  }
+  30%{
+    opacity: 0;
+  }
+
+  100%{
+    transform: translateX(200px);
+    opacity: 0;
+  }
+}
+
+@keyframes SlideIn{
+  0%{
+    transform: translateX(-200px);
+    opacity: 0;
+  }
+  90%{
+    opacity: 1;
+  }
+
+  100%{
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.report-name-box{
+  height: 2vw;
+  width: 80%;
+  outline: none;
+  border: none;
+  direction: rtl;
+  border-bottom: 5px solid black;
+  font-size: 2vw;
 }
 
 .link-title {

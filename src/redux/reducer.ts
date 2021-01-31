@@ -2,6 +2,7 @@ import { AppState } from "./appState";
 import { Action } from "./action";
 import { ActionType } from "./actionType";
 import { act } from "react-dom/test-utils";
+import { UserModel } from "../models/userModel";
 
 export function reducer(oldAppState: AppState, action: Action): AppState {
   const newAppState = { ...oldAppState }; //Duplicate the old state into a new state
@@ -57,33 +58,49 @@ export function reducer(oldAppState: AppState, action: Action): AppState {
       newAppState.selectedCampaigns = action.payLoad;
       break;
 
-    case ActionType.getUuid:
-      newAppState.uuid = action.payLoad;
-      break;
-
     case ActionType.loginEditingMode:
+      newAppState.user = action.payLoad;
       newAppState.isAuthSucceeded = true;
       break;
 
     case ActionType.logoutEditingMode:
+      if (!newAppState.isReportSave) {
+        localStorage.setItem(
+          `${newAppState.user.userId}`,
+          JSON.stringify(newAppState)
+        );
+      }
+      newAppState.user = new UserModel();
       newAppState.isAuthSucceeded = false;
+      newAppState.selectedClients = [];
+      newAppState.selectedCampaigns = [];
+      newAppState.selectedProducts = [];
+      newAppState.clientsToDisplay = [];
+      newAppState.campaignsToDisplay = [];
+      newAppState.productsToDisplay = [];
       break;
 
     case ActionType.loginWatchingMode:
+      newAppState.user = action.payLoad;
       newAppState.isAuthSucceededForReport = true;
       break;
 
     case ActionType.logoutWatchingMode:
+      newAppState.user = new UserModel();
       newAppState.isAuthSucceededForReport = false;
       newAppState.isAuthSucceeded = false;
+      newAppState.selectedClients = [];
+      newAppState.selectedCampaigns = [];
+      newAppState.selectedProducts = [];
+      newAppState.clientsToDisplay = [];
+      newAppState.campaignsToDisplay = [];
+      newAppState.productsToDisplay = [];
       break;
-  
 
     case ActionType.changeDisplayForPopUp:
       if (newAppState.isPopUpShow) {
         newAppState.isPopUpShow = false;
-      }
-      else {
+      } else {
         newAppState.isPopUpShow = true;
       }
       break;
@@ -91,8 +108,7 @@ export function reducer(oldAppState: AppState, action: Action): AppState {
     case ActionType.changeDisplayForProductsPopUp:
       if (newAppState.isProductsPopUpShow) {
         newAppState.isProductsPopUpShow = false;
-      }
-      else {
+      } else {
         newAppState.isProductsPopUpShow = true;
       }
       break;
@@ -100,8 +116,7 @@ export function reducer(oldAppState: AppState, action: Action): AppState {
     case ActionType.changeDisplayForLinkPopUp:
       if (newAppState.isLinksPopUpShow) {
         newAppState.isLinksPopUpShow = false;
-      }
-      else {
+      } else {
         newAppState.isLinksPopUpShow = true;
       }
       break;
@@ -109,10 +124,14 @@ export function reducer(oldAppState: AppState, action: Action): AppState {
     case ActionType.changeDisplayForMobileMenu:
       if (newAppState.isMobileMenuShow) {
         newAppState.isMobileMenuShow = false;
-      }
-      else {
+      } else {
         newAppState.isMobileMenuShow = true;
       }
+      break;
+
+    case ActionType.saveReport:
+      localStorage.removeItem(`${newAppState.user.userId}`);
+      newAppState.isReportSave = true;
       break;
 
     case ActionType.removeClient:
@@ -120,13 +139,23 @@ export function reducer(oldAppState: AppState, action: Action): AppState {
       const index = newAppState.selectedClients.findIndex(
         (c) => c.clientId === clientId
       );
-      
+
       newAppState.selectedClients.splice(index, 1);
-      newAppState.selectedCampaigns = newAppState.selectedCampaigns.filter(c => c.clientId !== action.payLoad);
-      newAppState.campaignsToDisplay = newAppState.campaignsToDisplay.filter(c => c.clientId !== action.payLoad);
-      newAppState.selectedProducts = newAppState.selectedProducts.filter(c => c.clientId !== action.payLoad);
-      newAppState.productsToDisplay = newAppState.productsToDisplay.filter(c => c.clientId !== action.payLoad);
-      newAppState.clientsToDisplay = newAppState.clientsToDisplay.filter(c => c.clientId !== action.payLoad);
+      newAppState.selectedCampaigns = newAppState.selectedCampaigns.filter(
+        (c) => c.clientId !== action.payLoad
+      );
+      newAppState.campaignsToDisplay = newAppState.campaignsToDisplay.filter(
+        (c) => c.clientId !== action.payLoad
+      );
+      newAppState.selectedProducts = newAppState.selectedProducts.filter(
+        (c) => c.clientId !== action.payLoad
+      );
+      newAppState.productsToDisplay = newAppState.productsToDisplay.filter(
+        (c) => c.clientId !== action.payLoad
+      );
+      newAppState.clientsToDisplay = newAppState.clientsToDisplay.filter(
+        (c) => c.clientId !== action.payLoad
+      );
       break;
 
     default:

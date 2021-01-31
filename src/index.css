@@ -16,6 +16,9 @@ body::-webkit-scrollbar {
   height: 0;
 }
 
+button, input{
+  font-family: 'Heebo', sans-serif;
+}
 
 
 ::-webkit-scrollbar {

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { ChangeEvent, Component } from "react";
 import { ActionType } from "../../redux/actionType";
 import { store } from "../../redux/store";
 import "./link-pop-up.css";
@@ -8,10 +8,15 @@ import { config } from "process";
 import { ReportModel } from "../../models/reportModel";
 import axios from "axios";
 import { Unsubscribe } from "redux";
+import { ClientModel } from "../../models/clientModel";
+import { UserModel } from "../../models/userModel";
 
 interface LinkPopUpState {
     url: string,
-    uuid: string
+    isReportCreated: boolean,
+    uuid: string,
+    user: UserModel,
+    report: ReportModel
 }
 
 export class LinkPopUp extends Component<any, LinkPopUpState>{
@@ -24,20 +29,22 @@ export class LinkPopUp extends Component<any, LinkPopUpState>{
     public constructor(props: any) {
         super(props);
         this.state = {
-            url:  "",
-            uuid: store.getState().uuid
+            url: "",
+            isReportCreated: false,
+            uuid: "",
+            user: store.getState().user,
+            report: new ReportModel()
         }
 
         this.unsubscribeStore = store.subscribe(() => {
-            const uuid = store.getState().uuid;
-            this.setState({ uuid });
+            const user = store.getState().user;
+            this.setState({ user });
         })
     }
 
-    public componentDidMount(){
-
-        let url = Config.serverUrl + "/" + this.state.uuid;
-        this.setState({url});
+    public componentDidMount() {
+        let url = Config.serverUrl;
+        this.setState({ url });
     }
 
     public componentWillUnmount(): void {
@@ -59,16 +66,95 @@ export class LinkPopUp extends Component<any, LinkPopUpState>{
         document.execCommand("copy");
     };
 
+    public setReportName = (args: ChangeEvent<HTMLInputElement>)=>{
+        const reportName = args.target.value;
+        const report = {...this.state.report};
+        report.reportName = reportName;;
+        this.setState({report});
+    }
+
+
+    public createReport = async () => {
+        try {
+            store.dispatch({type: ActionType.saveReport});
+            //Made new report
+            const report = {...this.state.report};
+            const uuid = this.uuid();
+            const url = this.state.url + "/" + uuid;
+            this.setState({url});
+            this.setState({ uuid });
+            report.uuid = uuid;
+            report.creatorId = this.state.user.userId;
+            report.creationDate = new Date().toLocaleDateString();
+
+            const allClients: ClientModel[] = store.getState().selectedClients;
+            //Push new report all selections
+            report.clients = allClients;
+            report.campaigns = store.getState().campaignsToDisplay;
+            report.products = store.getState().productsToDisplay;
+
+            if (report.campaigns && report.campaigns?.length > 0) {
+                report.clients = [];
+                const filteredClients: ClientModel[] = [];
+                report.campaigns?.map(campaign => {
+                    allClients.filter(client => client.clientId === campaign.clientId)
+                        .forEach(c => filteredClients.push(c));
+                });
+                report.clients = filteredClients;
+            }
+
+
+            let formData = new FormData();
+            formData.append("state", JSON.stringify(report));
+            formData.append("uuid", uuid);
+            await axios.post("http://factory-dev.landing-page-media.co.il/create-report/", formData);
+
+            this.setState({ isReportCreated: true });
+        }
+        catch (err) {
+            console.log(err.message);
+        }
+
+    }
+
+    public uuid = () => {
+        const hashTable = [
+            'a', 'b', 'c', 'd', 'e', 'f',
+            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
+        ]
+        let uuid = []
+        for (let i = 0; i < 35; i++) {
+            if (i === 7 || i === 12 || i === 17 || i === 22) {
+                uuid[i] = '-'
+            } else {
+                uuid[i] = hashTable[Math.floor(Math.random() * hashTable.length - 1)]
+            }
+        }
+        return uuid.join('');
+    }
+
     public render() {
         return (
             <div className="full-screen-link-conatiner" onClick={this.closePopUp} >
+
                 <div className="small-link-conatiner" onClick={this.stopPropagation}>
                     <button className="close-link-pop-up-btn" onClick={this.closePopUp} ><CloseIcon /></button>
 
-                    <h2 className="link-title">הלינק לשיתוף</h2>
-                    <input ref={this.linkRef} className="url-box" value={this.state.url} />
+                    <div className={this.state.isReportCreated ? "inner-content-first out" : "inner-content-first"}>
+                        <h2 className="link-title">בחירת שם לדו"ח</h2>
+                        <input ref={this.linkRef} className="report-name-box" />
 
-                    <button onClick={this.copyToClipboard} className="copy-link-btn">Copy link</button>
+                        <button onClick={this.createReport} className="copy-link-btn">יצירת דו"ח תוצרים</button>
+                    </div>
+
+
+                    <div className={this.state.isReportCreated ? "inner-content-second in" : "inner-content-second"}>
+
+                        <h2 className="link-title">והנה הלינק לשיתוף</h2>
+                        <input ref={this.linkRef} className="url-box" value={this.state.url} />
+
+                        <button onClick={this.copyToClipboard} className="copy-link-btn">Copy link</button>
+                    </div>
 
                 </div>
             </div>
