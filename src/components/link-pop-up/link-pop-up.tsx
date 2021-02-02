@@ -16,7 +16,8 @@ interface LinkPopUpState {
     isReportCreated: boolean,
     uuid: string,
     user: UserModel,
-    report: ReportModel
+    report: ReportModel,
+    datesRanges: string
 }
 
 export class LinkPopUp extends Component<any, LinkPopUpState>{
@@ -33,12 +34,15 @@ export class LinkPopUp extends Component<any, LinkPopUpState>{
             isReportCreated: false,
             uuid: "",
             user: store.getState().user,
-            report: new ReportModel()
+            report: new ReportModel(),
+            datesRanges: store.getState().datesRange
         }
 
         this.unsubscribeStore = store.subscribe(() => {
             const user = store.getState().user;
             this.setState({ user });
+            const datesRanges = store.getState().datesRange;
+            this.setState({datesRanges});
         })
     }
 
@@ -66,26 +70,27 @@ export class LinkPopUp extends Component<any, LinkPopUpState>{
         document.execCommand("copy");
     };
 
-    public setReportName = (args: ChangeEvent<HTMLInputElement>)=>{
+    public setReportName = (args: ChangeEvent<HTMLInputElement>) => {
         const reportName = args.target.value;
-        const report = {...this.state.report};
+        const report = { ...this.state.report };
         report.reportName = reportName;;
-        this.setState({report});
+        this.setState({ report });
     }
 
 
     public createReport = async () => {
         try {
-            store.dispatch({type: ActionType.saveReport});
+            store.dispatch({ type: ActionType.saveReport });
             //Made new report
-            const report = {...this.state.report};
+            const report = { ...this.state.report };
             const uuid = this.uuid();
             const url = this.state.url + "/" + uuid;
-            this.setState({url});
+            this.setState({ url });
             this.setState({ uuid });
             report.uuid = uuid;
             report.creatorId = this.state.user.userId;
             report.creationDate = new Date().toLocaleDateString();
+            report.datesOnReport= store.getState().datesRange;
 
             const allClients: ClientModel[] = store.getState().selectedClients;
             //Push new report all selections
@@ -103,9 +108,11 @@ export class LinkPopUp extends Component<any, LinkPopUpState>{
                 report.clients = filteredClients;
             }
 
+            const id: string = (this.state.user.userId?.toString() as string);
 
             let formData = new FormData();
             formData.append("state", JSON.stringify(report));
+            formData.append("userId", id);
             formData.append("uuid", uuid);
             await axios.post("http://factory-dev.landing-page-media.co.il/create-report/", formData);
 
@@ -142,9 +149,10 @@ export class LinkPopUp extends Component<any, LinkPopUpState>{
 
                     <div className={this.state.isReportCreated ? "inner-content-first out" : "inner-content-first"}>
                         <h2 className="link-title">בחירת שם לדו"ח</h2>
-                        <input ref={this.linkRef} className="report-name-box" />
+                        <input onChange={this.setReportName} className="report-name-box" />
 
-                        <button onClick={this.createReport} className="copy-link-btn">יצירת דו"ח תוצרים</button>
+                        <button disabled={!this.state.report.reportName} onClick={this.createReport}
+                            className="copy-link-btn">יצירת דו"ח תוצרים</button>
                     </div>
 
 
@@ -153,7 +161,8 @@ export class LinkPopUp extends Component<any, LinkPopUpState>{
                         <h2 className="link-title">והנה הלינק לשיתוף</h2>
                         <input ref={this.linkRef} className="url-box" value={this.state.url} />
 
-                        <button onClick={this.copyToClipboard} className="copy-link-btn">Copy link</button>
+                        <button onClick={this.copyToClipboard} className="copy-link-btn">העתקת קישור</button>
+                        <button onClick={this.copyToClipboard} className="copy-link-btn">שליחה במייל</button>
                     </div>
 
                 </div>

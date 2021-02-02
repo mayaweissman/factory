@@ -20,6 +20,7 @@ import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import IconButton from '@material-ui/core/IconButton';
 import axios from "axios";
 import { ProductsType } from "../../models/productsTypeModel";
+import RestoreIcon from '@material-ui/icons/Restore';
 
 interface FilteringSideMenuProps {
     isOnReport: boolean
@@ -34,7 +35,8 @@ interface FilteringSideMenuState {
     datesRange: string,
     allProducts: ProductModel[],
     productsTypes: ProductsType[],
-    productsTypesToDisplay: ProductsType[]
+    productsTypesToDisplay: ProductsType[],
+    showDatesError: boolean
 }
 
 export class FilteringSideMenu extends Component<FilteringSideMenuProps, FilteringSideMenuState>{
@@ -52,7 +54,8 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
             selectedProducts: store.getState().selectedProducts,
             allProducts: [],
             productsTypes: [],
-            datesRange: "- - / - - / - -"
+            datesRange: store.getState().datesRange,
+            showDatesError: false
         }
 
         this.unsubscribeStore = store.subscribe(() => {
@@ -61,11 +64,13 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
             const selectedProducts = store.getState().selectedProducts;
             const campaignsToDisplay = store.getState().campaignsToDisplay;
             const productsToDisplay = store.getState().productsToDisplay;
+            const datesRange = store.getState().datesRange;
             this.setState({ selectedClients });
             this.setState({ selectedCampaigns });
             this.setState({ selectedProducts });
             this.setState({ campaignsToDisplay });
             this.setState({ productsToDisplay });
+            this.setState({ datesRange });
         })
     }
 
@@ -131,7 +136,7 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
     //Reset all previos filtering
     public resetFiltering = () => {
         store.dispatch({ type: ActionType.resetFiltering });
-        this.setState({ datesRange: "- - / - - / - -" })
+        store.dispatch({type: ActionType.getDatesRanges, payLoad: "- - / - - / - -"});
     }
 
 
@@ -194,6 +199,8 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
         const min = Date.parse(startDate);
         const max = Date.parse(endDate);
 
+        this.setState({ showDatesError: false });
+
         const campaignsToDisplay: CampaignModel[] = store.getState().campaignsToDisplay;
         if (campaignsToDisplay.length > 0) {
             for (const campaign of campaignsToDisplay) {
@@ -228,6 +235,7 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
         const endDateStr = new Date(endDate).toLocaleDateString().replace(".", "/");
         const strToState = `${endDateStr.replace(".", "/")} - ${startDateStr.replace(".", "/")}`;
         this.setState({ datesRange: strToState });
+        store.dispatch({ type: ActionType.getDatesRanges, payLoad: strToState });
 
 
     }
@@ -236,6 +244,16 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
         store.dispatch({ type: ActionType.changeDisplayForMobileMenu })
     }
 
+    public createReport = () => {
+        if (this.state.datesRange === "- - / - - / - -") {
+            this.setState({ showDatesError: true });
+        }
+        else {
+            store.dispatch({ type: ActionType.changeDisplayForLinkPopUp })
+
+        }
+
+    }
 
 
     public render() {
@@ -250,7 +268,8 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
                 <DateRangePicker
                     onApply={this.filterByDatesRange}
                 >
-                    <button className="date-picker-btn">
+                    <button className="date-picker-btn"
+                        style={{ borderBottom: this.state.showDatesError ? "1px solid #f14646" : "1px solid white" }}>
                         {this.state.datesRange}
                         <span className="date-range-icon">
                             <DateRangeIcon style={{ fontSize: "1.2vw" }} />
@@ -258,6 +277,15 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
                     </button>
                 </DateRangePicker>
                 <br />
+                {this.state.showDatesError && <span className="dates-range-err">לא נבחרו תאריכים להצגה</span>}
+                <br />
+
+                <div className="history-field" onClick={() => store.dispatch({ type: ActionType.changeDisplayForReportsPopUp })}>
+                    <IconButton>
+                        <RestoreIcon style={{ color: "white" }} />
+                        <span className="history-title">היסטוריית הדוחות שלי</span>
+                    </IconButton>
+                </div>
                 <div className="scrolling-area">
                     <div className="campaigns-filtering-area">
                         <span className="campaign-filtering-title">קמפיין</span>
@@ -296,9 +324,9 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
                 </div>
 
                 {!this.props.isOnReport &&
-                    <button disabled={this.state.selectedClients.length === 0} className="url-sharing-area" 
-                        onClick={() => store.dispatch({ type: ActionType.changeDisplayForLinkPopUp })}>
-                <span>הפקת דו"ח תוצרים</span>
+                    <button disabled={this.state.selectedClients.length === 0 || this.state.showDatesError} className="url-sharing-area"
+                        onClick={this.createReport}>
+                        <span>הפקת דו"ח תוצרים</span>
                     </button>
                 }
 

@@ -80,7 +80,7 @@ export class Auth extends Component<any, AuthState> {
     let isPhoneLegal = false;
 
     if (user) {
-      this.setState({user});
+      this.setState({ user });
       if (user.permission === "יצירת דוחות") {
         message = "";
         isPhoneLegal = true;
@@ -136,7 +136,7 @@ export class Auth extends Component<any, AuthState> {
           if (data.auth) {
             message = "ברוכים הבאים";
             isCodeLegal = true;
-            store.dispatch({ type: ActionType.loginEditingMode , payLoad: this.state.user});
+            store.dispatch({ type: ActionType.loginEditingMode, payLoad: this.state.user });
             this.props.history.push('/home');
           } else {
             message = "קוד אינו חוקי";
@@ -148,34 +148,84 @@ export class Auth extends Component<any, AuthState> {
   }
 
 
-  public setCode = (args: ChangeEvent<HTMLInputElement>) => {
-    const number = args.target.value;
+
+  public setFirstCodeChar = (args: ChangeEvent<HTMLInputElement>) => {
     let currentCode = this.state.code;
+    const number = args.target.value;
     const code = currentCode += number;
 
     const fixedCode = code.replace(/[a-zA-Z$&@#*^%()!]/g, "");
     this.setState({ isDisplayForBtn: true });
     this.setState({ code: fixedCode });
 
-    switch (code.length) {
-      case 1:
-        this.secondInput.current?.focus();
-        break;
-      case 2:
-        this.thirdInput.current?.focus();
-        break;
-      case 3:
-        this.fourthInput.current?.focus();
-        break;
-      case 4:
-        setTimeout(() => {
-          this.authCode();
-        }, 500); break;
+    this.secondInput.current?.focus();
+  }
 
-      default:
-        this.secondInput.current?.focus();
+  public setSecondCodeChar = (args: ChangeEvent<HTMLInputElement>) => {
+    let currentCode = this.state.code;
+    const number = args.target.value;
+
+    if (number === "") {
+      this.firstInput.current?.focus();
+      const code = currentCode.replace(currentCode[1], "");
+      this.setState({ code });
+      return;
     }
 
+    const code = currentCode += number;
+
+    const fixedCode = code.replace(/[a-zA-Z$&@#*^%()!]/g, "");
+    this.setState({ isDisplayForBtn: true });
+    this.setState({ code: fixedCode });
+
+    this.thirdInput.current?.focus();
+  }
+
+  public setThirdCodeChar = (args: ChangeEvent<HTMLInputElement>) => {
+    let currentCode = this.state.code;
+    const number = args.target.value;
+
+    if (number === "") {
+      console.log(currentCode);
+      this.secondInput.current?.focus();
+      return;
+    }
+
+    const code = currentCode += number;
+
+    const fixedCode = code.replace(/[a-zA-Z$&@#*^%()!]/g, "");
+    this.setState({ isDisplayForBtn: true });
+    this.setState({ code: fixedCode });
+
+    this.fourthInput.current?.focus();
+  }
+
+  public setFourthCodeChar = (args: ChangeEvent<HTMLInputElement>) => {
+    let currentCode = this.state.code;
+    const number = args.target.value;
+
+    if (number === "") {
+      console.log(currentCode);
+      this.thirdInput.current?.focus();
+      return;
+    }
+
+    const code = currentCode += number;
+
+    const fixedCode = code.replace(/[a-zA-Z$&@#*^%()!]/g, "");
+    this.setState({ isDisplayForBtn: true });
+    this.setState({ code: fixedCode });
+
+    if (fixedCode.length === 4) {
+      setTimeout(() => {
+        this.authCode();
+      }, 500);
+    }
+  }
+
+  public setCode = (args: ChangeEvent<any>)=>{
+    const code= args.target.value;
+    console.log(code);
   }
 
   public render() {
@@ -208,15 +258,14 @@ export class Auth extends Component<any, AuthState> {
 
           {this.state.isPhoneLegal &&
             <div className="code-area">
-
               <input autoFocus className={this.state.code.toString()[0] ? "code-num-box-after" : "code-num-box-before"}
-                maxLength={1} onChange={this.setCode} ref={this.firstInput} />
+                maxLength={1} onChange={this.setFirstCodeChar} ref={this.firstInput} />
               <input className={this.state.code.toString()[1] ? "code-num-box-after" : "code-num-box-before"}
-                maxLength={1} onChange={this.setCode} ref={this.secondInput} />
+                maxLength={1} onChange={this.setSecondCodeChar} ref={this.secondInput} />
               <input className={this.state.code.toString()[2] ? "code-num-box-after" : "code-num-box-before"}
-                maxLength={1} onChange={this.setCode} ref={this.thirdInput} />
+                maxLength={1} onChange={this.setThirdCodeChar} ref={this.thirdInput} />
               <input className={this.state.code.toString()[3] ? "code-num-box-after" : "code-num-box-before"}
-                maxLength={1} onChange={this.setCode} ref={this.fourthInput} />
+                maxLength={1} onChange={this.setFourthCodeChar} ref={this.fourthInput} />
 
             </div>
           }

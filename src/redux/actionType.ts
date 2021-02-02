@@ -24,6 +24,9 @@ export enum ActionType {
     loginWatchingMode,
     logoutWatchingMode,
     getUuid,
-    saveReport
-
+    saveReport,
+    changeDisplayForRestoreStatePopUp,
+    getDatesRanges,
+    changeDisplayForReportsPopUp,
+    getProductsTypesToDisplay
 }

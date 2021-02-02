@@ -31,6 +31,12 @@
   text-align: center;
 }
 
+
+.copy-link-btn:disabled{
+  background-color: #fd7292;
+  border: 1px solid #fd7292;
+}
+
 .close-link-pop-up-btn {
   width: 1.9vw;
   z-index: 100000;

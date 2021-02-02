@@ -44,6 +44,10 @@ export function reducer(oldAppState: AppState, action: Action): AppState {
       newAppState.clientsToDisplay = action.payLoad;
       break;
 
+    case ActionType.getProductsTypesToDisplay:
+      newAppState.productsToDisplay = action.payLoad;
+      break;
+
     case ActionType.updateProductsToDisplay:
       newAppState.productsToDisplay = action.payLoad;
       break;
@@ -113,6 +117,22 @@ export function reducer(oldAppState: AppState, action: Action): AppState {
       }
       break;
 
+    case ActionType.changeDisplayForRestoreStatePopUp:
+      if (newAppState.isRestoreStatePopUpShow) {
+        newAppState.isRestoreStatePopUpShow = false;
+      } else {
+        newAppState.isRestoreStatePopUpShow = true;
+      }
+      break;
+
+    case ActionType.changeDisplayForReportsPopUp:
+      if (newAppState.isReportsPopUpShow) {
+        newAppState.isReportsPopUpShow = false;
+      } else {
+        newAppState.isReportsPopUpShow = true;
+      }
+      break;
+
     case ActionType.changeDisplayForLinkPopUp:
       if (newAppState.isLinksPopUpShow) {
         newAppState.isLinksPopUpShow = false;
@@ -132,6 +152,10 @@ export function reducer(oldAppState: AppState, action: Action): AppState {
     case ActionType.saveReport:
       localStorage.removeItem(`${newAppState.user.userId}`);
       newAppState.isReportSave = true;
+      break;
+
+    case ActionType.getDatesRanges:
+      newAppState.datesRange = action.payLoad;
       break;
 
     case ActionType.removeClient:

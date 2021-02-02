@@ -1,6 +1,7 @@
 import { CampaignModel } from "../models/campaignModel";
 import { ClientModel } from "../models/clientModel";
 import { ProductModel } from "../models/productModel";
+import { ProductsType } from "../models/productsTypeModel";
 import { UserModel } from "../models/userModel";
 
 export class AppState {
@@ -15,12 +16,16 @@ export class AppState {
   public productsToDisplay: CampaignModel[] = [];
   public isPopUpShow: boolean = false;
   public isProductsPopUpShow: boolean = false;
+  public isRestoreStatePopUpShow: boolean = false;
   public isMobileMenuShow: boolean = false;
   public isLinksPopUpShow: boolean = false;
+  public isReportsPopUpShow: boolean = true;
   public isReportSave: boolean = false;
   public isAuthSucceeded: boolean = false;
   public isAuthSucceededForReport: boolean = false;
+  public datesRange: string = "- - / - - / - -";
   public user: UserModel = new UserModel();
+  public productsTypesToDisplay: ProductsType[] = [];
 
   public constructor() {
     const json = sessionStorage.getItem("AppState");
@@ -40,9 +45,13 @@ export class AppState {
       this.isLinksPopUpShow = appState.isLinksPopUpShow;
       this.isMobileMenuShow = appState.isMobileMenuShow;
       this.isAuthSucceeded = appState.isAuthSucceeded;
+      this.isRestoreStatePopUpShow = appState.isRestoreStatePopUpShow;
       this.isAuthSucceededForReport = appState.isAuthSucceededForReport;
       this.user = appState.user;
+      this.datesRange = appState.datesRange;
       this.isReportSave = appState.isReportSave;
+      this.isReportsPopUpShow = appState.isReportsPopUpShow;
+      this.productsTypesToDisplay = appState.productsTypesToDisplay;
     }
   }
 }

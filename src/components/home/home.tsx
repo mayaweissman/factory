@@ -1,14 +1,19 @@
 import React, { Component } from "react";
 import { Unsubscribe } from "redux";
+import { UserModel } from "../../models/userModel";
+import { ActionType } from "../../redux/actionType";
 import { store } from "../../redux/store";
 import { AllClients } from "../all-clients/all-clients";
+import { RestoreStatePopUp } from "../restore-state-pop-up/restore-state-pop-up";
 import { TopClientsNav } from "../top-clients-nav/top-clients-nav";
 import './home.css';
 
 
 interface HomeState {
     isScroll: boolean,
-    isAfterAuth: boolean
+    user: UserModel,
+    isAfterAuth: boolean,
+    isRestoreStatePopUp: boolean
 }
 
 export class Home extends Component<any, HomeState> {
@@ -19,13 +24,19 @@ export class Home extends Component<any, HomeState> {
         super(props);
         this.state = {
             isScroll: false,
-            isAfterAuth: store.getState().isAuthSucceeded
+            isAfterAuth: store.getState().isAuthSucceeded,
+            isRestoreStatePopUp: store.getState().isRestoreStatePopUpShow,
+            user: store.getState().user
         }
 
 
         this.unsubscribeStore = store.subscribe(() => {
             const isAfterAuth = store.getState().isAuthSucceeded;
             this.setState({ isAfterAuth });
+            const user = store.getState().user;
+            this.setState({ user });
+            const isRestoreStatePopUp = store.getState().isRestoreStatePopUpShow;
+            this.setState({ isRestoreStatePopUp });
         })
     }
 
@@ -35,6 +46,12 @@ export class Home extends Component<any, HomeState> {
             this.props.history.push("/auth");
             return;
         }
+
+        const stateFromLocal = localStorage.getItem(`${this.state.user.userId}`);
+        if(stateFromLocal){
+            store.dispatch({type: ActionType.changeDisplayForRestoreStatePopUp});
+        } 
+
         window.addEventListener('scroll', (e) => {
             const YPosition = window.pageYOffset;
             if (YPosition === 0) {
@@ -64,6 +81,7 @@ export class Home extends Component<any, HomeState> {
                         <TopClientsNav isScroll={this.state.isScroll} />
                         <AllClients />
                     </>}
+                    {this.state.isRestoreStatePopUp && <RestoreStatePopUp/>}
             </div>
         )
     }
