@@ -44,10 +44,6 @@ export function reducer(oldAppState: AppState, action: Action): AppState {
       newAppState.clientsToDisplay = action.payLoad;
       break;
 
-    case ActionType.getProductsTypesToDisplay:
-      newAppState.productsToDisplay = action.payLoad;
-      break;
-
     case ActionType.updateProductsToDisplay:
       newAppState.productsToDisplay = action.payLoad;
       break;
@@ -149,6 +145,14 @@ export function reducer(oldAppState: AppState, action: Action): AppState {
       }
       break;
 
+    case ActionType.changeDisplayForReportsLinkPopUp:
+      if (newAppState.displayForReportsLinkPopUp) {
+        newAppState.displayForReportsLinkPopUp = false;
+      } else {
+        newAppState.displayForReportsLinkPopUp = true;
+      }
+      break;
+
     case ActionType.saveReport:
       localStorage.removeItem(`${newAppState.user.userId}`);
       newAppState.isReportSave = true;
@@ -157,6 +161,11 @@ export function reducer(oldAppState: AppState, action: Action): AppState {
     case ActionType.getDatesRanges:
       newAppState.datesRange = action.payLoad;
       break;
+
+    case ActionType.getReportToCopy:
+      newAppState.reportToCopy = action.payLoad;
+      break;
+
 
     case ActionType.removeClient:
       const clientId = action.payLoad;

@@ -119,13 +119,6 @@ export class Campaigns extends Component<any, ReportMakerState>{
                     store.dispatch({ type: ActionType.getSelectedProducts, payLoad: selectedProducts });
                 }
 
-
-
-
-
-
-
-
                 const responseForTypes = await axios.get("http://factory-dev.landing-page-media.co.il/all-products-types/");
                 const productsTypes: ProductsType[] = responseForTypes.data.productsTypes;
                 this.setState({ productTypes: productsTypes });

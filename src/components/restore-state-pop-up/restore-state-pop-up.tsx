@@ -31,8 +31,8 @@ export class RestoreStatePopUp extends Component {
         return (
             <div className="full-screen-link-conatiner">
                 <div className="small-link-conatiner">
-                    <h3>ראינו שלא סיימת לערוך את הדו"ח בפעם האחרונה שהתחברת אלינו</h3>
-                    <h2>?האם ברצונך להמשיך מאותה נקודה</h2>
+                    <h3>ראינו שלא סיימת לערוך את דו"ח התוצרים בפעם האחרונה שהיית כאן</h3>
+                    <h2>?האם ברצונך להמשיך מאותה הנקודה</h2>
                     <div className="buttons-in-popup">
                         <button onClick={this.refuse} className="restore-btn">לא</button>
                         <button className="restore-btn" onClick={this.restoreState}>כן</button>

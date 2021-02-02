@@ -26,11 +26,19 @@
     background-color: white;
     height: 476px;
     max-height: 80%;
+    position: relative;
     width: 740px;
     max-width: 80%;
     padding: 3vw;
     text-align: center;
   }
+
+  .small-reports-conatiner .MuiIconButton-root {
+    padding: 12px;
+    position: relative;
+    left: 6px;
+
+}
 
   .small-reports-conatiner > table {
     width: 100%;
@@ -50,9 +58,14 @@
   }
 
   
-  .small-reports-conatiner > table > thead > tr > th {
-    width: 25%;
-  }
+  .name-th, .dates-th{
+    width: 45% 
+   }
+
+   .watch-th, .link-th{
+     width: 15%;
+   }
+
   .small-reports-conatiner > table > thead{
     background: white;
     border: none;
@@ -67,8 +80,8 @@
     height: 1.9vw;
     margin: 1vw;
     position: absolute;
-    left: 280px;
-    top: 40px;
+    left: 1vw;
+    top: 1vw;
     border-radius: 100%;
     display: inline-flex;
     justify-content: center;

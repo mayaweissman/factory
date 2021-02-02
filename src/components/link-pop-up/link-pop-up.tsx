@@ -158,11 +158,11 @@ export class LinkPopUp extends Component<any, LinkPopUpState>{
 
                     <div className={this.state.isReportCreated ? "inner-content-second in" : "inner-content-second"}>
 
-                        <h2 className="link-title">והנה הלינק לשיתוף</h2>
+                        <h2 className="link-title">{this.state.report.reportName} :והנה הלינק לשיתוף</h2>
                         <input ref={this.linkRef} className="url-box" value={this.state.url} />
 
                         <button onClick={this.copyToClipboard} className="copy-link-btn">העתקת קישור</button>
-                        <button onClick={this.copyToClipboard} className="copy-link-btn">שליחה במייל</button>
+                        <button onClick={this.copyToClipboard} className="send-on-email-btn">שליחה במייל</button>
                     </div>
 
                 </div>

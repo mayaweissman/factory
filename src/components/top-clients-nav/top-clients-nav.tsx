@@ -121,7 +121,7 @@ export class TopClientsNav extends Component<TopClientsNavProps, TopClientsNavSt
                     <img src="./assets/images/pink_btn_after.svg" className="next-btn-pink" style={{ display: this.state.selectedClients.length > 0 ? "block" : "none" }} />
                 </NavLink>
                 <div className="other-buttons">
-                    <span className="remove-all" onClick={this.removeAllClients}>הסר הכל</span>
+                    <span className="remove-all" onClick={this.removeAllClients}>מההתחלה</span>
                 </div>
 
                 <span className="logout-span" onClick={()=>this.setState({showLogout: true})}>logout</span>

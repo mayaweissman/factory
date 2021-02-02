@@ -69,8 +69,8 @@ export class Report extends Component<any, ReportState>{
     
 
             store.dispatch({ type: ActionType.updateSelectedClients, payLoad: report.clients });
+            store.dispatch({type: ActionType.getDatesRanges, payLoad: report.datesOnReport});
             if (report.products && report.products.length > 0) {
-                console.log(report.products);
                 store.dispatch({ type: ActionType.getSelectedProducts, payLoad: report.products });
             }
             if (report.campaigns && report.campaigns.length > 0) {

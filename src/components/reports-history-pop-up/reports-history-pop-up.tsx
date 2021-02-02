@@ -46,14 +46,10 @@ export class ReportsHistoryPopUp extends Component<any, ReportsHistoryPopUpState
         }
     }
 
-    public copyLink = (uuid: string) => (event: any) => {
-        let url = Config.serverUrl + "/" + uuid;
-        const el = document.createElement('textarea');
-        el.value = url;
-        document.body.appendChild(el);
-        el.select();
-        document.execCommand("copy");
-        document.body.removeChild(el);
+    public openLinkPopUp = (report: ReportModel) => (event: any) => {
+        store.dispatch({type: ActionType.changeDisplayForReportsPopUp});
+        store.dispatch({type: ActionType.changeDisplayForReportsLinkPopUp});
+        store.dispatch({type: ActionType.getReportToCopy, payLoad: report});
     }
 
     public watchReport = (report: ReportModel) => async (event: any) => {
@@ -106,14 +102,14 @@ export class ReportsHistoryPopUp extends Component<any, ReportsHistoryPopUpState
                         onClick={() => store.dispatch({ type: ActionType.changeDisplayForReportsPopUp })} >
                         <CloseIcon />
                     </button>
-                    <h2>הדוחות שלי</h2>
+                    <h2>היסטוריית הדוחות שלי</h2>
                     <table>
                         <thead>
                             <tr>
-                                <th>שם הדו"ח</th>
-                                <th>תאריכים</th>
-                                <th>צפייה בדו"ח</th>
-                                <th>העתקת קישור</th>
+                                <th className="name-th">שם הדו"ח</th>
+                                <th className="dates-th">תאריכים</th>
+                                <th className="watch-th">צפייה</th>
+                                <th className="link-th"> קישור</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -127,7 +123,7 @@ export class ReportsHistoryPopUp extends Component<any, ReportsHistoryPopUpState
                                         </IconButton>
                                     </td>
                                     <td>
-                                        <IconButton onClick={this.copyLink(r.uuid as string)}>
+                                        <IconButton onClick={this.openLinkPopUp(r as ReportModel)}>
                                             <LinkIcon style={{ fontSize: 25 }} />
                                         </IconButton>
                                     </td>

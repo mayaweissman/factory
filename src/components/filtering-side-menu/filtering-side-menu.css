@@ -74,7 +74,8 @@
 
 .reset-filtering {
   text-decoration: underline;
-  font-size: 1vw;
+  font-size: 13px;
+  float: right;
 }
 
 .reset-filtering:hover {

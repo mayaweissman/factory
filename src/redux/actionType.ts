@@ -28,5 +28,6 @@ export enum ActionType {
     changeDisplayForRestoreStatePopUp,
     getDatesRanges,
     changeDisplayForReportsPopUp,
-    getProductsTypesToDisplay
+    changeDisplayForReportsLinkPopUp,
+    getReportToCopy
 }

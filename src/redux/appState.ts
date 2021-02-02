@@ -1,7 +1,7 @@
 import { CampaignModel } from "../models/campaignModel";
 import { ClientModel } from "../models/clientModel";
 import { ProductModel } from "../models/productModel";
-import { ProductsType } from "../models/productsTypeModel";
+import { ReportModel } from "../models/reportModel";
 import { UserModel } from "../models/userModel";
 
 export class AppState {
@@ -19,13 +19,14 @@ export class AppState {
   public isRestoreStatePopUpShow: boolean = false;
   public isMobileMenuShow: boolean = false;
   public isLinksPopUpShow: boolean = false;
-  public isReportsPopUpShow: boolean = true;
+  public isReportsPopUpShow: boolean = false;
   public isReportSave: boolean = false;
   public isAuthSucceeded: boolean = false;
   public isAuthSucceededForReport: boolean = false;
   public datesRange: string = "- - / - - / - -";
   public user: UserModel = new UserModel();
-  public productsTypesToDisplay: ProductsType[] = [];
+  public reportToCopy: ReportModel = new ReportModel();
+  public displayForReportsLinkPopUp: boolean = false;
 
   public constructor() {
     const json = sessionStorage.getItem("AppState");
@@ -51,7 +52,8 @@ export class AppState {
       this.datesRange = appState.datesRange;
       this.isReportSave = appState.isReportSave;
       this.isReportsPopUpShow = appState.isReportsPopUpShow;
-      this.productsTypesToDisplay = appState.productsTypesToDisplay;
+      this.reportToCopy = appState.reportToCopy;
+      this.displayForReportsLinkPopUp = appState.displayForReportsLinkPopUp;
     }
   }
 }

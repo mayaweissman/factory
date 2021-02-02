@@ -7,6 +7,7 @@ import { ActionType } from "../../redux/actionType";
 import { Unsubscribe } from "redux";
 import AddIcon from '@material-ui/icons/Add';
 import axios from "axios";
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 
 interface AllClientsState {
     allClients: ClientModel[],
@@ -131,7 +132,10 @@ export class AllClients extends Component<any, AllClientsState>{
 
                     <span onMouseEnter={() => this.setState({ isPopUpShow: true })}
                         onMouseLeave={() => this.setState({ isPopUpShow: false })}
-                        className="filter-by-company">דוח לפי חברה</span>
+                        className="filter-by-company"><KeyboardArrowDownIcon
+                            style={{ fontSize: 16, position: "relative", top: 4 }} />
+                        דוח לפי חברה
+                        </span>
 
                 </div>
 
@@ -153,7 +157,7 @@ export class AllClients extends Component<any, AllClientsState>{
                         </div>
                     </div>)}
 
-             
+
 
                 <div style={{ display: this.state.isPopUpShow ? "block" : "none" }} className="company-filter-pop-up-menu"
                     onMouseEnter={() => this.setState({ isPopUpShow: true })}
