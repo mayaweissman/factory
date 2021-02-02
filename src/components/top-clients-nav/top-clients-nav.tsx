@@ -78,6 +78,12 @@ export class TopClientsNav extends Component<TopClientsNavProps, TopClientsNavSt
     public removeAllClients = () => {
         this.setState({ selectedClients: [] })
         store.dispatch({ type: ActionType.unselectAllClients });
+        store.dispatch({ type: ActionType.getSelectedCampaigns, payLoad: [] });
+        store.dispatch({ type: ActionType.getSelectedProducts, payLoad: [] });
+        store.dispatch({ type: ActionType.updateClientsToDisplay, payLoad: [] });
+        store.dispatch({ type: ActionType.updateCampaignsToDisplay, payLoad: [] });
+        store.dispatch({ type: ActionType.updateProductsToDisplay, payLoad: [] });
+    
     }
 
     public removeClient = (clientId: number) => (event: any) => {
@@ -117,14 +123,14 @@ export class TopClientsNav extends Component<TopClientsNavProps, TopClientsNavSt
 
                 <div className="top-scroll" style={{ top: this.props.isScroll ? this.topNavRef.current?.clientHeight : 0 }}></div>
                 <img src="./assets/images/pink_btn_before.svg" className="next-btn-pink" style={{ display: this.state.selectedClients.length === 0 ? "block" : "none" }} />
-                <NavLink onClick={() => console.log(store.getState().selectedClients)} to="/report-maker" className="link-to-report-maker" exact>
+                <NavLink to="/report-maker" className="link-to-report-maker" exact>
                     <img src="./assets/images/pink_btn_after.svg" className="next-btn-pink" style={{ display: this.state.selectedClients.length > 0 ? "block" : "none" }} />
                 </NavLink>
                 <div className="other-buttons">
                     <span className="remove-all" onClick={this.removeAllClients}>מההתחלה</span>
                 </div>
 
-                <span className="logout-span" onClick={()=>this.setState({showLogout: true})}>logout</span>
+                <span className="logout-span" onClick={() => this.setState({ showLogout: true })}>logout</span>
 
                 <div className="logo-container"></div>
                 <img className="logo" src="./assets/images/logo_factory.svg" />
@@ -132,11 +138,11 @@ export class TopClientsNav extends Component<TopClientsNavProps, TopClientsNavSt
                 {this.state.showLogout &&
                     <div className="logout-dialog" >
                         <span className="logout-subtitle">התנתקות מהמערכת תמחק את כל הבחירות הנוכחיות</span>
-                        <br/>
+                        <br />
                         <span className="logout-title">מה ברצונך לעשות?</span>
-                        <br/>
-                        <button className="logout-cancel-btn" onClick={()=>this.setState({showLogout: false})}>אני רוצה להישאר</button>
-                        <button className="logout-confirm-btn" onClick={()=>store.dispatch({ type: ActionType.logoutEditingMode })}>אני רוצה להתנתק</button>
+                        <br />
+                        <button className="logout-cancel-btn" onClick={() => this.setState({ showLogout: false })}>אני רוצה להישאר</button>
+                        <button className="logout-confirm-btn" onClick={() => store.dispatch({ type: ActionType.logoutEditingMode })}>אני רוצה להתנתק</button>
                     </div>
                 }
 

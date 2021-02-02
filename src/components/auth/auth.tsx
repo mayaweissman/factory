@@ -6,6 +6,7 @@ import { store } from "../../redux/store";
 import "./auth.css";
 import axios from "axios";
 import { rejects } from "assert";
+import TextField from '@material-ui/core/TextField';
 
 interface AuthState {
   phoneNumber: string,
@@ -131,8 +132,7 @@ export class Auth extends Component<any, AuthState> {
         )
         .then((response) => response.json())
         .then((data) => {
-          console.log(data);
-          console.log(code);
+    
           if (data.auth) {
             message = "ברוכים הבאים";
             isCodeLegal = true;
@@ -186,7 +186,6 @@ export class Auth extends Component<any, AuthState> {
     const number = args.target.value;
 
     if (number === "") {
-      console.log(currentCode);
       this.secondInput.current?.focus();
       return;
     }
@@ -205,7 +204,6 @@ export class Auth extends Component<any, AuthState> {
     const number = args.target.value;
 
     if (number === "") {
-      console.log(currentCode);
       this.thirdInput.current?.focus();
       return;
     }
@@ -223,9 +221,8 @@ export class Auth extends Component<any, AuthState> {
     }
   }
 
-  public setCode = (args: ChangeEvent<any>)=>{
-    const code= args.target.value;
-    console.log(code);
+  public setCode = (args: ChangeEvent<any>) => {
+    const code = args.target.value;
   }
 
   public render() {
@@ -238,7 +235,6 @@ export class Auth extends Component<any, AuthState> {
 
           <div className="auth-titles">
             <h1>מערכת תוצר</h1>
-            <span className="sub-title">{this.state.title}</span>
           </div>
 
 
@@ -246,12 +242,15 @@ export class Auth extends Component<any, AuthState> {
             <button onClick={this.authPhoneNumber} className="send-btn"><img src="./assets/images/pink_btn_after.svg" /></button>
           }
           <div className="phone-field">
+            <TextField id="standard-basic"
+              label="יש להזין מספר טלפון על מנת להתחבר"
+              color="primary"
+              onChange={this.setPhoneNumber}
+              onKeyDown={this.linsenToKeyPress}
+              className={this.state.isPhoneLegal ? "out" : ""}
+              value={this.state.phoneNumber}
+              style={{ borderBottom: this.state.message === "" ? "2px solid black" : "2px solid red" }} />
             <span className="err-message">{this.state.message}</span>
-            <input onChange={this.setPhoneNumber} onKeyDown={this.linsenToKeyPress}
-              style={{ border: this.state.message === "" ? "2px solid black" : "2px solid red" }}
-              placeholder="אנא הזן מספר טלפון" type="tel" className={this.state.isPhoneLegal ? "phone-box out" : "phone-box"}
-              value={this.state.phoneNumber} />
-
             <br />
           </div>
 

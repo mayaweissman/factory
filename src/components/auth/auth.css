@@ -17,12 +17,41 @@
   opacity: 0;
 }
 
+.MuiFormLabel-root.Mui-focused{
+  color: black !important;
+}
+
+.MuiFormLabel-root,
+.MuiInputBase-root{
+  font-family: 'Heebo', sans-serif !important;
+}
+
+.MuiInput-underline:after{
+  border-bottom: 2px solid transparent !important;
+}
+
+.MuiInputBase-input {
+  font-size: 34px !important;
+  font-family: 'Heebo', sans-serif !important;
+}
+
+.MuiInputLabel-formControl {
+  top: 15px !important;
+  left: 25px !important;
+  font-size: 17px !important;
+}
+
 .err-message {
   position: absolute;
   font-size: 13px;
-  top: -18px;
+  top: 70px;
   right: 5px;
   color: red;
+}
+
+.MuiInputLabel-shrink {
+  transform: translate(100px, 1.5px) scale(0.75) !important;
+  transform-origin: top right;
 }
 
 .code-num-box-visible-second {
@@ -105,10 +134,11 @@
   font-family: "Heebo", sans-serif;
 }
 
+
 .phone-field {
   position: fixed;
   display: flex;
-  width: 22%;
+  width: 24%;
   flex-direction: column;
 }
 .out {

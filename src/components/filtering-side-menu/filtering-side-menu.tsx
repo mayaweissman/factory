@@ -21,6 +21,7 @@ import IconButton from '@material-ui/core/IconButton';
 import axios from "axios";
 import { ProductsType } from "../../models/productsTypeModel";
 import RestoreIcon from '@material-ui/icons/Restore';
+import { setTimeout } from "timers";
 
 interface FilteringSideMenuProps {
     isOnReport: boolean
@@ -80,33 +81,36 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
             const productsTypes: ProductsType[] = response.data.productsTypes;
             this.setState({ productsTypes });
 
-            const selectedProducts: ProductModel[] = store.getState().selectedProducts;
-            const productsTypesToDisplay: ProductsType[] = [];
-            const allExistingTypes: ProductsType[] = [];
-            selectedProducts.map(p =>
-                productsTypes.map(t => {
-                    if (t.productsTypeId === p.productTypeId) {
-                        allExistingTypes.push(t);
+            setTimeout(async () => {
+                const selectedProducts: ProductModel[] = store.getState().selectedProducts;
+                const productsTypesToDisplay: ProductsType[] = [];
+                const allExistingTypes: ProductsType[] = [];
+                selectedProducts.map(p =>
+                    productsTypes.map(t => {
+                        if (t.productsTypeId === p.productTypeId) {
+                            allExistingTypes.push(t);
+                        }
+                    }));
+
+                allExistingTypes.map(t => {
+                    let isUnique = true;
+                    productsTypesToDisplay.map(d => {
+                        if (d.productsTypeId === t.productsTypeId) {
+                            isUnique = false;
+                        }
+                    })
+                    if (isUnique) {
+                        productsTypesToDisplay.push(t);
                     }
-                }));
+                });
+                console.log(productsTypesToDisplay);
+                this.setState({ productsTypesToDisplay });
 
-            allExistingTypes.map(t => {
-                let isUnique = true;
-                productsTypesToDisplay.map(d => {
-                    if (d.productsTypeId === t.productsTypeId) {
-                        isUnique = false;
-                    }
-                })
-                if (isUnique) {
-                    productsTypesToDisplay.push(t);
-                }
-            });
+                const responseForProducts = await axios.get("http://factory-dev.landing-page-media.co.il/all-products");
+                const allProducts: ProductModel[] = responseForProducts.data.products;
+                this.setState({ allProducts });
 
-            this.setState({ productsTypesToDisplay });
-
-            const responseForProducts = await axios.get("http://factory-dev.landing-page-media.co.il/all-products");
-            const allProducts: ProductModel[] = responseForProducts.data.products;
-            this.setState({ allProducts });
+            }, 1500);
         }
         catch (err) {
             console.log(err.message);
@@ -136,7 +140,7 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
     //Reset all previos filtering
     public resetFiltering = () => {
         store.dispatch({ type: ActionType.resetFiltering });
-        store.dispatch({type: ActionType.getDatesRanges, payLoad: "- - / - - / - -"});
+        store.dispatch({ type: ActionType.getDatesRanges, payLoad: "- - / - - / - -" });
     }
 
 
@@ -324,7 +328,8 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
                 </div>
 
                 {!this.props.isOnReport &&
-                    <button disabled={this.state.selectedClients.length === 0 || this.state.showDatesError} className="url-sharing-area"
+                    <button disabled={this.state.selectedClients.length === 0 || this.state.showDatesError}
+                        className="url-sharing-area"
                         onClick={this.createReport}>
                         <span>הפקת דו"ח תוצרים</span>
                     </button>

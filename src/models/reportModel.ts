@@ -15,6 +15,7 @@ export class ReportModel {
         public clients?: ClientModel[],
         public campaigns?: CampaignModel[],
         public products?: ProductModel[],
+        public timePassed?: number
         
     ) {
     }

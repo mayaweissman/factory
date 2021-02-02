@@ -6,6 +6,7 @@ import { store } from "../../redux/store";
 import "./auth-for-watching-only.css";
 import axios from "axios";
 import { rejects } from "assert";
+import TextField from '@material-ui/core/TextField';
 
 interface AuthForWatchingOnlyState {
   phoneNumber: string,
@@ -182,7 +183,6 @@ export class AuthForWatchingOnly extends Component<any, AuthForWatchingOnlyState
 
           <div className="auth-titles">
             <h1>מערכת תוצר</h1>
-            <span className="sub-title">{this.state.title}</span>
           </div>
 
 
@@ -190,12 +190,15 @@ export class AuthForWatchingOnly extends Component<any, AuthForWatchingOnlyState
             <button onClick={this.authPhoneNumber} className="send-btn"><img src="./assets/images/pink_btn_after.svg" /></button>
           }
           <div className="phone-field">
+            <TextField id="standard-basic"
+              label="יש להזין מספר טלפון על מנת להתחבר"
+              color="primary"
+              onChange={this.setPhoneNumber}
+              onKeyDown={this.linsenToKeyPress}
+              className={this.state.isPhoneLegal ? "out" : ""}
+              value={this.state.phoneNumber}
+              style={{ borderBottom: this.state.message === "" ? "2px solid black" : "2px solid red" }} />
             <span className="err-message">{this.state.message}</span>
-            <input onChange={this.setPhoneNumber} onKeyDown={this.linsenToKeyPress}
-              style={{ border: this.state.message === "" ? "2px solid black" : "2px solid red" }}
-              placeholder="אנא הזן מספר טלפון" type="tel" className={this.state.isPhoneLegal ? "phone-box out" : "phone-box"}
-              value={this.state.phoneNumber} />
-
             <br />
           </div>
 
