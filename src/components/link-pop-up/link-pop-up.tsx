@@ -162,7 +162,12 @@ export class LinkPopUp extends Component<any, LinkPopUpState>{
                         <input ref={this.linkRef} className="url-box" value={this.state.url} />
 
                         <button onClick={this.copyToClipboard} className="copy-link-btn">העתקת קישור</button>
-                        <button onClick={this.copyToClipboard} className="send-on-email-btn">שליחה במייל</button>
+                        <button className="send-on-email-btn">
+                            <a href={`mailto:?subject=${this.state.report.reportName}-${this.state.report.datesOnReport}
+                            &body=${this.state.url}`}>
+                                שליחה במייל
+                            </a>
+                        </button>
                     </div>
 
                 </div>

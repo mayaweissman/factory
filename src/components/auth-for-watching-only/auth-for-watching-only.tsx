@@ -7,6 +7,7 @@ import "./auth-for-watching-only.css";
 import axios from "axios";
 import { rejects } from "assert";
 import TextField from '@material-ui/core/TextField';
+import InputCode from "../auth/InputCode";
 
 interface AuthForWatchingOnlyState {
   phoneNumber: string,
@@ -17,7 +18,8 @@ interface AuthForWatchingOnlyState {
   isDisplayForBtn: boolean,
   allUsers: UserModel[],
   isSmsSent: boolean,
-  title: string
+  title: string,
+  user: UserModel
 }
 
 export class AuthForWatchingOnly extends Component<any, AuthForWatchingOnlyState> {
@@ -34,12 +36,13 @@ export class AuthForWatchingOnly extends Component<any, AuthForWatchingOnlyState
       phoneNumber: "",
       code: "",
       message: "",
-      title: "יש להזין מספר טלפון על מנת לצפות בתוצרים",
+      title: "יש להזין מספר טלפון על מנת להתחבר",
       isPhoneLegal: false,
       isCodeLegal: false,
       isDisplayForBtn: false,
       allUsers: [],
-      isSmsSent: false
+      isSmsSent: false,
+      user: new UserModel()
     }
   }
 
@@ -48,6 +51,7 @@ export class AuthForWatchingOnly extends Component<any, AuthForWatchingOnlyState
       const response = await axios.get("http://factory-dev.landing-page-media.co.il/all-users/");
       const allUsers: UserModel[] = response.data.users;
       this.setState({ allUsers });
+
     }
     catch (err) {
       console.log(err.message);
@@ -79,6 +83,7 @@ export class AuthForWatchingOnly extends Component<any, AuthForWatchingOnlyState
     let isPhoneLegal = false;
 
     if (user) {
+      this.setState({ user });
         message = "";
         isPhoneLegal = true;
         this.setState({ title: "יש להזין את הקוד שקיבלת" })
@@ -104,7 +109,6 @@ export class AuthForWatchingOnly extends Component<any, AuthForWatchingOnlyState
         message = "מספר הטלפון שהוזן אינו מספר מורשה";
       }
     
-   
     this.setState({ message })
     this.setState({ isPhoneLegal })
   }
@@ -112,7 +116,6 @@ export class AuthForWatchingOnly extends Component<any, AuthForWatchingOnlyState
   public authCode = () => {
     const code = this.state.code;
     const phoneNumber = this.state.phoneNumber;
-    console.log(phoneNumber);
     let message = "";
     let isCodeLegal = false;
 
@@ -127,12 +130,11 @@ export class AuthForWatchingOnly extends Component<any, AuthForWatchingOnlyState
         )
         .then((response) => response.json())
         .then((data) => {
-          console.log(data);
-          console.log(code);
+
           if (data.auth) {
             message = "ברוכים הבאים";
             isCodeLegal = true;
-            store.dispatch({ type: ActionType.loginWatchingMode });
+            store.dispatch({ type: ActionType.loginWatchingMode, payLoad: this.state.user });
           } else {
             message = "קוד אינו חוקי";
           }
@@ -143,35 +145,7 @@ export class AuthForWatchingOnly extends Component<any, AuthForWatchingOnlyState
   }
 
 
-  public setCode = (args: ChangeEvent<HTMLInputElement>) => {
-    const number = args.target.value;
-    let currentCode = this.state.code;
-    const code = currentCode += number;
 
-    const fixedCode = code.replace(/[a-zA-Z$&@#*^%()!]/g, "");
-    this.setState({ isDisplayForBtn: true });
-    this.setState({ code: fixedCode });
-
-    switch (code.length) {
-      case 1:
-        this.secondInput.current?.focus();
-        break;
-      case 2:
-        this.thirdInput.current?.focus();
-        break;
-      case 3:
-        this.fourthInput.current?.focus();
-        break;
-      case 4:
-        setTimeout(() => {
-          this.authCode();
-        }, 500); break;
-
-      default:
-        this.secondInput.current?.focus();
-    }
-
-  }
 
   public render() {
     return (
@@ -185,13 +159,12 @@ export class AuthForWatchingOnly extends Component<any, AuthForWatchingOnlyState
             <h1>מערכת תוצר</h1>
           </div>
 
-
           {!this.state.isPhoneLegal &&
             <button onClick={this.authPhoneNumber} className="send-btn"><img src="./assets/images/pink_btn_after.svg" /></button>
           }
           <div className="phone-field">
             <TextField id="standard-basic"
-              label="יש להזין מספר טלפון על מנת להתחבר"
+              label="יש להזין מספר טלפון כדי לצפות בתוצרים"
               color="primary"
               onChange={this.setPhoneNumber}
               onKeyDown={this.linsenToKeyPress}
@@ -205,16 +178,16 @@ export class AuthForWatchingOnly extends Component<any, AuthForWatchingOnlyState
 
           {this.state.isPhoneLegal &&
             <div className="code-area">
-
-              <input autoFocus className={this.state.code.toString()[0] ? "code-num-box-after" : "code-num-box-before"}
-                maxLength={1} onChange={this.setCode} ref={this.firstInput} />
-              <input className={this.state.code.toString()[1] ? "code-num-box-after" : "code-num-box-before"}
-                maxLength={1} onChange={this.setCode} ref={this.secondInput} />
-              <input className={this.state.code.toString()[2] ? "code-num-box-after" : "code-num-box-before"}
-                maxLength={1} onChange={this.setCode} ref={this.thirdInput} />
-              <input className={this.state.code.toString()[3] ? "code-num-box-after" : "code-num-box-before"}
-                maxLength={1} onChange={this.setCode} ref={this.fourthInput} />
-
+              <InputCode
+                length={4}
+                label="יש להזין את הקוד שקיבלת"
+                loading={() => { }}
+                onComplete={(code: any) => {
+                  this.setState({ code });
+                  setTimeout(() => {
+                    this.authCode();
+                  }, 1000);
+                }} />
             </div>
           }
 

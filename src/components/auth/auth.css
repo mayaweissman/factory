@@ -50,7 +50,7 @@
 }
 
 .MuiInputLabel-shrink {
-  transform: translate(100px, 1.5px) scale(0.75) !important;
+  transform: translate(100px, -4.5px) scale(0.75) !important;
   transform-origin: top right;
 }
 

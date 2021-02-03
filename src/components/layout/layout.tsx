@@ -8,25 +8,50 @@ import { Report } from "../report/report";
 import axios from "axios";
 import "./layout.css";
 
+interface LayoutState {
+    isLegal: boolean
+}
 
 
-export class Layout extends Component {
+export class Layout extends Component<any, LayoutState>{
+
+    public constructor(props: any) {
+        super(props);
+        this.state = {
+            isLegal: false
+        }
+    }
+
+    public async componentDidMount() {
+        try {
+            const json = await axios.get("https://api.ipify.org?format=json");
+            const ip = json.data.ip;
+            if (ip === '176.230.160.127' || ip === '31.168.98.222') {
+                this.setState({ isLegal: true });
+            }
+        }
+        catch (err) {
+            console.log(err.message);
+        }
+    }
 
     public render() {
         return (
             <div className="layout">
-                <BrowserRouter>
+                {this.state.isLegal &&
+                    <BrowserRouter>
 
-                    <Switch>
-                        <Route path="/auth" component={Auth} exact />
-                        <Route path="/report-maker" component={ReportMaker} exact />
-                        <Route path="/home" component={Home} exact />
-                        <Route path="/page-not-found" component={PageNotFound} exact />
-                        <Route path="/:uuid" component={Report} />
-                        <Redirect from="/" to="/home" />
-                    </Switch>
+                        <Switch>
+                            <Route path="/auth" component={Auth} exact />
+                            <Route path="/report-maker" component={ReportMaker} exact />
+                            <Route path="/home" component={Home} exact />
+                            <Route path="/page-not-found" component={PageNotFound} exact />
+                            <Route path="/:uuid" component={Report} />
+                            <Redirect from="/" to="/home" />
+                        </Switch>
 
-                </BrowserRouter>
+                    </BrowserRouter>
+                }
             </div>
         )
     }

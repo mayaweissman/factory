@@ -103,7 +103,6 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
                         productsTypesToDisplay.push(t);
                     }
                 });
-                console.log(productsTypesToDisplay);
                 this.setState({ productsTypesToDisplay });
 
                 const responseForProducts = await axios.get("http://factory-dev.landing-page-media.co.il/all-products");

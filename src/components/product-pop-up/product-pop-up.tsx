@@ -23,6 +23,8 @@ interface ProductPopUpState {
 
 export class ProductPopUp extends Component<ProductPopUpProps, ProductPopUpState>{
 
+    private LeftAreaRef = React.createRef<HTMLDivElement>();
+
     public constructor(props: ProductPopUpProps) {
         super(props);
         this.state = {
@@ -43,10 +45,11 @@ export class ProductPopUp extends Component<ProductPopUpProps, ProductPopUpState
 
     public async componentDidMount() {
         try {
+
             if (!this.props.product) {
                 this.closePopUp();
             }
-            const images: any[] = [];
+            let images: any[] = [];
             let productImages = this.props.product.images;
             if (productImages) {
                 Object.values(productImages).map(i => {
@@ -54,17 +57,27 @@ export class ProductPopUp extends Component<ProductPopUpProps, ProductPopUpState
                 })
 
             }
+            for (const image of images) {
+                if (image && image.includes('https://live.sekindo.com')) {
+                    const script = document.createElement("script");
+                    script.src = image;
+                    script.async = true;
+                    this.LeftAreaRef.current!.appendChild(script);
+                    images = [];
+                }
+            }
             this.setState({ images });
 
             const response = await axios.get("http://factory-dev.landing-page-media.co.il/all-products-types/");
             const productsTypes: ProductsType[] = response.data.productsTypes;
             const productTypes = productsTypes.find(t => t.productsTypeId === this.props.product.productTypeId);
-            this.setState({productsType: productTypes as ProductsType});
+            this.setState({ productsType: productTypes as ProductsType });
         }
         catch (err) {
             console.log(err.message);
         }
     }
+
 
 
 
@@ -74,7 +87,7 @@ export class ProductPopUp extends Component<ProductPopUpProps, ProductPopUpState
                 <div className="small-product-conatiner" onClick={this.stopPropagation}>
 
 
-                    <div className="left-area">
+                    <div ref={this.LeftAreaRef} className="left-area">
                         <div className="grid-product">
                             {this.state.images.map(i =>
                                 <img className="product-img" src={i} />
@@ -82,7 +95,7 @@ export class ProductPopUp extends Component<ProductPopUpProps, ProductPopUpState
 
                         </div>
                     </div>
-
+                    <script type="text/javascript" src="https://live.sekindo.com/live/liveView.php?s=102802&cbuster=%%CACHEBUSTER%%&pubUrl=%%REFERRER_URL_ESC%%&subId=[SUBID_ENCODED]&x=%%WIDTH%%&y=%%HEIGHT%%&vp_content=embed138cf7ohjskq"></script>
                     <div className="right-area">
                         <div className="titlesInRightArea">
                             <div className="right-in-titles">

@@ -37,7 +37,7 @@ export class LinkPopUpFromReport extends Component<any, LinkPopUpFromReportState
             const user = store.getState().user;
             this.setState({ user });
             const report = store.getState().reportToCopy;
-            this.setState({report});
+            this.setState({ report });
         })
     }
 
@@ -65,7 +65,6 @@ export class LinkPopUpFromReport extends Component<any, LinkPopUpFromReportState
         document.execCommand("copy");
     };
 
-   
 
     public render() {
         return (
@@ -81,7 +80,12 @@ export class LinkPopUpFromReport extends Component<any, LinkPopUpFromReportState
                         <input ref={this.linkRef} className="url-box" value={this.state.url} />
 
                         <button onClick={this.copyToClipboard} className="copy-link-btn">העתקת קישור</button>
-                        <button onClick={this.copyToClipboard} className="send-on-email-btn">שליחה במייל</button>
+                        <button className="send-on-email-btn">
+                            <a href={`mailto:?subject=${this.state.report.reportName}-${this.state.report.datesOnReport}
+                            &body=${this.state.url}`}>
+                                שליחה במייל
+                            </a>
+                        </button>
                     </div>
 
                 </div>
