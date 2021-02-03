@@ -13,11 +13,10 @@
 }
 
 @keyframes fadeIn {
-
-  0%{
+  0% {
     opacity: 0;
   }
-  100%{
+  100% {
     opacity: 1;
   }
 }
@@ -37,6 +36,10 @@
   max-width: 350px;
 }
 
+#primisPlayerContainerDiv {
+  width: 600px !important;
+}
+
 .right-area {
   width: 30%;
   opacity: 0;
@@ -51,7 +54,6 @@
   padding: 2vw;
   overflow: auto;
 }
-
 
 .bars-area {
   height: 95px;

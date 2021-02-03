@@ -35,10 +35,17 @@
   font-family: 'Heebo', sans-serif !important;
 }
 
+
 .MuiInputLabel-formControl {
   top: 15px !important;
   left: 25px !important;
   font-size: 17px !important;
+  float: right;
+  right: 0;
+  text-align: right;
+  direction: rtl;
+  position: absolute;
+  transform: translate(0, 24px) scale(1);
 }
 
 .err-message {
@@ -50,8 +57,9 @@
 }
 
 .MuiInputLabel-shrink {
-  transform: translate(100px, -4.5px) scale(0.75) !important;
+  transform: translate(70px, -4.5px) scale(0.75) !important;
   transform-origin: top right;
+  text-align: right;
 }
 
 .code-num-box-visible-second {

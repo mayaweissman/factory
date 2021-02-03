@@ -89,8 +89,8 @@ export class Report extends Component<any, ReportState>{
     public render() {
         return (
             <div className="report">
-                {!this.state.isAfterAuth && !this.state.isPreAuth && <AuthForWatchingOnly />}
-                {(this.state.isAfterAuth || this.state.isPreAuth) &&
+                {!this.state.isAfterAuth && <AuthForWatchingOnly />}
+                {this.state.isAfterAuth  &&
                     <div>
                         <main>
                             <div className="header">
