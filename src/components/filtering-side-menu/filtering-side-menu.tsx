@@ -109,7 +109,7 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
                 const allProducts: ProductModel[] = responseForProducts.data.products;
                 this.setState({ allProducts });
 
-            }, 1500);
+            }, 2100);
         }
         catch (err) {
             console.log(err.message);

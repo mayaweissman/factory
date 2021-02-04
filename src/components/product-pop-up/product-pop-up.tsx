@@ -9,6 +9,7 @@ import { getProductsTypes } from "../../data/products-types";
 import { CampaignModel } from "../../models/campaignModel";
 import ProgressBar from '@ramonak/react-progress-bar';
 import axios from "axios";
+import { ImagesModel } from "../../models/imagesModel";
 
 
 interface ProductPopUpProps {
@@ -17,7 +18,7 @@ interface ProductPopUpProps {
 }
 
 interface ProductPopUpState {
-    images: string[],
+    images: ImagesModel,
     productsType: ProductsType
 }
 
@@ -28,7 +29,7 @@ export class ProductPopUp extends Component<ProductPopUpProps, ProductPopUpState
     public constructor(props: ProductPopUpProps) {
         super(props);
         this.state = {
-            images: [],
+            images: new ImagesModel(),
             productsType: new ProductsType()
         }
     }
@@ -49,24 +50,19 @@ export class ProductPopUp extends Component<ProductPopUpProps, ProductPopUpState
             if (!this.props.product) {
                 this.closePopUp();
             }
-            let images: any[] = [];
-            let productImages = this.props.product.images;
-            if (productImages) {
-                Object.values(productImages).map(i => {
-                    images.push(i);
-                })
+            let productImages = this.props.product.images as ImagesModel;
+            this.setState({ images: productImages });
 
+
+            if (productImages.img2?.includes('https://live.sekindo.com')) {
+                const script = document.createElement("script");
+                script.src = productImages.img2;
+                script.async = true;
+                this.LeftAreaRef.current!.appendChild(script);
+                const images = { img1: "", img2: "", img3: "" };
+                this.setState({ images });
             }
-            for (const image of images) {
-                if (image && image.includes('https://live.sekindo.com')) {
-                    const script = document.createElement("script");
-                    script.src = image;
-                    script.async = true;
-                    this.LeftAreaRef.current!.appendChild(script);
-                    images = [];
-                }
-            }
-            this.setState({ images });
+
 
             const response = await axios.get("http://factory-dev.landing-page-media.co.il/all-products-types/");
             const productsTypes: ProductsType[] = response.data.productsTypes;
@@ -88,13 +84,11 @@ export class ProductPopUp extends Component<ProductPopUpProps, ProductPopUpState
 
 
                     <div ref={this.LeftAreaRef} className="left-area">
-                        <div className="grid-product">
-                            {this.state.images.map(i =>
-                                <img className="product-img" src={i} />
-                            )}
-
-                        </div>
+                        <img className="product-img1" src={this.state.images.img1} />
+                        <img className="product-img2" src={this.state.images.img2} />
+                        <img className="product-img3" src={this.state.images.img3} />
                     </div>
+
                     <script type="text/javascript" src="https://live.sekindo.com/live/liveView.php?s=102802&cbuster=%%CACHEBUSTER%%&pubUrl=%%REFERRER_URL_ESC%%&subId=[SUBID_ENCODED]&x=%%WIDTH%%&y=%%HEIGHT%%&vp_content=embed138cf7ohjskq"></script>
                     <div className="right-area">
                         <div className="titlesInRightArea">

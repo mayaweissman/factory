@@ -65,6 +65,7 @@ export class LinkPopUp extends Component<any, LinkPopUpState>{
     }
 
     public copyToClipboard = () => {
+        console.log(this.state.report);
 
         this.linkRef.current?.select();
         document.execCommand("copy");
@@ -117,6 +118,7 @@ export class LinkPopUp extends Component<any, LinkPopUpState>{
             await axios.post("http://factory-dev.landing-page-media.co.il/create-report/", formData);
 
             this.setState({ isReportCreated: true });
+            this.setState({report});
         }
         catch (err) {
             console.log(err.message);

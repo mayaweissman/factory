@@ -27,6 +27,7 @@
   max-height: 80%;
   width: 1301px;
   max-width: 70%;
+  position: relative;
   display: flex;
   padding: 3vw;
 }
@@ -48,11 +49,11 @@
 
 .left-area {
   width: 70%;
-  display: flex;
   justify-content: center;
   align-items: center;
   padding: 2vw;
   overflow: auto;
+  position: relative;
 }
 
 .bars-area {
@@ -97,11 +98,30 @@
   width: 600px;
 }
 
-.product-img {
+.product-img1 {
   display: inline-block;
-  margin: 0;
-  width: 100%;
-  margin-bottom: 1vw;
+  position: absolute;
+  top: 0;
+  width: auto;
+  max-width: 59%;
+  left: 86px;
+}
+.product-img2 {
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  width: auto;
+  max-width: 59%;
+  right: 0;
+}
+
+.product-img3 {
+  display: inline-block;
+  position: absolute;
+  bottom: 0;
+  width: auto;
+  max-width: 59%;
+  left: 86px;
 }
 
 .product-rate {
@@ -122,8 +142,8 @@
   height: 1.9vw;
   margin: 1vw;
   position: absolute;
-  left: 173px;
-  top: 30px;
+  left: 1vw;
+  top: 1vw;
   border-radius: 100%;
   display: inline-flex;
   justify-content: center;

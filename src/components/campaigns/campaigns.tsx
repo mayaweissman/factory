@@ -98,9 +98,11 @@ export class Campaigns extends Component<any, ReportMakerState>{
                     store.dispatch({ type: ActionType.getSelectedCampaigns, payLoad: selectedCampaigns });
                 }
                 this.setState({ showLoader: false });
+                console.log(store.getState().selectedProducts);
 
                 if (store.getState().selectedProducts.length === 0) {
                     const responseForProducts = await axios.get("http://factory-dev.landing-page-media.co.il/all-products");
+
                     const allProductsFromDb: ProductModel[] = responseForProducts.data.products;
 
                     const selectedProducts: ProductModel[] = [];
@@ -116,6 +118,7 @@ export class Campaigns extends Component<any, ReportMakerState>{
                     this.setState({ selectedProducts });
                     store.dispatch({ type: ActionType.getSelectedProducts, payLoad: selectedProducts });
                 }
+
 
                 const responseForTypes = await axios.get("http://factory-dev.landing-page-media.co.il/all-products-types/");
                 const productsTypes: ProductsType[] = responseForTypes.data.productsTypes;

@@ -99,8 +99,8 @@
 
 .inner-content-second{
   transform: translateX(-1300px);
-  position: relative;
-  bottom: 190px;
+  position: absolute;
+  bottom: 0px;
 }
 
 .out{
