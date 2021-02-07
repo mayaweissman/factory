@@ -269,7 +269,8 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
                 <span className="reset-filtering" onClick={this.resetFiltering}>איפוס סננים</span>
                 <br />
                 <DateRangePicker
-                    onApply={this.filterByDatesRange}
+                    onApply={this.filterByDatesRange} 
+                    initialSettings={{ showDropdowns: true }}
                 >
                     <button className="date-picker-btn"
                         style={{ borderBottom: this.state.showDatesError ? "1px solid #f14646" : "1px solid white" }}>

@@ -161,48 +161,7 @@ export class AddClientPopUp extends Component<any, AddClientPopUpState>{
                                         </button>
 
                                     )}
-                                    <button className="pop-up-btn">
-                                        Some company
-                                        </button>
-                                    <button className="pop-up-btn">
-                                        Some
-                                        </button>
-                                    <button className="pop-up-btn">
-                                        Some company
-                                        </button>
-                                    <button className="pop-up-btn">
-                                        Some
-                                        </button>
-                                    <button className="pop-up-btn">
-                                        Some company
-                                        </button>
-                                    <button className="pop-up-btn">
-                                        Some
-                                        </button>
-                                    <button className="pop-up-btn">
-                                        Some company
-                                        </button>
-                                    <button className="pop-up-btn">
-                                        Some company
-                                        </button>
-                                    <button className="pop-up-btn">
-                                        Some
-                                        </button>
-                                    <button className="pop-up-btn">
-                                        Some company
-                                        </button>
-                                    <button className="pop-up-btn">
-                                        Some
-                                        </button>
-                                    <button className="pop-up-btn">
-                                        Some company
-                                        </button>
-                                    <button className="pop-up-btn">
-                                        Some
-                                        </button>
-                                    <button className="pop-up-btn">
-                                        Some company
-                                        </button>
+                                
 
                                 </div>
                             </div>

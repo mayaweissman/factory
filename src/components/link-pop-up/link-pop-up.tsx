@@ -165,8 +165,8 @@ export class LinkPopUp extends Component<any, LinkPopUpState>{
 
                         <button onClick={this.copyToClipboard} className="copy-link-btn">העתקת קישור</button>
                         <button className="send-on-email-btn">
-                            <a href={`mailto:?subject=${this.state.report.reportName}-${this.state.report.datesOnReport}
-                            &body=${this.state.url}`}>
+                            <a href={`mailto:?subject=תוצרי פקטורי - ${this.state.report.reportName} ${this.state.report.datesOnReport}
+                            &body=מומלץ לצרוך את התוכן הבא בישיבה.%0D%0Aאם הנכם חשים תופעות מסוג: חיוך בלתי נשלט, פששש, וואו, איזה מדהים, כמה כישרון, הלם, איזה פקטורי זה, סימן שהחודש הצלחנו!%0D%0A%0D%0Aצפייה מהנה%0D%0A${this.state.url}`}>
                                 שליחה במייל
                             </a>
                         </button>
