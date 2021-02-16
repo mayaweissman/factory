@@ -83,7 +83,7 @@ export class TopClientsNav extends Component<TopClientsNavProps, TopClientsNavSt
         store.dispatch({ type: ActionType.updateClientsToDisplay, payLoad: [] });
         store.dispatch({ type: ActionType.updateCampaignsToDisplay, payLoad: [] });
         store.dispatch({ type: ActionType.updateProductsToDisplay, payLoad: [] });
-    
+
     }
 
     public removeClient = (clientId: number) => (event: any) => {
@@ -98,9 +98,9 @@ export class TopClientsNav extends Component<TopClientsNavProps, TopClientsNavSt
     public render() {
         return (
             <div ref={this.topNavRef} className="top-companies-nav">
-                <button className="no-selected-button" style={{ display: this.state.selectedClients.length === 0 ? "block" : "none" }}>
-                    +
-                </button>
+                <img src="./assets/images/add-client-circle-off.svg" className="no-selected-img" style={{ display: this.state.selectedClients.length === 0 ? "block" : "none" }} />
+                <img src="./assets/images/add-client-circle-on.svg" className="no-selected-img" style={{ display: this.state.selectedClients.length > 0 ? "block" : "none" }} />
+
                 <div ref={this.buttonsRef} className="buttons">
                     <div style={{ display: this.state.isButtonsScrolled ? "block" : "none" }}
                         className="start-of-buttons-section" onMouseEnter={this.scrollToRight}></div>

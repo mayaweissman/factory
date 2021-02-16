@@ -23,6 +23,13 @@
   align-items: center;
 }
 
+.add-btn-img:hover{
+  cursor: pointer;
+}
+
+.add-btn-img{
+  margin: 0 9px -4px 0;
+}
 
 .client {
   display: inline-block;
@@ -30,7 +37,7 @@
   padding-bottom: 2vw;
   direction: ltr;
   text-transform: uppercase;
-  font-size: 1.1vw;
+  font-size: 17px;
   font-weight: 400;
 }
 
@@ -220,9 +227,9 @@
 .filter-by-company {
   position: absolute;
   right: 0;
-  font-size: 1vw;
+  font-size: 17px;
   text-decoration: underline;
-  font-weight: bold;
+  font-weight: normal;
 }
 
 .filter-by-company:hover{
@@ -230,9 +237,7 @@ cursor: pointer;
 }
 
 .filter-by-name {
-  font-size: 0.9vw;
-  font-weight: bold;
-  color: gray;
+  font-size: 17px;
 }
 
 .inside-filter {
@@ -241,8 +246,7 @@ cursor: pointer;
 }
 
 .filter-by-new {
-  font-size: 0.9vw;
-  font-weight: bold;
+  font-size: 17px;
   margin-left: 0.7vw;
 }
 

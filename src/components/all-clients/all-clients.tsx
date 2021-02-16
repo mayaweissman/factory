@@ -14,7 +14,9 @@ interface AllClientsState {
     companies: string[],
     isPopUpShow: boolean,
     clientsToShow: ClientModel[],
-    selectedClients: ClientModel[]
+    selectedClients: ClientModel[],
+    currentFilterToBold: string,
+    hoveredImageId: number
 }
 
 export class AllClients extends Component<any, AllClientsState>{
@@ -28,7 +30,9 @@ export class AllClients extends Component<any, AllClientsState>{
             companies: [],
             isPopUpShow: false,
             clientsToShow: [],
-            selectedClients: store.getState().selectedClients
+            selectedClients: store.getState().selectedClients,
+            currentFilterToBold: "latest",
+            hoveredImageId: 656724564
         }
 
         this.unsubscribeStore = store.subscribe(() => {
@@ -61,6 +65,7 @@ export class AllClients extends Component<any, AllClientsState>{
         }
         allClients.sort((a, b) => ((a.timePassed as number) > (b.timePassed as number)) ? -1 : 1);
         this.setState({ clientsToShow: allClients });
+        this.setState({ currentFilterToBold: "latest" })
     }
 
     public componentWillUnmount(): void {
@@ -113,6 +118,16 @@ export class AllClients extends Component<any, AllClientsState>{
             }
         }
         this.setState({ clientsToShow });
+        this.setState({ currentFilterToBold: "name" })
+    }
+
+    public hoverBtn = (clientId: number) => (event: any) => {
+        this.setState({hoveredImageId: clientId});
+    
+    }
+
+    public unHoverBtn = (clientId: number) => (event: any) => {
+        this.setState({hoveredImageId: 656724564});
     }
 
 
@@ -124,9 +139,15 @@ export class AllClients extends Component<any, AllClientsState>{
                 <div className="filter-area">
                     <div className="left-filter">
                         <img className="filter-by-date-img" src="./assets/images/filter_by_date.svg" />
-                        <span className="filter-by-new" onClick={this.filterByLatest}>Latest</span>
+                        <span className="filter-by-new" style={{
+                            fontWeight: this.state.currentFilterToBold === "latest" ? "bold" : "normal",
+                            color: this.state.currentFilterToBold === "latest" ? "black" : "grey"
+                        }} onClick={this.filterByLatest}>Latest</span>
                         <span className="separate">|</span>
-                        <span className="filter-by-name" onClick={this.filterAlphabetically}>A <span className="inside-filter">to</span> Z</span>
+                        <span className="filter-by-name" style={{
+                            fontWeight: this.state.currentFilterToBold === "name" ? "bold" : "normal",
+                            color: this.state.currentFilterToBold === "name" ? "black" : "grey"
+                        }} onClick={this.filterAlphabetically}>A <span className="inside-filter">to</span> Z</span>
                     </div>
 
 
@@ -149,10 +170,10 @@ export class AllClients extends Component<any, AllClientsState>{
                     <div className="client">
                         <img src={client.clientImageSrc} onClick={this.selectClient(client)} />
                         <div className="client-info">
+                            <img src={this.state.selectedClients.filter(c => c.clientId === client.clientId).length === 0 && this.state.hoveredImageId !== client.clientId?
+                                "./assets/images/add_button_before.svg" : "./assets/images/add_button_after.svg"} onClick={this.selectClient(client)}
+                                className="add-btn-img" onMouseEnter={this.hoverBtn(client.clientId as number)} onMouseLeave={this.unHoverBtn(client.clientId as number)}/>
 
-                            <button className={this.state.selectedClients.filter(c => c.clientId === client.clientId).length === 0 ? "btn-before" : "btn-after"}>
-                                <AddIcon className="plus-icon" onClick={this.selectClient(client)} />
-                            </button>
                             <span>{client.clientName}</span>
                         </div>
                     </div>)}

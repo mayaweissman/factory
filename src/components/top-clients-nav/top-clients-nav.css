@@ -44,7 +44,7 @@
 }
 
 .next-btn-pink {
-  width: 3.5vw;
+  width: 52px;
 }
 
 
@@ -208,11 +208,11 @@ left: 32vw;
   background-color: white;
   color: black;
   outline: none;
-  border: 1.3px solid black;
+  border: 2px solid black;
   border-radius: 31px;
   height: 8.1vw;
   margin: 0.7vw;
-  font-size: 4.4vw;
+  font-size: 16vw;
   text-transform: uppercase;
   padding: 1.5vw;
   float: right;
@@ -241,11 +241,11 @@ left: 32vw;
   background-color: white;
   color: black;
   outline: none;
-  border: 1.3px solid black;
+  border: 2px solid black;
   border-radius: 31px;
   height: 2.8vw;
   margin: 0.7vw;
-  font-size: 1.1vw;
+  font-size: 16px;
   text-transform: uppercase;
   padding: 0.7vw;
   float: right;
@@ -263,11 +263,15 @@ left: 32vw;
   overflow-x: scroll;
 }
 
+.no-selected-img{
+  width: 52px;
+}
+
 .remove-all {
   text-decoration: underline;
-  font-size: 1vw;
+  font-size: 17px;
   margin: 4vw 0;
-  font-weight: bold;
+  font-weight: normal;
   position: relative;
   margin: 1vw;
 }
@@ -356,7 +360,7 @@ left: 32vw;
   width: 3vw;
   top: 1.4vw;
   width: 6vw;
-  left: 34vw;
+  left: 31.5vw;
 }
 
 .more-buttons-icon {
