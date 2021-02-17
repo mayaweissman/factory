@@ -3,7 +3,7 @@ export class Config {
   
     public static _initialize() {
       if (process.env.NODE_ENV === "production") {
-        Config.serverUrl = "http://factory.landing-page-media.co.il";
+        Config.serverUrl = "https://factory.mccann.co.il/";
       } else {
         Config.serverUrl = "http://localhost:3000";
       }
