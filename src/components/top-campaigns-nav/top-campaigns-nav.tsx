@@ -200,54 +200,6 @@ export class TopCampaignsNav extends Component<TopCampaignsNavProps, TopCampaign
                         </button>
                     )}
 
-<button className="campaigns-client-btn" >
-                            <button className="campaigns-remove-btn">
-                                <span>&#10006;</span>
-                            </button>
-                            <span className="campaigns-inside-client-btn">ffff</span>
-                        </button>
-<button className="campaigns-client-btn" >
-                            <button className="campaigns-remove-btn">
-                                <span>&#10006;</span>
-                            </button>
-                            <span className="campaigns-inside-client-btn">ffff</span>
-                        </button>
-<button className="campaigns-client-btn" >
-                            <button className="campaigns-remove-btn">
-                                <span>&#10006;</span>
-                            </button>
-                            <span className="campaigns-inside-client-btn">ffff</span>
-                        </button>
-<button className="campaigns-client-btn" >
-                            <button className="campaigns-remove-btn">
-                                <span>&#10006;</span>
-                            </button>
-                            <span className="campaigns-inside-client-btn">ffff</span>
-                        </button>
-<button className="campaigns-client-btn" >
-                            <button className="campaigns-remove-btn">
-                                <span>&#10006;</span>
-                            </button>
-                            <span className="campaigns-inside-client-btn">ffff</span>
-                        </button>
-<button className="campaigns-client-btn" >
-                            <button className="campaigns-remove-btn">
-                                <span>&#10006;</span>
-                            </button>
-                            <span className="campaigns-inside-client-btn">ffff</span>
-                        </button>
-<button className="campaigns-client-btn" >
-                            <button className="campaigns-remove-btn">
-                                <span>&#10006;</span>
-                            </button>
-                            <span className="campaigns-inside-client-btn">ffff</span>
-                        </button>
-<button className="campaigns-client-btn" >
-                            <button className="campaigns-remove-btn">
-                                <span>&#10006;</span>
-                            </button>
-                            <span className="campaigns-inside-client-btn">ffff</span>
-                        </button>
 
 
 

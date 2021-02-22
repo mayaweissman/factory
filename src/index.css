@@ -1,14 +1,21 @@
-body, html, #root{
+@font-face {
+  font-family: "AlmoniLight";
+  src: url("http://localhost:3000/assets/fonts/almoni-dl-aaa-light.woff");
+}
+
+body,
+html,
+#root {
   background-color: white;
   overflow-x: hidden;
   overflow-y: scroll;
   margin: 0;
   padding: 0;
-  font-family: 'Heebo', sans-serif;
+  font-family: "Heebo", sans-serif;
 }
 
-body > *{
-  font-family: 'Heebo', sans-serif;
+body > * {
+  font-family: "Heebo", sans-serif;
 }
 
 body::-webkit-scrollbar {
@@ -16,10 +23,10 @@ body::-webkit-scrollbar {
   height: 0;
 }
 
-button, input{
-  font-family: 'Heebo', sans-serif;
+button,
+input {
+  font-family: "Heebo", sans-serif;
 }
-
 
 ::-webkit-scrollbar {
   width: 10px;
@@ -31,10 +38,8 @@ button, input{
 
 ::-webkit-scrollbar-thumb {
   background: rgb(36, 35, 35);
-
 }
 ::-webkit-scrollbar-thumb:hover {
   background: rgb(0, 0, 0);
   transition: 0.2s;
-
 }
