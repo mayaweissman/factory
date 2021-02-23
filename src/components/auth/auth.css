@@ -5,6 +5,7 @@
   align-items: center;
   width: 100%;
   height: 100%;
+  font-family: 'AlmoniNormal' !important;
 }
 
 .code-num-box-visible-first {
@@ -23,7 +24,7 @@
 
 .MuiFormLabel-root,
 .MuiInputBase-root{
-  font-family: 'Heebo', sans-serif !important;
+  font-family: 'AlmoniNormal' !important;
 }
 
 .MuiInput-underline:after{
@@ -32,7 +33,7 @@
 
 .MuiInputBase-input {
   font-size: 34px !important;
-  font-family: 'Heebo', sans-serif !important;
+  font-family: 'AlmoniNormal' !important;
 }
 
 

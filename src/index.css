@@ -2,6 +2,18 @@
   font-family: "AlmoniLight";
   src: url("http://localhost:3000/assets/fonts/almoni-dl-aaa-light.woff");
 }
+@font-face {
+  font-family: "AlmoniNormal";
+  src: url("http://localhost:3000/assets/fonts/almoni-neue-regular-aaa.woff");
+}
+@font-face {
+  font-family: "FuturaMedium";
+  src: url("http://localhost:3000/assets/fonts/futuraMediumBT.woff");
+}
+@font-face {
+  font-family: "Futura";
+  src: url("http://localhost:3000/assets/fonts/FuturaStdMedium.woff");
+}
 
 body,
 html,
@@ -11,11 +23,11 @@ html,
   overflow-y: scroll;
   margin: 0;
   padding: 0;
-  font-family: "Heebo", sans-serif;
+  font-family: 'AlmoniNormal';
 }
 
 body > * {
-  font-family: "Heebo", sans-serif;
+  font-family: 'AlmoniNormal';
 }
 
 body::-webkit-scrollbar {
@@ -25,7 +37,7 @@ body::-webkit-scrollbar {
 
 button,
 input {
-  font-family: "Heebo", sans-serif;
+  font-family: 'AlmoniNormal';
 }
 
 ::-webkit-scrollbar {

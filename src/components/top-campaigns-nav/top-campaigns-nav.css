@@ -165,13 +165,14 @@
   outline: none;
   border: 2px solid black;
   border-radius: 31px;
-  height: 2.5vw;
+  height: 2.8vw;
   margin: 0.7vw;
-  font-size: 16px;
   text-transform: uppercase;
   padding: 0.7vw;
   float: right;
   line-height: 0;
+  font-size: 16px;
+  font-family: 'Futura' !important;
   position: relative;
 }
 
