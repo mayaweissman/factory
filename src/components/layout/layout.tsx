@@ -40,7 +40,6 @@ export class Layout extends Component<any, LayoutState>{
             <div className="layout">
                 {this.state.isLegal &&
                     <BrowserRouter>
-
                         <Switch>
                             <Route path="/auth" component={Auth} exact />
                             <Route path="/report-maker" component={ReportMaker} exact />
