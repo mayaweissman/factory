@@ -245,6 +245,7 @@ left: 32vw;
   border-radius: 31px;
   height: 2.8vw;
   margin: 0.7vw;
+  white-space: nowrap;
   text-transform: uppercase;
   padding: 0.7vw;
   float: right;

@@ -19,6 +19,7 @@ import FilterListIcon from '@material-ui/icons/FilterList';
 import IconButton from '@material-ui/core/IconButton';
 import axios from "axios";
 import { ProductsType } from "../../models/productsTypeModel";
+import { Config } from "../../config";
 
 interface ReportMakerState {
     selectedClients: ClientModel[],
@@ -80,7 +81,7 @@ export class Campaigns extends Component<any, ReportMakerState>{
             this.setState({ showLoader: true });
             setTimeout(async () => {
 
-                const response = await axios.get("https://factory-dev.landing-page-media.co.il/all-campaigns/");
+                const response = await axios.get(Config.serverUrl + "/all-campaigns/");
                 const allCampaigns: CampaignModel[] = response.data.campaigns;
                 Aos.init({ duration: 1000 });
 
@@ -101,7 +102,7 @@ export class Campaigns extends Component<any, ReportMakerState>{
                 console.log(store.getState().selectedProducts);
 
                 if (store.getState().selectedProducts.length === 0) {
-                    const responseForProducts = await axios.get("https://factory-dev.landing-page-media.co.il/all-products");
+                    const responseForProducts = await axios.get(Config.serverUrl + "/all-products");
 
                     const allProductsFromDb: ProductModel[] = responseForProducts.data.products;
 
@@ -120,7 +121,7 @@ export class Campaigns extends Component<any, ReportMakerState>{
                 }
 
 
-                const responseForTypes = await axios.get("https://factory-dev.landing-page-media.co.il/all-products-types/");
+                const responseForTypes = await axios.get(Config.serverUrl + "/all-products-types/");
                 const productsTypes: ProductsType[] = responseForTypes.data.productsTypes;
                 this.setState({ productTypes: productsTypes });
             }, 1000);

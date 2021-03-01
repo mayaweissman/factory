@@ -1,6 +1,7 @@
 import React, { Component, useRef } from "react";
 import { NavLink } from "react-router-dom";
 import { Unsubscribe } from "redux";
+import { Logo } from "../../get-logo";
 import { ClientModel } from "../../models/clientModel";
 import { ActionType } from "../../redux/actionType";
 import { store } from "../../redux/store";
@@ -58,22 +59,50 @@ export class TopClientsNav extends Component<TopClientsNavProps, TopClientsNavSt
         this.unsubscribeStore();
     }
 
-    public scrollToRight = () => {
-        this.buttonsRef.current?.scrollTo({
-            top: 0,
-            left: 0,
-            behavior: "smooth"
-        });
+    // public scrollToRight = () => {
+    //     const offsetLeft = this.buttonsRef.current?.scrollLeft as number;
+    //     const x = offsetLeft + 30;
+
+    //     this.buttonsRef.current?.scrollTo({
+    //         top: 0,
+    //         left: x,
+    //         behavior: "smooth"
+    //     });
+    // }
+
+    public scrollBar = (event: any) => {
+        const x = event.clientX;
+        const width = this.buttonsRef.current?.offsetWidth as number;
+        const offsetLeft = this.buttonsRef.current?.offsetLeft as number;
+
+        const buttonsWidth = this.buttonsRef.current?.scrollWidth as number;
+        const topNavWidth: number = this.topNavRef.current?.clientWidth as number;
+
+        const position = x - (topNavWidth - width);
+        const half = width / 2;
+        let precentages;
+
+        if (position < half) { precentages = 0; }
+        if (position >= half) { precentages = 1; }
+
+        if(precentages && precentages > 0){
+            this.buttonsRef.current?.scrollTo({
+                top: 0,
+                left: buttonsWidth - (offsetLeft +  x),
+                behavior: "smooth"
+            });
+    
+        }
+        else{
+            this.buttonsRef.current?.scrollTo({
+                top: 0,
+                left: -(buttonsWidth - (offsetLeft +  x)),
+                behavior: "smooth"
+            });
+        }
+
     }
 
-    public scrollToLeft = () => {
-        const buttonsWidth = this.buttonsRef.current?.scrollWidth as number;
-        this.buttonsRef.current?.scrollTo({
-            top: 0,
-            left: -buttonsWidth,
-            behavior: "smooth"
-        });
-    }
 
     public removeAllClients = () => {
         this.setState({ selectedClients: [] })
@@ -101,9 +130,9 @@ export class TopClientsNav extends Component<TopClientsNavProps, TopClientsNavSt
                 <img src="./assets/images/add-client-circle-off.svg" className="no-selected-img" style={{ display: this.state.selectedClients.length === 0 ? "block" : "none" }} />
                 <img src="./assets/images/add-client-circle-on.svg" className="no-selected-img" style={{ display: this.state.selectedClients.length > 0 ? "block" : "none" }} />
 
-                <div ref={this.buttonsRef} className="buttons">
+                <div ref={this.buttonsRef} className="buttons" onMouseMove={this.scrollBar}>
                     <div style={{ display: this.state.isButtonsScrolled ? "block" : "none" }}
-                        className="start-of-buttons-section" onMouseEnter={this.scrollToRight}></div>
+                        className="start-of-buttons-section"></div>
 
                     {this.state?.selectedClients.map(client =>
                         <button className="client-btn">
@@ -115,7 +144,7 @@ export class TopClientsNav extends Component<TopClientsNavProps, TopClientsNavSt
                     )}
 
                     <div style={{ display: this.state.isButtonsScrolled ? "block" : "none" }}
-                        className="end-of-buttons-section" onMouseEnter={this.scrollToLeft}>
+                        className="end-of-buttons-section">
                         <span className="more-buttons-icon">|</span>
                     </div>
                 </div>
@@ -133,7 +162,7 @@ export class TopClientsNav extends Component<TopClientsNavProps, TopClientsNavSt
                 <span className="logout-span" onClick={() => this.setState({ showLogout: true })}>logout</span>
 
                 <div className="logo-container"></div>
-                <img className="logo" src="./assets/images/logo_factory.svg" />
+                <img className="logo" src={Logo.logoSrc} />
 
                 {this.state.showLogout &&
                     <div className="logout-dialog" >

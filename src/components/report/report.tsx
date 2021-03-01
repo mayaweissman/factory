@@ -12,6 +12,7 @@ import { TopReportNav } from "../top-report-nav/top-report-nav";
 import { ActionType } from "../../redux/actionType";
 import axios from "axios";
 import { AuthForWatchingOnly } from "../auth-for-watching-only/auth-for-watching-only";
+import { Config } from "../../config";
 
 interface ReportState {
     report: ReportModel,
@@ -49,7 +50,7 @@ export class Report extends Component<any, ReportState>{
     public async componentDidMount() {
         try {
             const uuid = this.props.match.params.uuid;
-            const response = await axios.get("https://factory-dev.landing-page-media.co.il/all-reports/?uuid=" + uuid);
+            const response = await axios.get(Config.serverUrl + "/all-reports/?uuid=" + uuid);
             const report: ReportModel = response.data;
             if (!report) {
                 this.props.history.push("/page-not-found");

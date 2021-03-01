@@ -1,6 +1,7 @@
 import React, { Component, useRef } from "react";
 import { NavLink } from "react-router-dom";
 import { Unsubscribe } from "redux";
+import { Logo } from "../../get-logo";
 import { CampaignModel } from "../../models/campaignModel";
 import { ClientModel } from "../../models/clientModel";
 import { ProductModel } from "../../models/productModel";
@@ -172,13 +173,47 @@ export class TopCampaignsNav extends Component<TopCampaignsNavProps, TopCampaign
         store.dispatch({ type: ActionType.updateProductsToDisplay, payLoad: this.state.filteringBefore.beforeProductsToDisplay });
     }
 
+    public scrollBar = (event: any) => {
+        const x = event.clientX;
+        const width = this.buttonsRef.current?.offsetWidth as number;
+        const offsetLeft = this.buttonsRef.current?.offsetLeft as number;
+
+        const buttonsWidth = this.buttonsRef.current?.scrollWidth as number;
+        const topNavWidth: number = this.topNavRef.current?.clientWidth as number;
+
+        const position = x - (topNavWidth - width);
+        const half = width / 2;
+        let precentages;
+
+        if (position < half) { precentages = 0; }
+        if (position >= half) { precentages = 1; }
+
+        if(precentages && precentages > 0){
+            this.buttonsRef.current?.scrollTo({
+                top: 0,
+                left: buttonsWidth - (offsetLeft +  x),
+                behavior: "smooth"
+            });
+    
+        }
+        else{
+            this.buttonsRef.current?.scrollTo({
+                top: 0,
+                left: -(buttonsWidth - (offsetLeft +  x)),
+                behavior: "smooth"
+            });
+        }
+
+    }
+
+
 
     public render() {
         return (
             <div ref={this.topNavRef} className="top-campaigns-nav">
-                <div ref={this.buttonsRef} className="campaigns-buttons">
+                <div ref={this.buttonsRef} className="campaigns-buttons" onMouseMove={this.scrollBar}>
                     <div style={{ display: this.state.isButtonsScrolled ? "block" : "none" }}
-                        className="campaigns-start-of-buttons-section" onMouseEnter={this.scrollToRight}></div>
+                        className="campaigns-start-of-buttons-section"></div>
 
 
 
@@ -204,7 +239,7 @@ export class TopCampaignsNav extends Component<TopCampaignsNavProps, TopCampaign
 
 
                     <div style={{ display: this.state.isButtonsScrolled ? "block" : "none" }}
-                        className="campaigns-end-of-buttons-section" onMouseEnter={this.scrollToLeft}>
+                        className="campaigns-end-of-buttons-section">
                         <span className="campaigns-more-buttons-icon">|</span>
                     </div>
                 </div>
@@ -220,7 +255,7 @@ export class TopCampaignsNav extends Component<TopCampaignsNavProps, TopCampaign
                 <div className="campaigns-top-scroll" style={{ top: this.props.isScroll ? this.topNavRef.current?.clientHeight : 0 }}></div>
 
                 <NavLink to="/home">
-                    <img className="campaigns-logo" src="./assets/images/logo_factory.svg" />
+                    <img className="campaigns-logo" src={Logo.logoSrc} />
                 </NavLink>
 
                 {this.state.display &&

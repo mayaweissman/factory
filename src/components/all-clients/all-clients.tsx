@@ -8,6 +8,7 @@ import { Unsubscribe } from "redux";
 import AddIcon from '@material-ui/icons/Add';
 import axios from "axios";
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+import { Config } from "../../config";
 
 interface AllClientsState {
     allClients: ClientModel[],
@@ -43,7 +44,7 @@ export class AllClients extends Component<any, AllClientsState>{
 
     async componentDidMount() {
         try {
-            const response = await axios.get("https://factory-dev.landing-page-media.co.il/all-clients/");
+            const response = await axios.get(Config.serverUrl + "/all-clients/");
             const allClients: ClientModel[] = response.data.clients;
             this.setState({ allClients });
             this.setState({ clientsToShow: allClients });

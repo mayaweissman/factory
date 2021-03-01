@@ -169,6 +169,7 @@
   margin: 0.7vw;
   text-transform: uppercase;
   padding: 0.7vw;
+  white-space: nowrap;
   float: right;
   display: flex;
   justify-content: center;

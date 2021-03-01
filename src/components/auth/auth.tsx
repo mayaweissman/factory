@@ -8,6 +8,8 @@ import axios from "axios";
 import { rejects } from "assert";
 import TextField from '@material-ui/core/TextField';
 import InputCode from "./InputCode";
+import { Config } from "../../config";
+import { Logo } from "../../get-logo";
 
 interface AuthState {
   phoneNumber: string,
@@ -48,7 +50,7 @@ export class Auth extends Component<any, AuthState> {
 
   public async componentDidMount() {
     try {
-      const response = await axios.get("https://factory-dev.landing-page-media.co.il/all-users/");
+      const response = await axios.get(Config.serverUrl + "/all-users/");
       const allUsers: UserModel[] = response.data.users;
       this.setState({ allUsers });
 
@@ -158,7 +160,7 @@ export class Auth extends Component<any, AuthState> {
 
         <div className="auth-box">
 
-          <img className="auth-logo" src="/assets/images/logo_factory.svg" />
+          <img className="auth-logo" src={Logo.logoSrc} />
 
           <div className="auth-titles">
             <h1>מערכת תוצר</h1>

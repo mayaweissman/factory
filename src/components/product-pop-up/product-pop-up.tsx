@@ -10,6 +10,7 @@ import { CampaignModel } from "../../models/campaignModel";
 import ProgressBar from '@ramonak/react-progress-bar';
 import axios from "axios";
 import { ImagesModel } from "../../models/imagesModel";
+import { Config } from "../../config";
 
 
 interface ProductPopUpProps {
@@ -64,7 +65,7 @@ export class ProductPopUp extends Component<ProductPopUpProps, ProductPopUpState
             }
 
 
-            const response = await axios.get("https://factory-dev.landing-page-media.co.il/all-products-types/");
+            const response = await axios.get(Config.serverUrl + "/all-products-types/");
             const productsTypes: ProductsType[] = response.data.productsTypes;
             const productTypes = productsTypes.find(t => t.productsTypeId === this.props.product.productTypeId);
             this.setState({ productsType: productTypes as ProductsType });

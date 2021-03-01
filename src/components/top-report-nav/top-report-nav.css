@@ -70,6 +70,7 @@
 .campaigns-client-btn {
   background-color: white;
   color: black;
+  white-space: nowrap;
   outline: none;
   border: 2px solid black;
   border-radius: 31px;

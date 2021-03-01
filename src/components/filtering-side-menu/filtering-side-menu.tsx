@@ -22,6 +22,7 @@ import axios from "axios";
 import { ProductsType } from "../../models/productsTypeModel";
 import RestoreIcon from '@material-ui/icons/Restore';
 import { setTimeout } from "timers";
+import { Config } from "../../config";
 
 interface FilteringSideMenuProps {
     isOnReport: boolean
@@ -77,7 +78,7 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
 
     public async componentDidMount() {
         try {
-            const response = await axios.get("https://factory-dev.landing-page-media.co.il/all-products-types/");
+            const response = await axios.get(Config.serverUrl + "/all-products-types/");
             const productsTypes: ProductsType[] = response.data.productsTypes;
             this.setState({ productsTypes });
 
@@ -105,7 +106,7 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
                 });
                 this.setState({ productsTypesToDisplay });
 
-                const responseForProducts = await axios.get("https://factory-dev.landing-page-media.co.il/all-products");
+                const responseForProducts = await axios.get(Config.serverUrl + "/all-products");
                 const allProducts: ProductModel[] = responseForProducts.data.products;
                 this.setState({ allProducts });
 
