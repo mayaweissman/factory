@@ -47,7 +47,7 @@ export class LinkPopUp extends Component<any, LinkPopUpState>{
     }
 
     public componentDidMount() {
-        let url = Config.serverUrl;
+        let url =window.location.href.split("/r")[0]  ;
         this.setState({ url });
     }
 
@@ -110,6 +110,7 @@ export class LinkPopUp extends Component<any, LinkPopUpState>{
             }
 
             const id: string = (this.state.user.userId?.toString() as string);
+
 
             let formData = new FormData();
             formData.append("state", JSON.stringify(report));

@@ -42,7 +42,8 @@ export class LinkPopUpFromReport extends Component<any, LinkPopUpFromReportState
     }
 
     public componentDidMount() {
-        let url = Config.serverUrl + "/" + this.state.report.uuid;
+        const currentUrl = window.location.href;
+        let url = currentUrl.split("/r")[0] + "/" + this.state.report.uuid;
         this.setState({ url });
     }
 

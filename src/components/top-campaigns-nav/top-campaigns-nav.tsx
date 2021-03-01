@@ -177,6 +177,8 @@ export class TopCampaignsNav extends Component<TopCampaignsNavProps, TopCampaign
         const x = event.clientX;
         const width = this.buttonsRef.current?.offsetWidth as number;
         const offsetLeft = this.buttonsRef.current?.offsetLeft as number;
+        const scrollLeft = this.buttonsRef.current?.scrollLeft as number;
+
 
         const buttonsWidth = this.buttonsRef.current?.scrollWidth as number;
         const topNavWidth: number = this.topNavRef.current?.clientWidth as number;
@@ -188,24 +190,23 @@ export class TopCampaignsNav extends Component<TopCampaignsNavProps, TopCampaign
         if (position < half) { precentages = 0; }
         if (position >= half) { precentages = 1; }
 
-        if(precentages && precentages > 0){
+        if (precentages && precentages > 0) {
             this.buttonsRef.current?.scrollTo({
                 top: 0,
-                left: buttonsWidth - (offsetLeft +  x),
+                left: scrollLeft + x,
                 behavior: "smooth"
             });
-    
+
         }
-        else{
+        else {
             this.buttonsRef.current?.scrollTo({
                 top: 0,
-                left: -(buttonsWidth - (offsetLeft +  x)),
+                left: -(scrollLeft + x),
                 behavior: "smooth"
             });
         }
 
     }
-
 
 
     public render() {
