@@ -18,7 +18,6 @@ interface ReportMakerState {
     isAfterAuth: boolean,
     displayForReportsPopUp: boolean,
     displayForReportsLinkPopUp: boolean
-
 }
 
 export class ReportMaker extends Component<any, ReportMakerState>{

@@ -7,6 +7,7 @@ import { ActionType } from "../../redux/actionType";
 import { store } from "../../redux/store";
 import { AllClients } from "../all-clients/all-clients";
 import "./top-clients-nav.css";
+import ScrollContainer from 'react-indiana-drag-scroll'
 
 interface TopClientsNavProps {
     isScroll: boolean
@@ -21,7 +22,7 @@ interface TopClientsNavState {
 export class TopClientsNav extends Component<TopClientsNavProps, TopClientsNavState>{
 
     private unsubscribeStore: Unsubscribe;
-    public buttonsRef = React.createRef<HTMLDivElement>();
+    public buttonsRef = React.createRef<any>();
     public topNavRef = React.createRef<HTMLDivElement>();
 
 
@@ -33,19 +34,43 @@ export class TopClientsNav extends Component<TopClientsNavProps, TopClientsNavSt
             isButtonsScrolled: false,
             showLogout: false
         }
+
+        
         this.unsubscribeStore = store.subscribe(() => {
             const selectedClients = store.getState().selectedClients;
             this.setState({ selectedClients });
         })
+        
+       
     }
 
     componentDidMount() {
+
+        this.unsubscribeStore = store.subscribe(() => {
+            const selectedClients = store.getState().selectedClients;
+            this.setState({ selectedClients });
+        })
+
         const topNavWidth: number = this.topNavRef.current?.clientWidth as number;
         const maxWidth = topNavWidth / 100 * 60;
+        const buttonsWidth = this.buttonsRef?.current?.container.current.scrollWidth;
+
+        if (buttonsWidth > maxWidth) {
+            this.setState({ isButtonsScrolled: true });
+        }
+        else {
+            this.setState({ isButtonsScrolled: false });
+        }
 
         window.addEventListener("click", () => {
-            const buttonsWidth = this.buttonsRef.current?.scrollWidth as number;
-            if (buttonsWidth > maxWidth) {
+
+            const updatedButtonsWidth = this.buttonsRef?.current?.container.current.scrollWidth;
+
+
+            console.log(updatedButtonsWidth);
+            console.log(maxWidth);
+
+            if (updatedButtonsWidth > maxWidth) {
                 this.setState({ isButtonsScrolled: true });
             }
             else {
@@ -57,52 +82,6 @@ export class TopClientsNav extends Component<TopClientsNavProps, TopClientsNavSt
 
     public componentWillUnmount(): void {
         this.unsubscribeStore();
-    }
-
-    // public scrollToRight = () => {
-    //     const offsetLeft = this.buttonsRef.current?.scrollLeft as number;
-    //     const x = offsetLeft + 30;
-
-    //     this.buttonsRef.current?.scrollTo({
-    //         top: 0,
-    //         left: x,
-    //         behavior: "smooth"
-    //     });
-    // }
-
-    public scrollBar = (event: any) => {
-        const x = event.clientX;
-        const width = this.buttonsRef.current?.offsetWidth as number;
-        const offsetLeft = this.buttonsRef.current?.offsetLeft as number;
-        const scrollLeft = this.buttonsRef.current?.scrollLeft as number;
-
-
-        const buttonsWidth = this.buttonsRef.current?.scrollWidth as number;
-        const topNavWidth: number = this.topNavRef.current?.clientWidth as number;
-
-        const position = x - (topNavWidth - width);
-        const half = width / 2;
-        let precentages;
-
-        if (position < half) { precentages = 0; }
-        if (position >= half) { precentages = 1; }
-
-        if (precentages && precentages > 0) {
-            this.buttonsRef.current?.scrollTo({
-                top: 0,
-                left: scrollLeft + x,
-                behavior: "smooth"
-            });
-
-        }
-        else {
-            this.buttonsRef.current?.scrollTo({
-                top: 0,
-                left: -(scrollLeft + x),
-                behavior: "smooth"
-            });
-        }
-
     }
 
 
@@ -132,9 +111,8 @@ export class TopClientsNav extends Component<TopClientsNavProps, TopClientsNavSt
                 <img src="./assets/images/add-client-circle-off.svg" className="no-selected-img" style={{ display: this.state.selectedClients.length === 0 ? "block" : "none" }} />
                 <img src="./assets/images/add-client-circle-on.svg" className="no-selected-img" style={{ display: this.state.selectedClients.length > 0 ? "block" : "none" }} />
 
-                <div ref={this.buttonsRef} className="buttons" onMouseMove={this.scrollBar}>
-                    <div style={{ display: this.state.isButtonsScrolled ? "block" : "none" }}
-                        className="start-of-buttons-section"></div>
+
+                <ScrollContainer ref={this.buttonsRef} className="buttons">
 
                     {this.state?.selectedClients.map(client =>
                         <button className="client-btn">
@@ -144,12 +122,9 @@ export class TopClientsNav extends Component<TopClientsNavProps, TopClientsNavSt
                             <span className="inside-client-btn">{client.clientName}</span>
                         </button>
                     )}
-
-                    <div style={{ display: this.state.isButtonsScrolled ? "block" : "none" }}
-                        className="end-of-buttons-section">
-                        <span className="more-buttons-icon">|</span>
-                    </div>
-                </div>
+      
+                        <span style={{display: this.state.isButtonsScrolled ? "block" : "none"}} className="more-buttons-icon">|</span>
+                </ScrollContainer>
 
 
                 <div className="top-scroll" style={{ top: this.props.isScroll ? this.topNavRef.current?.clientHeight : 0 }}></div>

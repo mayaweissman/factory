@@ -167,6 +167,8 @@ export class AllClients extends Component<any, AllClientsState>{
                     </div>
                 }
 
+                <div className="clients-area">
+
                 {this.state.clientsToShow.length !== 0 && this.state.clientsToShow.map(client =>
                     <div className="client">
                         <img src={client.clientImageSrc} onClick={this.selectClient(client)} />
@@ -178,6 +180,10 @@ export class AllClients extends Component<any, AllClientsState>{
                             <span>{client.clientName}</span>
                         </div>
                     </div>)}
+                    
+                </div>
+
+             
 
 
 

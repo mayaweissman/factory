@@ -11,6 +11,7 @@ import { store } from "../../redux/store";
 import { AddClientPopUp } from "../add-client-pop-up/add-client-pop-up";
 import { AllClients } from "../all-clients/all-clients";
 import "./top-campaigns-nav.css";
+import ScrollContainer from 'react-indiana-drag-scroll'
 
 interface TopCampaignsNavProps {
     isScroll: boolean
@@ -32,7 +33,7 @@ interface TopCampaignsNavState {
 export class TopCampaignsNav extends Component<TopCampaignsNavProps, TopCampaignsNavState>{
 
     private unsubscribeStore: Unsubscribe;
-    public buttonsRef = React.createRef<HTMLDivElement>();
+    public buttonsRef = React.createRef<any>();
     public topNavRef = React.createRef<HTMLDivElement>();
 
 
@@ -61,7 +62,7 @@ export class TopCampaignsNav extends Component<TopCampaignsNavProps, TopCampaign
 
             const topNavWidth: number = this.topNavRef.current?.clientWidth as number;
             const maxWidth = topNavWidth / 100 * 70;
-            const buttonsWidth = this.buttonsRef.current?.scrollWidth as number;
+            const buttonsWidth = this.buttonsRef?.current?.container.current.scrollWidth as number;
             if (buttonsWidth > maxWidth) {
                 this.setState({ isButtonsScrolled: true });
             }
@@ -75,7 +76,7 @@ export class TopCampaignsNav extends Component<TopCampaignsNavProps, TopCampaign
     componentDidMount() {
         const topNavWidth: number = this.topNavRef.current?.clientWidth as number;
         const maxWidth = topNavWidth / 100 * 70;
-        const buttonsWidth = this.buttonsRef.current?.scrollWidth as number;
+        const buttonsWidth = this.buttonsRef?.current?.container.current.scrollWidth as number;
 
         if (buttonsWidth > maxWidth) {
             this.setState({ isButtonsScrolled: true });
@@ -88,7 +89,8 @@ export class TopCampaignsNav extends Component<TopCampaignsNavProps, TopCampaign
         window.addEventListener("click", () => {
             const topNavWidth: number = this.topNavRef.current?.clientWidth as number;
             const maxWidth = topNavWidth / 100 * 70;
-            const buttonsWidth = this.buttonsRef.current?.scrollWidth as number;
+            const buttonsWidth = this.buttonsRef?.current?.container.current.scrollWidth as number;
+
             if (buttonsWidth > maxWidth) {
                 this.setState({ isButtonsScrolled: true });
             }
@@ -141,15 +143,6 @@ export class TopCampaignsNav extends Component<TopCampaignsNavProps, TopCampaign
         });
     }
 
-    public scrollToLeft = () => {
-        const buttonsWidth = this.buttonsRef.current?.scrollWidth as number;
-        this.buttonsRef.current?.scrollTo({
-            top: 0,
-            left: -buttonsWidth,
-            behavior: "smooth"
-        });
-    }
-
 
     public removeClient = (clientId: number) => (event: any) => {
 
@@ -173,52 +166,15 @@ export class TopCampaignsNav extends Component<TopCampaignsNavProps, TopCampaign
         store.dispatch({ type: ActionType.updateProductsToDisplay, payLoad: this.state.filteringBefore.beforeProductsToDisplay });
     }
 
-    public scrollBar = (event: any) => {
-        const x = event.clientX;
-        const width = this.buttonsRef.current?.offsetWidth as number;
-        const offsetLeft = this.buttonsRef.current?.offsetLeft as number;
-        const scrollLeft = this.buttonsRef.current?.scrollLeft as number;
-
-
-        const buttonsWidth = this.buttonsRef.current?.scrollWidth as number;
-        const topNavWidth: number = this.topNavRef.current?.clientWidth as number;
-
-        const position = x - (topNavWidth - width);
-        const half = width / 2;
-        let precentages;
-
-        if (position < half) { precentages = 0; }
-        if (position >= half) { precentages = 1; }
-
-        if (precentages && precentages > 0) {
-            this.buttonsRef.current?.scrollTo({
-                top: 0,
-                left: scrollLeft + x,
-                behavior: "smooth"
-            });
-
-        }
-        else {
-            this.buttonsRef.current?.scrollTo({
-                top: 0,
-                left: -(scrollLeft + x),
-                behavior: "smooth"
-            });
-        }
-
-    }
-
 
     public render() {
         return (
             <div ref={this.topNavRef} className="top-campaigns-nav">
-                <div ref={this.buttonsRef} className="campaigns-buttons" onMouseMove={this.scrollBar}>
-                    <div style={{ display: this.state.isButtonsScrolled ? "block" : "none" }}
-                        className="campaigns-start-of-buttons-section"></div>
 
 
+                <ScrollContainer ref={this.buttonsRef} className="campaigns-buttons">
 
-                    {this.state.clientsToDisplay.length === 0 && this.state?.selectedClients.map(client =>
+                {this.state.clientsToDisplay.length === 0 && this.state?.selectedClients.map(client =>
                         <button className="campaigns-client-btn" onClick={this.filterByClientId(client.clientId as number)}>
                             <button className="campaigns-remove-btn" onClick={this.removeClient(client.clientId as number)}>
                                 <span>&#10006;</span>
@@ -237,18 +193,14 @@ export class TopCampaignsNav extends Component<TopCampaignsNavProps, TopCampaign
                     )}
 
 
+                    <span style={{ display: this.state.isButtonsScrolled ? "block" : "none" }} className="campaigns-more-buttons-icon">|</span>
+                </ScrollContainer>
 
-
-                    <div style={{ display: this.state.isButtonsScrolled ? "block" : "none" }}
-                        className="campaigns-end-of-buttons-section">
-                        <span className="campaigns-more-buttons-icon">|</span>
-                    </div>
-                </div>
 
                 {this.state.clientsToDisplay.length === 0 &&
                     <span className="add-client-span" onClick={this.openPopUp}>הוספת לקוח</span>}
 
-                <span className="logout-span" onClick={()=>this.setState({showLogout: true})}>logout</span>
+                <span className="logout-span" onClick={() => this.setState({ showLogout: true })}>logout</span>
 
                 {this.state.clientsToDisplay.length > 0 &&
                     <span className="add-client-span" onClick={this.resetClientsToDisplay}>כל הלקוחות</span>}

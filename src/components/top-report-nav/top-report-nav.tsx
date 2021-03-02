@@ -10,6 +10,7 @@ import { store } from "../../redux/store";
 import { AddClientPopUp } from "../add-client-pop-up/add-client-pop-up";
 import { AllClients } from "../all-clients/all-clients";
 import "./top-report-nav.css";
+import ScrollContainer from 'react-indiana-drag-scroll'
 
 interface TopReportNavProps {
     isScroll: boolean
@@ -29,7 +30,7 @@ interface TopReportNavState {
 export class TopReportNav extends Component<TopReportNavProps, TopReportNavState>{
 
     private unsubscribeStore: Unsubscribe;
-    public buttonsRef = React.createRef<HTMLDivElement>();
+    public buttonsRef = React.createRef<any>();
     public topNavRef = React.createRef<HTMLDivElement>();
 
 
@@ -56,7 +57,7 @@ export class TopReportNav extends Component<TopReportNavProps, TopReportNavState
     componentDidMount() {
         const topNavWidth: number = this.topNavRef.current?.clientWidth as number;
         const maxWidth = topNavWidth / 100 * 70;
-        const buttonsWidth = this.buttonsRef.current?.scrollWidth as number;
+        const buttonsWidth = this.buttonsRef?.current?.container.current.scrollWidth as number;
 
         if (buttonsWidth > maxWidth) {
             this.setState({ isButtonsScrolled: true });
@@ -65,12 +66,12 @@ export class TopReportNav extends Component<TopReportNavProps, TopReportNavState
             this.setState({ isButtonsScrolled: false });
         }
 
+
         window.addEventListener("click", () => {
             const topNavWidth: number = this.topNavRef.current?.clientWidth as number;
             const maxWidth = topNavWidth / 100 * 70;
-            const buttonsWidth = this.buttonsRef.current?.scrollWidth as number;
-            console.log(maxWidth);
-            console.log(buttonsWidth);
+            const buttonsWidth = this.buttonsRef?.current?.container.current.scrollWidth as number;
+
             if (buttonsWidth > maxWidth) {
                 this.setState({ isButtonsScrolled: true });
             }
@@ -81,7 +82,7 @@ export class TopReportNav extends Component<TopReportNavProps, TopReportNavState
     }
 
     public filterByClientId = (clientId: number) => (event: any) => {
-      
+
         const campaignsToDisplay: CampaignModel[] = [];
 
         const filteringBefore = { ...this.state.filteringBefore };
@@ -96,7 +97,7 @@ export class TopReportNav extends Component<TopReportNavProps, TopReportNavState
             }
         }
         store.dispatch({ type: ActionType.updateCampaignsToDisplay, payLoad: campaignsToDisplay });
-     
+
 
         const clientsToDisplay: ClientModel[] = [];
         const allSelectedClients = store.getState().selectedClients;
@@ -142,7 +143,7 @@ export class TopReportNav extends Component<TopReportNavProps, TopReportNavState
         store.dispatch({ type: ActionType.updateProductsToDisplay, payLoad: this.state.filteringBefore.beforeProductsToDisplay });
     }
 
-    
+
     public scrollBar = (event: any) => {
         const x = event.clientX;
         const width = this.buttonsRef.current?.offsetWidth as number;
@@ -181,11 +182,11 @@ export class TopReportNav extends Component<TopReportNavProps, TopReportNavState
     public render() {
         return (
             <div ref={this.topNavRef} className="top-campaigns-nav-report">
-                <div ref={this.buttonsRef} className="campaigns-buttons" onMouseMove={this.scrollBar}>
-                    <div style={{ display: this.state.isButtonsScrolled ? "block" : "none" }}
-                        className="campaigns-start-of-buttons-section"></div>
 
-                    <button className="campaigns-client-btn" onClick={this.resetClientsToDisplay}>
+
+                <ScrollContainer ref={this.buttonsRef} className="campaigns-buttons">
+
+                <button className="campaigns-client-btn" onClick={this.resetClientsToDisplay}>
                         <button className="campaigns-remove-btn" style={{ opacity: 0 }}>
                             <span>&#10006;</span>
                         </button>
@@ -199,13 +200,12 @@ export class TopReportNav extends Component<TopReportNavProps, TopReportNavState
                         </button>
                     )}
 
-                    <div style={{ display: this.state.isButtonsScrolled ? "block" : "none" }}
-                        className="campaigns-end-of-buttons-section">
-                        <span className="campaigns-more-buttons-icon">|</span>
-                    </div>
-                </div>
 
-                <span className="logout-span" onClick={()=>store.dispatch({type:ActionType.logoutWatchingMode})}>logout</span>
+                    <span style={{ display: this.state.isButtonsScrolled ? "block" : "none" }} className="campaigns-more-buttons-icon">|</span>
+                </ScrollContainer>
+
+
+                <span className="logout-span" onClick={() => store.dispatch({ type: ActionType.logoutWatchingMode })}>logout</span>
 
                 <div className="campaigns-top-scroll" style={{ top: this.props.isScroll ? "7vw" : 0 }}></div>
 

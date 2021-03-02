@@ -9,7 +9,8 @@ import axios from "axios";
 import "./layout.css";
 
 interface LayoutState {
-    isLegal: boolean
+    isLegalIp: boolean,
+    isLegalIpForMobile: boolean
 }
 
 
@@ -18,16 +19,23 @@ export class Layout extends Component<any, LayoutState>{
     public constructor(props: any) {
         super(props);
         this.state = {
-            isLegal: false
+            isLegalIp: false,
+            isLegalIpForMobile: false
         }
     }
 
     public async componentDidMount() {
         try {
+
+            const bodyClass =  document.body.classList;
+            if(bodyClass[0]==='mobile'){
+                this.setState({ isLegalIpForMobile: true });
+            }
+
             const json = await axios.get("https://api.ipify.org?format=json");
             const ip = json.data.ip;
             if (ip === '176.230.160.231' || ip === '31.168.98.222' || ip === '82.80.148.180' || ip === '82.81.38.254') {
-                this.setState({ isLegal: true });
+                this.setState({ isLegalIp: true });
             }
         }
         catch (err) {
@@ -38,7 +46,7 @@ export class Layout extends Component<any, LayoutState>{
     public render() {
         return (
             <div className="layout">
-                {this.state.isLegal &&
+                {this.state.isLegalIp &&
                     <BrowserRouter>
                         <Switch>
                             <Route path="/auth" component={Auth} exact />
@@ -47,6 +55,14 @@ export class Layout extends Component<any, LayoutState>{
                             <Route path="/page-not-found" component={PageNotFound} exact />
                             <Route path="/:uuid" component={Report} />
                             <Redirect from="/" to="/home" />
+                        </Switch>
+
+                    </BrowserRouter>
+                }
+                {this.state.isLegalIpForMobile &&
+                    <BrowserRouter>
+                        <Switch>
+                            <Route path="/:uuid" component={Report} />
                         </Switch>
 
                     </BrowserRouter>
