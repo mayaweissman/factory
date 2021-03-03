@@ -27,6 +27,7 @@ export class AppState {
   public user: UserModel = new UserModel();
   public reportToCopy: ReportModel = new ReportModel();
   public displayForReportsLinkPopUp: boolean = false;
+  public currentReport: ReportModel = new ReportModel();
 
   public constructor() {
     const json = sessionStorage.getItem("AppState");
@@ -54,6 +55,7 @@ export class AppState {
       this.isReportsPopUpShow = appState.isReportsPopUpShow;
       this.reportToCopy = appState.reportToCopy;
       this.displayForReportsLinkPopUp = appState.displayForReportsLinkPopUp;
+      this.currentReport = appState.currentReport;
     }
   }
 }

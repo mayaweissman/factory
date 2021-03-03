@@ -1,5 +1,4 @@
-export enum ActionType {
-    
+export enum ActionType { 
     getAllClients,
     getAllCampaigns,
     getAllProducts,
@@ -29,5 +28,6 @@ export enum ActionType {
     getDatesRanges,
     changeDisplayForReportsPopUp,
     changeDisplayForReportsLinkPopUp,
-    getReportToCopy
+    getReportToCopy,
+    getCurrentReport
 }

@@ -1,13 +1,18 @@
 .mobile .auth-logo {
     width: 35vw;
+    top: 12vw;
+    position: fixed;
 }
 
 .mobile .auth-titles > h1 {
-    margin: 0;
-    font-weight: 500;
-    position: relative;
-    top: 15vw;
-    font-size: 9vw;
+ 
+
+  margin: 0;
+  font-weight: 500;
+  position: relative;
+  top: 15vw;
+  font-size: 7.6vw;
+
 }
 
 
@@ -85,9 +90,61 @@
     width: 70px;
 }
 
+.typed{
+  animation: slideUp 1s both;
+}
+
+.btn-typed{
+  animation: slideUpForBtn 1s both;
+}
+
+@keyframes slideUp{
+  0%{
+    transform: translateY(0);
+  }
+
+  100%{
+  
+    transform: translateY(-12vw);
+
+  }
+}
+@-webkit-keyframes slideUp{
+  0%{
+    transform: translateY(0);
+  }
+
+  100%{
+    transform: translateY(-12vw);
+
+  }
+}
+
+@keyframes slideUpForBtn{
+  0%{
+    transform: translateY(0);
+  }
+
+  100%{
+  
+    transform: translateY(-60vw);
+
+  }
+}
+@-webkit-keyframes slideUpForBtn{
+  0%{
+    transform: translateY(0);
+  }
+
+  100%{
+    transform: translateY(-60vw);
+
+  }
+}
+
 .mobile .code-num-box-before {
     border: 2px solid black;
-    width: 40px;
+    width: 50px;
     background-color: white;
     height: 50px;
     margin: 1vw;
@@ -100,7 +157,7 @@
 
 .mobile .code-num-box-after {
     border: 2px solid rgb(248 74 114);
-    width: 40px;
+    width: 50px;
     background-color: rgb(248 74 114);
     height: 50px;
     margin: 1vw;

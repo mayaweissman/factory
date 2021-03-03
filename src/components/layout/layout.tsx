@@ -46,7 +46,7 @@ export class Layout extends Component<any, LayoutState>{
     public render() {
         return (
             <div className="layout">
-                {this.state.isLegalIp &&
+                {this.state.isLegalIp && !this.state.isLegalIpForMobile &&
                     <BrowserRouter>
                         <Switch>
                             <Route path="/auth" component={Auth} exact />

@@ -13,13 +13,15 @@ import { ActionType } from "../../redux/actionType";
 import axios from "axios";
 import { AuthForWatchingOnly } from "../auth-for-watching-only/auth-for-watching-only";
 import { Config } from "../../config";
+import { BottomBar } from "../bottom-bar/bottom-bar";
 
 interface ReportState {
     report: ReportModel,
     isScroll: boolean,
     display: boolean,
     isAfterAuth: boolean,
-    isPreAuth: boolean
+    isPreAuth: boolean,
+    isMobile: boolean
 }
 
 export class Report extends Component<any, ReportState>{
@@ -33,7 +35,8 @@ export class Report extends Component<any, ReportState>{
             isScroll: false,
             display: store.getState().isLinksPopUpShow,
             isAfterAuth: store.getState().isAuthSucceededForReport,
-            isPreAuth: store.getState().isAuthSucceeded
+            isPreAuth: store.getState().isAuthSucceeded,
+            isMobile: false
         }
 
 
@@ -49,6 +52,11 @@ export class Report extends Component<any, ReportState>{
 
     public async componentDidMount() {
         try {
+            const bodyClass = document.body.classList[0];
+            if (bodyClass === "mobile") {
+                this.setState({ isMobile: true });
+            }
+
             const uuid = this.props.match.params.uuid;
             const response = await axios.get(Config.serverUrl + "/all-reports/?uuid=" + uuid);
             const report: ReportModel = response.data;
@@ -57,6 +65,7 @@ export class Report extends Component<any, ReportState>{
                 return;
             }
             this.setState({ report });
+            store.dispatch({ type: ActionType.getCurrentReport, payLoad: report });
 
             window.addEventListener('scroll', (e) => {
                 const YPosition = window.pageYOffset;
@@ -67,10 +76,10 @@ export class Report extends Component<any, ReportState>{
                     this.setState({ isScroll: true });
                 }
             });
-    
+
 
             store.dispatch({ type: ActionType.updateSelectedClients, payLoad: report.clients });
-            store.dispatch({type: ActionType.getDatesRanges, payLoad: report.datesOnReport});
+            store.dispatch({ type: ActionType.getDatesRanges, payLoad: report.datesOnReport });
             if (report.products && report.products.length > 0) {
                 store.dispatch({ type: ActionType.getSelectedProducts, payLoad: report.products });
             }
@@ -91,7 +100,7 @@ export class Report extends Component<any, ReportState>{
         return (
             <div className="report">
                 {!this.state.isAfterAuth && <AuthForWatchingOnly />}
-                {this.state.isAfterAuth  &&
+                {this.state.isAfterAuth &&
                     <div>
                         <main>
                             <div className="header">
@@ -100,9 +109,13 @@ export class Report extends Component<any, ReportState>{
                             <Campaigns />
                         </main>
 
-                        <aside>
+                        {/* <aside>
                             <FilteringSideMenu isOnReport={true} />
-                        </aside>
+                        </aside> */}
+
+                        {this.state.isMobile && <footer>
+                            <BottomBar />
+                        </footer>}
                         {this.state.display && <LinkPopUp />}
                     </div>
                 }

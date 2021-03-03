@@ -38,7 +38,8 @@ interface FilteringSideMenuState {
     allProducts: ProductModel[],
     productsTypes: ProductsType[],
     productsTypesToDisplay: ProductsType[],
-    showDatesError: boolean
+    showDatesError: boolean,
+    isOnMobile: boolean
 }
 
 export class FilteringSideMenu extends Component<FilteringSideMenuProps, FilteringSideMenuState>{
@@ -57,7 +58,8 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
             allProducts: [],
             productsTypes: [],
             datesRange: store.getState().datesRange,
-            showDatesError: false
+            showDatesError: false,
+            isOnMobile: false
         }
 
         this.unsubscribeStore = store.subscribe(() => {
@@ -269,28 +271,35 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
                 </IconButton>
                 <span className="reset-filtering" onClick={this.resetFiltering}>איפוס סננים</span>
                 <br />
-                <DateRangePicker
-                    onApply={this.filterByDatesRange} 
-                    initialSettings={{ showDropdowns: true }}
-                >
-                    <button className="date-picker-btn"
-                        style={{ borderBottom: this.state.showDatesError ? "1px solid #f14646" : "1px solid white" }}>
-                        {this.state.datesRange}
-                        <span className="date-range-icon">
-                            <DateRangeIcon style={{ fontSize: "1.2vw" }} />
-                        </span>
-                    </button>
-                </DateRangePicker>
-                <br />
-                {this.state.showDatesError && <span className="dates-range-err">לא נבחרו תאריכים להצגה</span>}
-                <br />
 
-                <div className="history-field" onClick={() => store.dispatch({ type: ActionType.changeDisplayForReportsPopUp })}>
-                    <IconButton>
-                        <RestoreIcon style={{ color: "white" }} />
-                        <span className="history-title">היסטוריית הדוחות שלי</span>
-                    </IconButton>
-                </div>
+                {!this.props.isOnReport &&
+                    <>
+                        <DateRangePicker
+                            onApply={this.filterByDatesRange}
+                            initialSettings={{ showDropdowns: true }}
+                        >
+                            <button className="date-picker-btn"
+                                style={{ borderBottom: this.state.showDatesError ? "1px solid #f14646" : "1px solid white" }}>
+                                {this.state.datesRange}
+                                <span className="date-range-icon">
+                                    <DateRangeIcon style={{ fontSize: "1.2vw" }} />
+                                </span>
+                            </button>
+                        </DateRangePicker>
+                        <br />
+                        {this.state.showDatesError && <span className="dates-range-err">לא נבחרו תאריכים להצגה</span>}
+                    </>
+                }
+                <br />
+                {!this.props.isOnReport &&
+
+                    <div className="history-field" onClick={() => store.dispatch({ type: ActionType.changeDisplayForReportsPopUp })}>
+                        <IconButton>
+                            <RestoreIcon style={{ color: "white" }} />
+                            <span className="history-title">היסטוריית הדוחות שלי</span>
+                        </IconButton>
+                    </div>
+                }
                 <div className="scrolling-area">
                     <div className="campaigns-filtering-area">
                         <span className="campaign-filtering-title">קמפיין</span>
@@ -301,8 +310,7 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
                                 <label className="container-for-check">
                                     <input checked={this.isCampaignChecked(campaign.campaignId as number)} onClick={this.filterByCapmaign(campaign)} type="checkbox" />
                                     <span className="checkmark"></span>
-                                    <span className="campaign-name-title">
-                                        {campaign.campaignName}
+                                    <span className="campaign-name-title" dangerouslySetInnerHTML={{ __html: campaign.campaignName as string }}>
                                     </span>
                                 </label>
                             )}

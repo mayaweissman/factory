@@ -1,0 +1,143 @@
+.bottom-bar-area {
+  position: fixed;
+  bottom: 0;
+  z-index: 99999;
+  background-color: #fff;
+  width: 100vw;
+  height: 14vw;
+  border: none;
+  border-top: 1px solid black;
+}
+
+.wave {
+  background-color: #fff;
+  width: 78px;
+  height: 59px;
+  position: fixed;
+  bottom: 5vw;
+  right: 50%;
+  border-radius: 50%;
+  transform: translateX(50%);
+  border: none;
+  border-top: 1px solid;
+}
+
+.funnel-icon {
+  z-index: 999999999999999999999999999999;
+  position: absolute;
+  right: 50%;
+  top: -4vw;
+  transform: translateX(50%);
+  width: 25px;
+}
+
+.filtering-title {
+  position: absolute;
+  right: 50%;
+  font-size: 16px;
+  top: 3vw;
+  transform: translateX(50%);
+}
+
+.open-bar {
+  animation: SlideUp 1s both;
+}
+
+.close-bar {
+  animation: SlideDown 1s both;
+}
+
+.opened-bar-bottom{
+  animation: SlideUpForBottom 1s both;
+
+}
+
+.close-bar-bottom{
+  animation: SlideDownForBottom 1s both;
+
+}
+
+
+.lightbox-bg{
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.274);
+}
+
+@keyframes SlideUp {
+  0% {
+    height: 14vw;
+  }
+
+  100% {
+    height: 135vw;
+  }
+}
+@-webkit-keyframes SlideUp {
+  0% {
+    height: 14vw;
+  }
+
+  100% {
+    height: 135vw;
+  }
+}
+
+@keyframes SlideDown {
+  0% {
+    height: 135vw;
+  }
+
+  100% {
+    height: 14vw;
+  }
+}
+@-webkit-keyframes SlideDown {
+  0% {
+    height: 135vw;
+  }
+
+  100% {
+    height: 14vw;
+  }
+}
+
+@keyframes SlideUpForBottom {
+  0% {
+    bottom: 5vw;
+  }
+
+  100% {
+    bottom: 127vw;
+
+  }
+}
+@-webkit-keyframes SlideUpForBottom {
+  0% {
+    bottom: 5vw;
+  }
+
+  100% {
+    bottom: 127vw;
+
+  }
+}
+@keyframes SlideDownForBottom {
+  0% {
+    bottom: 127vw;
+  }
+
+  100% {
+    bottom: 5vw;
+
+  }
+}
+@-webkit-keyframes SlideDownForBottom {
+  0% {
+    bottom: 127vw;
+  }
+
+  100% {
+    bottom: 5vw;
+
+  }
+}

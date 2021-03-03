@@ -21,7 +21,8 @@ interface AuthForWatchingOnlyState {
   allUsers: UserModel[],
   isSmsSent: boolean,
   title: string,
-  user: UserModel
+  user: UserModel,
+  isStartTyping: boolean
 }
 
 export class AuthForWatchingOnly extends Component<any, AuthForWatchingOnlyState> {
@@ -44,7 +45,8 @@ export class AuthForWatchingOnly extends Component<any, AuthForWatchingOnlyState
       isDisplayForBtn: false,
       allUsers: [],
       isSmsSent: false,
-      user: new UserModel()
+      user: new UserModel(),
+      isStartTyping: false
     }
   }
 
@@ -86,31 +88,31 @@ export class AuthForWatchingOnly extends Component<any, AuthForWatchingOnlyState
 
     if (user) {
       this.setState({ user });
-        message = "";
-        isPhoneLegal = true;
-        this.setState({ title: "יש להזין את הקוד שקיבלת" })
-        new Promise((resolve, reject) => {
-          resolve(() => console.log(""))
-        }
+      message = "";
+      isPhoneLegal = true;
+      this.setState({ title: "יש להזין את הקוד שקיבלת" })
+      new Promise((resolve, reject) => {
+        resolve(() => console.log(""))
+      }
 
+      )
+        .then(() =>
+          fetch(
+            `https://landing-page-media.co.il/projects/phone-auth/?phone=${phoneNumber}`
+          )
         )
-          .then(() =>
-            fetch(
-              `https://landing-page-media.co.il/projects/phone-auth/?phone=${phoneNumber}`
-            )
-          )
-          .then((data) => {
-            this.setState({ isSmsSent: true });
-          }
-          )
-          .catch((e) => {
-            console.log(e)
-          });
-      }
-      else {
-        message = "מספר הטלפון שהוזן אינו מספר מורשה";
-      }
-    
+        .then((data) => {
+          this.setState({ isSmsSent: true });
+        }
+        )
+        .catch((e) => {
+          console.log(e)
+        });
+    }
+    else {
+      message = "מספר הטלפון שהוזן אינו מספר מורשה";
+    }
+
     this.setState({ message })
     this.setState({ isPhoneLegal })
   }
@@ -162,17 +164,20 @@ export class AuthForWatchingOnly extends Component<any, AuthForWatchingOnlyState
           </div>
 
           {!this.state.isPhoneLegal &&
-            <button onClick={this.authPhoneNumber} className="send-btn"><img src="./assets/images/pink_btn_after.svg" /></button>
+            <button onClick={this.authPhoneNumber} className={this.state.isStartTyping ? "send-btn btn-typed" :"send-btn"}><img src="./assets/images/pink_btn_after.svg" /></button>
           }
-          <div className="phone-field">
+          <div className={this.state.isStartTyping ? "phone-field typed" : "phone-field"} onFocus={() => this.setState({ isStartTyping: true })}>
             <TextField id="standard-basic"
               label="יש להזין מספר טלפון כדי לצפות בתוצרים"
               color="primary"
+              type="tel"
               onChange={this.setPhoneNumber}
               onKeyDown={this.linsenToKeyPress}
               className={this.state.isPhoneLegal ? "out" : ""}
               value={this.state.phoneNumber}
-              style={{ borderBottom: this.state.message === "" ? "2px solid black" : "2px solid red" }} />
+              style={{
+                borderBottom: this.state.message === "" ? "2px solid black" : "2px solid red",
+              }} />
             <span className="err-message">{this.state.message}</span>
             <br />
           </div>

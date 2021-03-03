@@ -166,6 +166,11 @@ export function reducer(oldAppState: AppState, action: Action): AppState {
       newAppState.reportToCopy = action.payLoad;
       break;
 
+    case ActionType.getCurrentReport:
+      console.log(action.payLoad);
+      newAppState.currentReport = action.payLoad;
+      break;
+
 
     case ActionType.removeClient:
       const clientId = action.payLoad;

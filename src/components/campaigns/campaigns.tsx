@@ -206,7 +206,7 @@ export class Campaigns extends Component<any, ReportMakerState>{
                 {this.state.campaignsToDisplay.length !== 0 && this.state.campaignsToDisplay?.map(campaign =>
                     <div className="client-in-campaigns">
 
-                        {this.isProductsToDisplayOnCampaign(campaign.campaignId as number) && <h2>{campaign.campaignName}</h2>}
+                        {this.isProductsToDisplayOnCampaign(campaign.campaignId as number) && <h2 dangerouslySetInnerHTML={{ __html: campaign.campaignName as string }}></h2>}
                         <div className="grid">
 
                             {this.state.productsToDisplay.length === 0 && this.state.selectedProducts?.filter(product => product.campaignId === campaign.campaignId).map(product =>
@@ -243,7 +243,77 @@ export class Campaigns extends Component<any, ReportMakerState>{
 
                 {this.state.campaignsToDisplay.length === 0 && this.state.selectedCampaigns?.map(campaign =>
                     <div className="client-in-campaigns">
-                        {this.isProductsToDisplayOnCampaign(campaign.campaignId as number) && <h2>{campaign.campaignName}</h2>}
+                        {this.isProductsToDisplayOnCampaign(campaign.campaignId as number) && <h2 dangerouslySetInnerHTML={{ __html: campaign.campaignName as string }}></h2>}
+                        <div className="grid">
+                            {this.state.productsToDisplay.length === 0 && this.state.selectedProducts?.filter(product => product.campaignId === campaign.campaignId).map(product =>
+                                <div className="campaign" data-aos="fade-up">
+                                    <img className="campaign-img" src={product.images?.img1} onClick={this.setProductToDisplayInPopUp(product, campaign)} />
+                                    <div className="campaign-info">
+                                        <span className="product-type-title">{this.getProductTypeName(product.productTypeId as number)}</span>
+                                        <span className="success-rate">
+                                            <li className="success-color" style={{ color: this.getSuccessRateColor(product.successRates as number) }}> </li>
+                                           % {product.successRates}
+                                        </span>
+                                    </div>
+                                </div>
+
+
+                            )}
+                            {this.state.productsToDisplay.length !== 0 && this.state.productsToDisplay?.filter(product => product.campaignId === campaign.campaignId).map(product =>
+                                <div className="campaign" data-aos="fade-up">
+                                    <img className="campaign-img" src={product.images?.img1} onClick={this.setProductToDisplayInPopUp(product, campaign)} />
+                                    <div className="campaign-info">
+                                        <span className="product-type-title">{this.getProductTypeName(product.productTypeId as number)}</span>
+                                        <span className="success-rate">
+                                            <li className="success-color" style={{ color: this.getSuccessRateColor(product.successRates as number) }}> </li>
+                                           % {product.successRates}
+                                        </span>
+                                    </div>
+                                </div>
+
+
+                            )}
+                        </div>
+                    </div>
+                )}
+                {this.state.campaignsToDisplay.length === 0 && this.state.selectedCampaigns?.map(campaign =>
+                    <div className="client-in-campaigns">
+                        {this.isProductsToDisplayOnCampaign(campaign.campaignId as number) && <h2 dangerouslySetInnerHTML={{ __html: campaign.campaignName as string }}></h2>}
+                        <div className="grid">
+                            {this.state.productsToDisplay.length === 0 && this.state.selectedProducts?.filter(product => product.campaignId === campaign.campaignId).map(product =>
+                                <div className="campaign" data-aos="fade-up">
+                                    <img className="campaign-img" src={product.images?.img1} onClick={this.setProductToDisplayInPopUp(product, campaign)} />
+                                    <div className="campaign-info">
+                                        <span className="product-type-title">{this.getProductTypeName(product.productTypeId as number)}</span>
+                                        <span className="success-rate">
+                                            <li className="success-color" style={{ color: this.getSuccessRateColor(product.successRates as number) }}> </li>
+                                           % {product.successRates}
+                                        </span>
+                                    </div>
+                                </div>
+
+
+                            )}
+                            {this.state.productsToDisplay.length !== 0 && this.state.productsToDisplay?.filter(product => product.campaignId === campaign.campaignId).map(product =>
+                                <div className="campaign" data-aos="fade-up">
+                                    <img className="campaign-img" src={product.images?.img1} onClick={this.setProductToDisplayInPopUp(product, campaign)} />
+                                    <div className="campaign-info">
+                                        <span className="product-type-title">{this.getProductTypeName(product.productTypeId as number)}</span>
+                                        <span className="success-rate">
+                                            <li className="success-color" style={{ color: this.getSuccessRateColor(product.successRates as number) }}> </li>
+                                           % {product.successRates}
+                                        </span>
+                                    </div>
+                                </div>
+
+
+                            )}
+                        </div>
+                    </div>
+                )}
+                {this.state.campaignsToDisplay.length === 0 && this.state.selectedCampaigns?.map(campaign =>
+                    <div className="client-in-campaigns">
+                        {this.isProductsToDisplayOnCampaign(campaign.campaignId as number) && <h2 dangerouslySetInnerHTML={{ __html: campaign.campaignName as string }}></h2>}
                         <div className="grid">
                             {this.state.productsToDisplay.length === 0 && this.state.selectedProducts?.filter(product => product.campaignId === campaign.campaignId).map(product =>
                                 <div className="campaign" data-aos="fade-up">

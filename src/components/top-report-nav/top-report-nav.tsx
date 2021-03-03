@@ -11,6 +11,7 @@ import { AddClientPopUp } from "../add-client-pop-up/add-client-pop-up";
 import { AllClients } from "../all-clients/all-clients";
 import "./top-report-nav.css";
 import ScrollContainer from 'react-indiana-drag-scroll'
+import { ReportModel } from "../../models/reportModel";
 
 interface TopReportNavProps {
     isScroll: boolean
@@ -24,7 +25,10 @@ interface TopReportNavState {
         beforeCampaignsToDisplay: CampaignModel[],
         beforeProductsToDisplay: ProductModel[]
 
-    }
+    },
+    isMobile: boolean,
+    barTop: string,
+    report: ReportModel
 }
 
 export class TopReportNav extends Component<TopReportNavProps, TopReportNavState>{
@@ -32,6 +36,7 @@ export class TopReportNav extends Component<TopReportNavProps, TopReportNavState
     private unsubscribeStore: Unsubscribe;
     public buttonsRef = React.createRef<any>();
     public topNavRef = React.createRef<HTMLDivElement>();
+    public barTop: string = "";
 
 
     public constructor(props: TopReportNavProps) {
@@ -44,7 +49,10 @@ export class TopReportNav extends Component<TopReportNavProps, TopReportNavState
             filteringBefore: {
                 beforeCampaignsToDisplay: [],
                 beforeProductsToDisplay: []
-            }
+            },
+            isMobile: false,
+            barTop: "7vw",
+            report: store.getState().currentReport
         }
         this.unsubscribeStore = store.subscribe(() => {
             const selectedClients = store.getState().selectedClients;
@@ -55,9 +63,16 @@ export class TopReportNav extends Component<TopReportNavProps, TopReportNavState
     }
 
     componentDidMount() {
+
         const topNavWidth: number = this.topNavRef.current?.clientWidth as number;
         const maxWidth = topNavWidth / 100 * 70;
         const buttonsWidth = this.buttonsRef?.current?.container.current.scrollWidth as number;
+        const bodyClass = document.body.classList[0];
+        if(bodyClass === "mobile"){
+            this.setState({isMobile: true});
+            this.setState({barTop: "42vw"});
+        }
+
 
         if (buttonsWidth > maxWidth) {
             this.setState({ isButtonsScrolled: true });
@@ -182,6 +197,11 @@ export class TopReportNav extends Component<TopReportNavProps, TopReportNavState
     public render() {
         return (
             <div ref={this.topNavRef} className="top-campaigns-nav-report">
+                
+
+                {this.state.isMobile && 
+                <span className="dates-on-report">דו"ח תוצרים לתאריכים: <span className="underline">{this.state.report.datesOnReport}</span></span>
+                }
 
 
                 <ScrollContainer ref={this.buttonsRef} className="campaigns-buttons">
@@ -205,9 +225,9 @@ export class TopReportNav extends Component<TopReportNavProps, TopReportNavState
                 </ScrollContainer>
 
 
-                <span className="logout-span" onClick={() => store.dispatch({ type: ActionType.logoutWatchingMode })}>logout</span>
+                {!this.state.isMobile && <span className="logout-span" onClick={() => store.dispatch({ type: ActionType.logoutWatchingMode })}>logout</span>}
 
-                <div className="campaigns-top-scroll" style={{ top: this.props.isScroll ? "7vw" : 0 }}></div>
+                <div className="campaigns-top-scroll" style={{ top: this.props.isScroll ? this.state.barTop : 0 }}></div>
 
                 <img className="campaigns-logo" src={Logo.logoSrc} />
 
