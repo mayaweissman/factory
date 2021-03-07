@@ -42,9 +42,9 @@ export class AppState {
       this.campaignsToDisplay = appState.campaignsToDisplay;
       this.clientsToDisplay = appState.clientsToDisplay;
       this.productsToDisplay = appState.productsToDisplay;
-      this.isPopUpShow = appState.isPopUpShow;
-      this.isProductsPopUpShow = appState.isProductsPopUpShow;
-      this.isLinksPopUpShow = appState.isLinksPopUpShow;
+      this.isPopUpShow = false;
+      this.isProductsPopUpShow = false;
+      this.isLinksPopUpShow = false;
       this.isMobileMenuShow = appState.isMobileMenuShow;
       this.isAuthSucceeded = appState.isAuthSucceeded;
       this.isRestoreStatePopUpShow = appState.isRestoreStatePopUpShow;

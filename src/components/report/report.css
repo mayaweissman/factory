@@ -15,3 +15,14 @@
     padding: 1vw;
   }
   
+  .mobile .report > div> main {
+    width: 100%;
+    padding: 1vw;
+}
+
+
+.mobile #root::-webkit-scrollbar{
+    width: 0;
+    height: 0;
+  }
+  

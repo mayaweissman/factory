@@ -85,9 +85,10 @@ export class ProductPopUp extends Component<ProductPopUpProps, ProductPopUpState
 
 
                     <div ref={this.LeftAreaRef} className="left-area">
-                        <img className="product-img1" src={this.state.images.img1} />
-                        <img className="product-img2" src={this.state.images.img2} />
-                        <img className="product-img3" src={this.state.images.img3} />
+                        <img className="product-img product-img1" src={this.state.images.img1} />
+                        <img className="product-img product-img2" src={this.state.images.img2} />
+                        <img className="product-img product-img3" src={this.state.images.img3} />
+                        <img className="product-img product-img4" src={this.state.images.img4} />
                     </div>
 
                     <script type="text/javascript" src="https://live.sekindo.com/live/liveView.php?s=102802&cbuster=%%CACHEBUSTER%%&pubUrl=%%REFERRER_URL_ESC%%&subId=[SUBID_ENCODED]&x=%%WIDTH%%&y=%%HEIGHT%%&vp_content=embed138cf7ohjskq"></script>

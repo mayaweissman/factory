@@ -1,6 +1,6 @@
 .mobile .auth-logo {
     width: 35vw;
-    top: 12vw;
+    top: 8vw;
     position: fixed;
 }
 
@@ -26,6 +26,11 @@
     padding: 2vw;
     font-size: 7vw;
   }
+
+  .mobile .auth-titles {
+    position: fixed;
+    top: 4vw;
+}
 
   
 .mobile .code-box::placeholder {
@@ -78,7 +83,7 @@
   
   .mobile .send-btn {
     position: fixed;
-    bottom: 25vw;
+    bottom: 10%;
     top: inherit;
 }
 
@@ -90,11 +95,11 @@
     width: 70px;
 }
 
-.typed{
+.mobile .typed{
   animation: slideUp 1s both;
 }
 
-.btn-typed{
+.mobile .btn-typed{
   animation: slideUpForBtn 1s both;
 }
 
@@ -103,41 +108,40 @@
     transform: translateY(0);
   }
 
-  100%{
-  
-    transform: translateY(-12vw);
-
-  }
+  100% {
+    transform: translateY(-5%);
 }
+  
+}
+
 @-webkit-keyframes slideUp{
   0%{
     transform: translateY(0);
   }
 
   100%{
-    transform: translateY(-12vw);
+    transform: translateY(-5%);
 
   }
 }
 
 @keyframes slideUpForBtn{
   0%{
-    transform: translateY(0);
+    bottom: 10%;
   }
 
   100%{
   
-    transform: translateY(-60vw);
-
+    bottom: 35%;
   }
 }
 @-webkit-keyframes slideUpForBtn{
   0%{
-    transform: translateY(0);
+    bottom: 10%;
   }
 
   100%{
-    transform: translateY(-60vw);
+    bottom: 35%;
 
   }
 }

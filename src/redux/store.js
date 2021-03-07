@@ -5,3 +5,5 @@ import { saveToSessionStorage } from "./middleware";
 
 
 export const store = createStore(reducer, new AppState(), applyMiddleware(saveToSessionStorage));
+
+

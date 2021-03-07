@@ -37,7 +37,7 @@
   padding-bottom: 2vw;
   direction: ltr;
   text-transform: uppercase;
-  font-size: 17px;
+  font-size: 0.8854166666666666vw;
   font-weight: 400;
   font-family: 'Futura' !important;
   letter-spacing: 1px;
@@ -178,8 +178,10 @@
 }
 
 .client > img {
-  width: 226px;
-  height: 150px;
+  /* width: 226px;
+  height: 150px; */
+  width: 11.77vw;
+  height: 7.8vw;
   border-radius: 15px;
 }
 

@@ -11,6 +11,11 @@
   overflow: visible;
 }
 
+.mobile .campaigns::-webkit-scrollbar{
+  width: 0;
+  height: 0;
+}
+
 @keyframes slideInLeft {
   0% {
     transform: translateX(500px);
@@ -20,8 +25,22 @@
   }
 }
 
+.mobile .campaign {
+  display: inline-block;
+  margin: 0;
+  width: 100%;
+  margin: 2vw;
+}
+
 .filter-icon {
   display: none !important;
+}
+
+.mobile .campaigns {
+  margin-top: 40vw;
+  box-sizing: border-box;
+  margin-bottom: 25vw;
+  padding-right: 3vw;
 }
 
 .loader {
@@ -34,6 +53,22 @@
 .grid {
   column-count: 5;
   column-gap: 0;
+}
+
+.mobile .grid {
+  column-count: inherit;
+  grid-column-gap: inherit;
+  grid-column-gap: inherit;
+  column-gap: inherit;
+  width: 100vw;
+  overflow-x: auto;
+  flex-direction: row;
+  display: flex;
+}
+
+.mobile .grid::-webkit-scrollbar {
+  width: 0;
+  height: 0;
 }
 
 .no-clients {
@@ -62,15 +97,66 @@
   display: none;
 }
 
+.mobile .campaign-info {
+  height: 20px;
+  display: flex;
+  width: 13vw;
+  position: relative;
+}
+
 .mobile .up-btn {
   display: block;
   position: fixed;
-  bottom: 10px;
-  transform: rotate(90deg);
+  width: 45px;
+  bottom: 62px;
+  transform: rotate(
+90deg
+);
+}
+
+.mobile .closed-filtering-menu-area{
+  animation: SlideDownMenu 1s both;
+}
+.mobile .opened-filtering-menu-area{
+animation: SlideUpMenu 1s both;
+}
+
+@keyframes SlideUpMenu{
+  0%{
+    transform: translateY(30vw);
+  }
+  100%{
+    transform: translateY(0);
+  }
+}
+@-webkit-keyframes SlideUpMenu{
+  0%{
+    transform: translateY(30vw);
+  }
+  100%{
+    transform: translateY(0);
+  }
+}
+@keyframes SlideDownMenu{
+  0%{
+    transform: translateY(0);
+  }
+  100%{
+    transform: translateY(30vw);
+  }
+}
+@-webkit-keyframes SlideDownMenu{
+  0%{
+    transform: translateY(0);
+  }
+  100%{
+    transform: translateY(30vw);
+  }
 }
 
 .mobile .campaign-img {
-  width: 33vw;
+  width: 40vw;
+  overflow-y: hidden;
 }
 
 .campaign-img:hover {
@@ -88,9 +174,6 @@
   margin-bottom: 1vw;
 }
 
-.mobile .grid {
-  column-count: 2;
-}
 
 .campaign-img {
   width: 13vw;

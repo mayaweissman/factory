@@ -104,7 +104,7 @@
   top: 0;
   width: auto;
   max-width: 59%;
-  left: 86px;
+  left: 2vw;
 }
 .product-img2 {
   display: inline-block;
@@ -115,13 +115,58 @@
   right: 0;
 }
 
+.mobile .product-img1,
+.mobile .product-img2,
+.mobile .product-img3,
+.mobile .product-img4 {
+  position: relative;
+  left: 0;
+  margin: 3vw 0;
+}
+
+.mobile .left-area {
+  width: 90%;
+  justify-content: center;
+  align-items: center;
+  padding: 2vw;
+  overflow: auto;
+  position: absolute;
+  top: 13vw;
+  max-height: 83%;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.mobile .small-product-conatiner .MuiSvgIcon-root {
+  width: 5em;
+  height: 5em;
+  font-size: 1.5vw;
+  left: initial;
+  position: absolute;
+  right: 50%;
+  bottom: initial;
+  color: black;
+  transform: translateX(50%) translateY(-50%);
+  top: 50%;
+}
+
 .product-img3 {
   display: inline-block;
   position: absolute;
   bottom: 0;
   width: auto;
   max-width: 59%;
-  left: 86px;
+  left: 2vw;
+}
+
+.product-img4 {
+  display: inline-block;
+  position: absolute;
+  bottom: 0;
+  width: auto;
+  max-width: 59%;
+  right: 0;
 }
 
 .product-rate {
@@ -140,6 +185,21 @@
 .close-product-pop-up-btn {
   width: 1.9vw;
   height: 1.9vw;
+  margin: 1vw;
+  position: absolute;
+  left: 1vw;
+  top: 1vw;
+  border-radius: 100%;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  outline: none;
+  border: 2px solid black;
+}
+.mobile .close-product-pop-up-btn {
+  width: 8vw;
+  height: 8vw;
   margin: 1vw;
   position: absolute;
   left: 1vw;

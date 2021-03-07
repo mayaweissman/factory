@@ -66,10 +66,6 @@ export class TopClientsNav extends Component<TopClientsNavProps, TopClientsNavSt
 
             const updatedButtonsWidth = this.buttonsRef?.current?.container.current.scrollWidth;
 
-
-            console.log(updatedButtonsWidth);
-            console.log(maxWidth);
-
             if (updatedButtonsWidth > maxWidth) {
                 this.setState({ isButtonsScrolled: true });
             }

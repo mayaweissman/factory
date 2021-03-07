@@ -109,9 +109,9 @@ export class Report extends Component<any, ReportState>{
                             <Campaigns />
                         </main>
 
-                        {/* <aside>
+                        {!this.state.isMobile && <aside>
                             <FilteringSideMenu isOnReport={true} />
-                        </aside> */}
+                        </aside>}
 
                         {this.state.isMobile && <footer>
                             <BottomBar />

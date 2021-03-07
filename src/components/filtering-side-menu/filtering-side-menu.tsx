@@ -39,7 +39,8 @@ interface FilteringSideMenuState {
     productsTypes: ProductsType[],
     productsTypesToDisplay: ProductsType[],
     showDatesError: boolean,
-    isOnMobile: boolean
+    isOnMobile: boolean,
+    report: ReportModel
 }
 
 export class FilteringSideMenu extends Component<FilteringSideMenuProps, FilteringSideMenuState>{
@@ -56,6 +57,7 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
             productsTypesToDisplay: [],
             selectedProducts: store.getState().selectedProducts,
             allProducts: [],
+            report: store.getState().currentReport,
             productsTypes: [],
             datesRange: store.getState().datesRange,
             showDatesError: false,
@@ -80,6 +82,11 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
 
     public async componentDidMount() {
         try {
+            const bodyClass = document.body.classList[0];
+            if(bodyClass === "mobile"){
+                this.setState({isOnMobile: true});
+            }
+
             const response = await axios.get(Config.serverUrl + "/all-products-types/");
             const productsTypes: ProductsType[] = response.data.productsTypes;
             this.setState({ productsTypes });
@@ -112,7 +119,7 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
                 const allProducts: ProductModel[] = responseForProducts.data.products;
                 this.setState({ allProducts });
 
-            }, 2100);
+            }, 3000);
         }
         catch (err) {
             console.log(err.message);
@@ -246,9 +253,7 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
 
     }
 
-    public changeDisplayForMobileMenu = () => {
-        store.dispatch({ type: ActionType.changeDisplayForMobileMenu })
-    }
+
 
     public createReport = () => {
         if (this.state.datesRange === "- - / - - / - -") {
@@ -266,11 +271,12 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
         return (
             <div className="filtering-side-menu">
 
-                <IconButton className="close-menu-icon" onClick={this.changeDisplayForMobileMenu}>
-                    <HighlightOffIcon />
-                </IconButton>
                 <span className="reset-filtering" onClick={this.resetFiltering}>איפוס סננים</span>
                 <br />
+
+                {this.props.isOnReport && !this.state.isOnMobile && 
+                    <span className="dates-on-filtering">דו"ח תוצרים לתאריכים: <span className="underline">{this.state.report.datesOnReport}</span></span>
+                }
 
                 {!this.props.isOnReport &&
                     <>

@@ -62,6 +62,10 @@
 .campaigns-inside-client-btn:hover {
   color: white;
 }
+
+.mobile .campaigns-client-btn:hover{
+  background-color: black;
+}
 .back-to-home-page {
   text-decoration: none;
   color: black;
