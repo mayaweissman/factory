@@ -1,6 +1,13 @@
 .campaigns {
   margin-top: 6vw;
   box-sizing: border-box;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+.campaigns > *{
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
 }
 
 .client-in-campaigns {

@@ -29,5 +29,6 @@ export enum ActionType {
     changeDisplayForReportsPopUp,
     changeDisplayForReportsLinkPopUp,
     getReportToCopy,
-    getCurrentReport
+    getCurrentReport,
+    
 }

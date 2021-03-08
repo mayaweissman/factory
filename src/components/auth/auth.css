@@ -121,6 +121,10 @@
   align-items: center;
 }
 
+.code-inputs{
+  display: flex;
+}
+
 .auth-logo {
   width: 11vw;
   position: fixed;

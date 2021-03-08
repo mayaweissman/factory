@@ -4,7 +4,6 @@
   z-index: 99999;
   background-color: #fff;
   width: 100vw;
-  height: 14vw;
   border: none;
   border-top: 1px solid black;
 }
@@ -29,7 +28,7 @@
   z-index: 999;
   position: absolute;
   right: 50%;
-  top: -6vw;
+  top: 3vw;
   transform: translateX(50%);
   width: 25px;
 }
@@ -50,6 +49,9 @@
   animation: SlideDown 1s both;
 }
 
+.open-bar{
+  overflow: auto;
+}
 .opened-bar-bottom {
   animation: SlideUpForBottom 1s both;
 }

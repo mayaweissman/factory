@@ -145,30 +145,33 @@
 
   }
 }
-
 .mobile .code-num-box-before {
-    border: 2px solid black;
-    width: 50px;
-    background-color: white;
-    height: 50px;
-    margin: 1vw;
-    border-radius: 50%;
-    font-size: 12vw;
-    text-align: center;
-    outline: none;
-    color: black;
+  border: 2px solid black;
+  width: 17vw;
+  background-color: white;
+  height: 17vw;
+  margin: 1vw;
+  border-radius: 50%;
+  font-size: 12vw;
+  text-align: center;
+  outline: none;
+  padding: 0;
+  box-sizing: border-box;
+  color: black;
 }
 
 .mobile .code-num-box-after {
     border: 2px solid rgb(248 74 114);
-    width: 50px;
+    width: 17vw;
     background-color: rgb(248 74 114);
-    height: 50px;
+    height: 17vw;
     margin: 1vw;
     border-radius: 50%;
     font-size: 12vw;
     text-align: center;
     outline: none;
+    padding: 0;
+    box-sizing: border-box;
     color: white;
 }
 

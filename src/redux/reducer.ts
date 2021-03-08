@@ -138,11 +138,7 @@ export function reducer(oldAppState: AppState, action: Action): AppState {
       break;
 
     case ActionType.changeDisplayForMobileMenu:
-      if (newAppState.isMobileMenuShow) {
-        newAppState.isMobileMenuShow = false;
-      } else {
-        newAppState.isMobileMenuShow = true;
-      }
+        newAppState.isMobileMenuShow = action.payLoad;
       break;
 
     case ActionType.changeDisplayForReportsLinkPopUp:
@@ -167,7 +163,6 @@ export function reducer(oldAppState: AppState, action: Action): AppState {
       break;
 
     case ActionType.getCurrentReport:
-      console.log(action.payLoad);
       newAppState.currentReport = action.payLoad;
       break;
 

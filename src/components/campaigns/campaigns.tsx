@@ -33,8 +33,8 @@ interface ReportMakerState {
     campignToPopUp: CampaignModel,
     showLoader: boolean,
     isOnMobile: boolean,
-    isScroll: boolean
-
+    isScroll: boolean,
+    isMobileMenuOpen: boolean
 }
 
 
@@ -43,6 +43,7 @@ export class Campaigns extends Component<any, ReportMakerState>{
 
     private unsubscribeStore: Unsubscribe;
     private filteringMenuRef = React.createRef<HTMLDivElement>();
+
 
 
 
@@ -60,7 +61,8 @@ export class Campaigns extends Component<any, ReportMakerState>{
             productTypes: [],
             isOnMobile: false,
             showLoader: false,
-            isScroll: false
+            isScroll: false,
+            isMobileMenuOpen: store.getState().isMobileMenuShow
         }
 
         this.unsubscribeStore = store.subscribe(() => {
@@ -70,11 +72,13 @@ export class Campaigns extends Component<any, ReportMakerState>{
             const campaignsToDisplay = store.getState().campaignsToDisplay;
             const productsToDisplay = store.getState().productsToDisplay;
             const display = store.getState().isProductsPopUpShow;
+            const isMobileMenuOpen = store.getState().isMobileMenuShow;
             this.setState({ selectedClients });
             this.setState({ selectedCampaigns });
             this.setState({ selectedProducts });
             this.setState({ campaignsToDisplay });
             this.setState({ productsToDisplay });
+            this.setState({ isMobileMenuOpen });
             this.setState({ display });
 
         })
@@ -91,9 +95,11 @@ export class Campaigns extends Component<any, ReportMakerState>{
 
             window.addEventListener('scroll', () => {
                 const scroll = document.documentElement.scrollTop;
-                console.log(scroll);
-                if (scroll > 300) {
-                    this.setState({isScroll: true});
+                if (scroll > 600) {
+                    this.setState({ isScroll: true });
+                }
+                else {
+                    this.setState({ isScroll: false });
                 }
             })
 
@@ -119,7 +125,6 @@ export class Campaigns extends Component<any, ReportMakerState>{
                     store.dispatch({ type: ActionType.getSelectedCampaigns, payLoad: selectedCampaigns });
                 }
                 this.setState({ showLoader: false });
-                console.log(store.getState().selectedProducts);
 
                 if (store.getState().selectedProducts.length === 0) {
                     const responseForProducts = await axios.get(Config.serverUrl + "/all-products");
@@ -208,7 +213,7 @@ export class Campaigns extends Component<any, ReportMakerState>{
 
     public render() {
         return (
-            <div className="campaigns">
+            <div className="campaigns" style={{ position: this.state.isMobileMenuOpen ? "relative" : "fixed" }}>
                 <div className="campaigns-left-filter" ref={this.filteringMenuRef}>
                     <img className="campaigns-filter-by-success-img" src="./assets/images/filter_by_date.svg" />
                     <span className="campaigns-filter-by-high">Highest first</span>
