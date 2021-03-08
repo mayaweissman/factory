@@ -164,7 +164,7 @@ export class AuthForWatchingOnly extends Component<any, AuthForWatchingOnlyState
           </div>
 
           {!this.state.isPhoneLegal &&
-            <button onClick={this.authPhoneNumber} className={this.state.isStartTyping ? "send-btn btn-typed" :"send-btn"}><img src="./assets/images/pink_btn_after.svg" /></button>
+            <button onClick={this.authPhoneNumber} className={this.state.isStartTyping ? "send-btn btn-typed" : "send-btn"}><img src="./assets/images/pink_btn_after.svg" /></button>
           }
           <div className={this.state.isStartTyping ? "phone-field typed" : "phone-field"} onFocus={() => this.setState({ isStartTyping: true })}>
             <TextField id="standard-basic"
@@ -195,6 +195,13 @@ export class AuthForWatchingOnly extends Component<any, AuthForWatchingOnlyState
                     this.authCode();
                   }, 1000);
                 }} />
+
+              <span className="err-message">{this.state.message}</span>
+              <span onClick={this.authPhoneNumber} className="re-send-area">?לא קיבלת את ההודעה
+              <br />
+                <p>ניתן ללחוץ כאן לשליחה חוזרת</p>
+              </span>
+
             </div>
           }
 

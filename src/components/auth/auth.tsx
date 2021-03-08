@@ -78,6 +78,7 @@ export class Auth extends Component<any, AuthState> {
   //Demo functions
   public authPhoneNumber = () => {
     const phoneNumber = this.state.phoneNumber;
+    this.setState({code: ""});
     const allUsers = [...this.state.allUsers];
     const user = allUsers.find(u => u.phoneNumber?.toString() === phoneNumber);
 
@@ -128,6 +129,7 @@ export class Auth extends Component<any, AuthState> {
     if (this.state.isSmsSent) {
       new Promise((resolve, reject) => {
         resolve(console.log(""));
+        reject(message = "קוד אינו חוקי");
       })
         .then(() =>
           fetch(
@@ -136,13 +138,13 @@ export class Auth extends Component<any, AuthState> {
         )
         .then((response) => response.json())
         .then((data) => {
-
           if (data.auth) {
             message = "ברוכים הבאים";
             isCodeLegal = true;
             store.dispatch({ type: ActionType.loginEditingMode, payLoad: this.state.user });
             this.props.history.push('/home');
-          } else {
+          }
+          else if (!data.auth) {
             message = "קוד אינו חוקי";
           }
           this.setState({ message })
@@ -195,6 +197,13 @@ export class Auth extends Component<any, AuthState> {
                     this.authCode();
                   }, 1000);
                 }} />
+                
+              <span className="err-message">{this.state.message}</span>
+              <span onClick={this.authPhoneNumber} className="re-send-area">?לא קיבלת את ההודעה
+              <br/>
+              <p>ניתן ללחוץ כאן לשליחה חוזרת</p>
+              </span>
+
             </div>
           }
 

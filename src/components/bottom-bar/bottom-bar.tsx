@@ -79,12 +79,12 @@ export class BottomBar extends Component<any, BottomBarState>{
 
     public openBar = () => {
         this.setState({ isPopUpOpen: true });
-        store.dispatch({ type: ActionType.changeDisplayForMobileMenu, payLoad: false });
+        store.dispatch({ type: ActionType.changeDisplayForMobileMenu, payLoad: true });
     }
 
     public closeBar = () => {
         this.setState({ isPopUpOpen: false });
-        store.dispatch({ type: ActionType.changeDisplayForMobileMenu, payLoad: true });
+        store.dispatch({ type: ActionType.changeDisplayForMobileMenu, payLoad: false });
     }
 
 

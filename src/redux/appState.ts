@@ -17,7 +17,7 @@ export class AppState {
   public isPopUpShow: boolean = false;
   public isProductsPopUpShow: boolean = false;
   public isRestoreStatePopUpShow: boolean = false;
-  public isMobileMenuShow: boolean = false;
+  public isMobileMenuShow: boolean = true;
   public isLinksPopUpShow: boolean = false;
   public isReportsPopUpShow: boolean = false;
   public isReportSave: boolean = false;

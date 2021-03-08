@@ -27,6 +27,28 @@
   font-family: 'AlmoniNormal' !important;
 }
 
+.re-send-area > p {
+  line-height: 1px;
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+.re-send-area > p:hover{
+  cursor: pointer;
+}
+
+.re-send-area{
+  position: relative;
+  top: 3vw;
+}
+.code-area .err-message {
+  position: absolute;
+  font-size: 15px;
+  bottom: 1vw;
+  right: 50%;
+  top: initial;
+  transform: translateX(50%);
+}
 .MuiInput-underline:after{
   border-bottom: 2px solid transparent !important;
 }

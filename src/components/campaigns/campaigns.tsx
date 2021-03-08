@@ -213,7 +213,7 @@ export class Campaigns extends Component<any, ReportMakerState>{
 
     public render() {
         return (
-            <div className="campaigns" style={{ position: this.state.isMobileMenuOpen ? "relative" : "fixed" }}>
+            <div className="campaigns" style={{ position: this.state.isOnMobile && this.state.isMobileMenuOpen ? "fixed" : "relative" }}>
                 <div className="campaigns-left-filter" ref={this.filteringMenuRef}>
                     <img className="campaigns-filter-by-success-img" src="./assets/images/filter_by_date.svg" />
                     <span className="campaigns-filter-by-high">Highest first</span>
