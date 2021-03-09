@@ -54,7 +54,7 @@ export class Campaigns extends Component<any, ReportMakerState>{
             selectedCampaigns: store.getState().selectedCampaigns,
             selectedProducts: store.getState().selectedProducts,
             campaignsToDisplay: store.getState().campaignsToDisplay,
-            productsToDisplay: store.getState().campaignsToDisplay,
+            productsToDisplay: store.getState().productsToDisplay,
             display: store.getState().isPopUpShow,
             productToPopUp: new ProductModel(),
             campignToPopUp: new CampaignModel(),
@@ -87,6 +87,7 @@ export class Campaigns extends Component<any, ReportMakerState>{
 
     public async componentDidMount() {
         try {
+
 
             const bodyClass = document.body.classList[0];
             if (bodyClass === "mobile") {
@@ -149,7 +150,8 @@ export class Campaigns extends Component<any, ReportMakerState>{
                 const responseForTypes = await axios.get(Config.serverUrl + "/all-products-types/");
                 const productsTypes: ProductsType[] = responseForTypes.data.productsTypes;
                 this.setState({ productTypes: productsTypes });
-            }, 1000);
+            }, 1500);
+
 
         }
         catch (err) {
@@ -230,7 +232,7 @@ export class Campaigns extends Component<any, ReportMakerState>{
 
                             {this.state.productsToDisplay.length === 0 && this.state.selectedProducts?.filter(product => product.campaignId === campaign.campaignId).map(product =>
                                 <div className="campaign" data-aos={this.state.isOnMobile ? "zoom-in" : "fade-up"}>
-                                    <img className="campaign-img" src={product.images?.img1} onClick={this.setProductToDisplayInPopUp(product, campaign)} />
+                                    <img className="campaign-img" src={product.images?.img1 ? product.images?.img1 : product.images?.img2} onClick={this.setProductToDisplayInPopUp(product, campaign)} />
                                     <div className="campaign-info">
                                         <span className="product-type-title">{this.getProductTypeName(product.productTypeId as number)}</span>
                                         <span className="success-rate">
@@ -244,7 +246,7 @@ export class Campaigns extends Component<any, ReportMakerState>{
 
                             {this.state.productsToDisplay.length !== 0 && this.state.productsToDisplay?.filter(product => product.campaignId === campaign.campaignId).map(product =>
                                 <div className="campaign" data-aos={this.state.isOnMobile ? "zoom-in" : "fade-up"}>
-                                    <img className="campaign-img" src={product.images?.img1} onClick={this.setProductToDisplayInPopUp(product, campaign)} />
+                                    <img className="campaign-img" src={product.images?.img1 ? product.images?.img1 : product.images?.img2} onClick={this.setProductToDisplayInPopUp(product, campaign)} />
                                     <div className="campaign-info">
                                         <span className="product-type-title">{this.getProductTypeName(product.productTypeId as number)}</span>
                                         <span className="success-rate">
@@ -266,7 +268,7 @@ export class Campaigns extends Component<any, ReportMakerState>{
                         <div className="grid">
                             {this.state.productsToDisplay.length === 0 && this.state.selectedProducts?.filter(product => product.campaignId === campaign.campaignId).map(product =>
                                 <div className="campaign" data-aos={this.state.isOnMobile ? "zoom-in" : "fade-up"}>
-                                    <img className="campaign-img" src={product.images?.img1} onClick={this.setProductToDisplayInPopUp(product, campaign)} />
+                                    <img className="campaign-img" src={product.images?.img1 ? product.images?.img1 : product.images?.img2} onClick={this.setProductToDisplayInPopUp(product, campaign)} />
                                     <div className="campaign-info">
                                         <span className="product-type-title">{this.getProductTypeName(product.productTypeId as number)}</span>
                                         <span className="success-rate">
@@ -280,7 +282,7 @@ export class Campaigns extends Component<any, ReportMakerState>{
                             )}
                             {this.state.productsToDisplay.length !== 0 && this.state.productsToDisplay?.filter(product => product.campaignId === campaign.campaignId).map(product =>
                                 <div className="campaign" data-aos={this.state.isOnMobile ? "zoom-in" : "fade-up"}>
-                                    <img className="campaign-img" src={product.images?.img1} onClick={this.setProductToDisplayInPopUp(product, campaign)} />
+                                    <img className="campaign-img" src={product.images?.img1 ? product.images?.img1 : product.images?.img2} onClick={this.setProductToDisplayInPopUp(product, campaign)} />
                                     <div className="campaign-info">
                                         <span className="product-type-title">{this.getProductTypeName(product.productTypeId as number)}</span>
                                         <span className="success-rate">
