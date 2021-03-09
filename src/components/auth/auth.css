@@ -5,7 +5,7 @@
   align-items: center;
   width: 100%;
   height: 100%;
-  font-family: 'AlmoniNormal' !important;
+  font-family: "AlmoniNormal" !important;
 }
 
 .code-num-box-visible-first {
@@ -18,28 +18,47 @@
   opacity: 0;
 }
 
-.MuiFormLabel-root.Mui-focused{
+.MuiFormLabel-root.Mui-focused {
   color: black !important;
 }
 
 .MuiFormLabel-root,
-.MuiInputBase-root{
-  font-family: 'AlmoniNormal' !important;
+.MuiInputBase-root {
+  font-family: "AlmoniNormal" !important;
 }
 
-.re-send-area > p {
+.resend-btn {
   line-height: 1px;
   text-decoration: underline;
   font-weight: bold;
+  color: rgb(248 74 114);
 }
 
-.re-send-area > p:hover{
+.mobile .err-message {
+  position: absolute;
+  font-size: 13px;
+  top: 90px;
+  right: 5px;
+  color: red;
+}
+.resend-btn {
   cursor: pointer;
 }
 
-.re-send-area{
+.mobile .re-send-area {
+  position: relative;
+  top: 23vw;
+
+}
+
+.resend-timer {
+  line-height: 1px;
+  font-weight: bold;
+}
+.re-send-area {
   position: relative;
   top: 3vw;
+  font-size: 14px;
 }
 .code-area .err-message {
   position: absolute;
@@ -49,15 +68,14 @@
   top: initial;
   transform: translateX(50%);
 }
-.MuiInput-underline:after{
+.MuiInput-underline:after {
   border-bottom: 2px solid transparent !important;
 }
 
 .MuiInputBase-input {
   font-size: 34px !important;
-  font-family: 'AlmoniNormal' !important;
+  font-family: "AlmoniNormal" !important;
 }
-
 
 .MuiInputLabel-formControl {
   top: 15px !important;
@@ -113,8 +131,6 @@
   z-index: 999;
 }
 
-
-
 .sub-title {
   font-size: 1.1vw;
 }
@@ -143,7 +159,7 @@
   align-items: center;
 }
 
-.code-inputs{
+.code-inputs {
   display: flex;
 }
 
@@ -164,9 +180,8 @@
   text-align: center;
   font-size: 2vw;
   padding: 0.7vw;
-  font-family: 'AlmoniNormal';
+  font-family: "AlmoniNormal";
 }
-
 
 .phone-field {
   position: fixed;
@@ -186,7 +201,6 @@
     transform: translateX(2000px);
   }
 }
-
 
 .code-box {
   width: 25%;
@@ -302,4 +316,44 @@
 
 .send-btn:hover {
   cursor: pointer;
+}
+
+.errors-area {
+  position: fixed;
+  top: 10vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 1s both;
+}
+
+.error-img {
+  width: 11vw;
+  margin: 1vw;
+  border-radius: 25px;
+}
+
+.auth-errors-message {
+  font-size: 14px;
+  text-align: right;
+}
+
+.allow-permission {
+  font-weight: bold;
+  color: black;
+  text-decoration: underline;
+}
+
+.allow-permission:hover {
+  cursor: pointer;
+}
+
+/* Change the white to any color */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  box-shadow: 0 0 0 30px white inset !important;
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+  z-index: -1;
 }

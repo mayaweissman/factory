@@ -27,14 +27,18 @@ export class Layout extends Component<any, LayoutState>{
     public async componentDidMount() {
         try {
 
-            const bodyClass =  document.body.classList;
-            if(bodyClass[0]==='mobile'){
+            const bodyClass = document.body.classList;
+            if (bodyClass[0] === 'mobile') {
                 this.setState({ isLegalIpForMobile: true });
             }
 
             const json = await axios.get("https://api.ipify.org?format=json");
             const ip = json.data.ip;
-            if (ip === '176.230.160.231' || ip === '31.168.98.222' || ip === '82.80.148.180' || ip === '82.81.38.254') {
+            console.log(ip);
+
+            const ips = ['176.230.160.231', '31.168.98.222', '82.80.148.180', '82.80.148.180', '82.81.38.254'];
+            let legalIp = ips.find(i => i === ip);
+            if (legalIp) {
                 this.setState({ isLegalIp: true });
             }
         }

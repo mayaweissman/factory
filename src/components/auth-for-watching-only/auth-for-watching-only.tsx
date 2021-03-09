@@ -22,7 +22,10 @@ interface AuthForWatchingOnlyState {
   isSmsSent: boolean,
   title: string,
   user: UserModel,
-  isStartTyping: boolean
+  isStartTyping: boolean,
+  resendMessage: string,
+  displayErrorsArea: boolean
+
 }
 
 export class AuthForWatchingOnly extends Component<any, AuthForWatchingOnlyState> {
@@ -46,9 +49,30 @@ export class AuthForWatchingOnly extends Component<any, AuthForWatchingOnlyState
       allUsers: [],
       isSmsSent: false,
       user: new UserModel(),
-      isStartTyping: false
+      isStartTyping: false,
+      resendMessage: "",
+      displayErrorsArea: false
+
     }
   }
+
+
+  public countForResend = () => {
+    let count = 30;
+    const int = setInterval(() => {
+      if (count > 1) {
+        count--;
+        const message = 'נוכל לשלוח לך את הקוד פעם נוספת בעוד ' + count + " שניות";
+        this.setState({ resendMessage: message });
+      }
+      else if (count === 1) {
+        const message = "אפשר לנסות שוב ממש כאן";
+        this.setState({ resendMessage: message });
+        clearInterval(int);
+      }
+    }, 1000);
+  }
+
 
   public async componentDidMount() {
     try {
@@ -82,15 +106,20 @@ export class AuthForWatchingOnly extends Component<any, AuthForWatchingOnlyState
     const phoneNumber = this.state.phoneNumber;
     const allUsers = [...this.state.allUsers];
     const user = allUsers.find(u => u.phoneNumber?.toString() === phoneNumber);
+    
 
     let message = "";
     let isPhoneLegal = false;
+    let displayErrorsArea = false;
+
 
     if (user) {
       this.setState({ user });
       message = "";
       isPhoneLegal = true;
-      this.setState({ title: "יש להזין את הקוד שקיבלת" })
+      displayErrorsArea = false;
+      this.setState({ title: "יש להזין את הקוד שקיבלת" });
+      this.countForResend();
       new Promise((resolve, reject) => {
         resolve(() => console.log(""))
       }
@@ -103,6 +132,7 @@ export class AuthForWatchingOnly extends Component<any, AuthForWatchingOnlyState
         )
         .then((data) => {
           this.setState({ isSmsSent: true });
+          this.setState({ displayErrorsArea: false });
         }
         )
         .catch((e) => {
@@ -111,10 +141,12 @@ export class AuthForWatchingOnly extends Component<any, AuthForWatchingOnlyState
     }
     else {
       message = "מספר הטלפון שהוזן אינו מספר מורשה";
+      displayErrorsArea = true;
     }
 
-    this.setState({ message })
-    this.setState({ isPhoneLegal })
+    this.setState({ message });
+    this.setState({ isPhoneLegal });
+    this.setState({ displayErrorsArea });
   }
 
   public authCode = () => {
@@ -163,6 +195,17 @@ export class AuthForWatchingOnly extends Component<any, AuthForWatchingOnlyState
             <h1>מערכת תוצר</h1>
           </div>
 
+          {this.state.displayErrorsArea && <div className="errors-area">
+            <span className="auth-errors-message">.יש לך אחלה מספר, אבל הוא לא ברשימה שלנו <br />
+            ...אולי טעות בספרה ואולי צריך לבקש רשות
+            <br />
+              <a href={`mailto:naorB@mccann.co.il; advaA@mccann.co.il&subject=אני רוצה אישור לצפייה בתוצרי הפקטורי&body=Pretty%20please...%20My%20number%20is%20${this.state.phoneNumber}`} className="allow-permission">.לבקשת רשות קליק קטן כאן</a>
+            </span>
+            <img className="error-img" src="./assets/images/error.gif" />
+
+          </div>
+          }
+
           {!this.state.isPhoneLegal &&
             <button onClick={this.authPhoneNumber} className={this.state.isStartTyping ? "send-btn btn-typed" : "send-btn"}><img src="./assets/images/pink_btn_after.svg" /></button>
           }
@@ -178,7 +221,7 @@ export class AuthForWatchingOnly extends Component<any, AuthForWatchingOnlyState
               style={{
                 borderBottom: this.state.message === "" ? "2px solid black" : "2px solid red",
               }} />
-            <span className="err-message">{this.state.message}</span>
+            {!this.state.isPhoneLegal && <span className="err-message">{this.state.message}</span>}
             <br />
           </div>
 
@@ -197,10 +240,12 @@ export class AuthForWatchingOnly extends Component<any, AuthForWatchingOnlyState
                 }} />
 
               <span className="err-message">{this.state.message}</span>
-              <span onClick={this.authPhoneNumber} className="re-send-area">?לא קיבלת את ההודעה
+              <span className="re-send-area"><span className="rtl">לא קיבלת sms עם הקוד?</span>
               <br />
-                <p>ניתן ללחוץ כאן לשליחה חוזרת</p>
+                <p className={this.state.resendMessage === "ניתן ללחוץ כאן לקבלת קוד חדש" ? "resend-btn" : "resend-timer"}
+                  onClick={this.state.resendMessage === "ניתן ללחוץ כאן לקבלת קוד חדש" ? this.authPhoneNumber : () => console.log("Not yet")}>{this.state.resendMessage}</p>
               </span>
+
 
             </div>
           }
@@ -212,7 +257,7 @@ export class AuthForWatchingOnly extends Component<any, AuthForWatchingOnlyState
         </div>
 
 
-      </div>
+      </div >
 
     )
   }

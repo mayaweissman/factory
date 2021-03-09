@@ -21,15 +21,12 @@ interface AuthState {
   allUsers: UserModel[],
   isSmsSent: boolean,
   title: string,
-  user: UserModel
+  user: UserModel,
+  resendMessage: string,
+  displayErrorsArea: boolean
 }
 
 export class Auth extends Component<any, AuthState> {
-
-  private firstInput = React.createRef<HTMLInputElement>();
-  private secondInput = React.createRef<HTMLInputElement>();
-  private thirdInput = React.createRef<HTMLInputElement>();
-  private fourthInput = React.createRef<HTMLInputElement>();
 
 
   public constructor(props: any) {
@@ -44,7 +41,9 @@ export class Auth extends Component<any, AuthState> {
       isDisplayForBtn: false,
       allUsers: [],
       isSmsSent: false,
-      user: new UserModel()
+      user: new UserModel(),
+      resendMessage: "",
+      displayErrorsArea: false
     }
   }
 
@@ -74,23 +73,43 @@ export class Auth extends Component<any, AuthState> {
 
   }
 
+  public countForResend = () => {
+    let count = 30;
+    const int = setInterval(() => {
+      if (count > 1) {
+        count--;
+        const message = 'נוכל לשלוח לך את הקוד פעם נוספת בעוד ' + count + " שניות";
+        this.setState({ resendMessage: message });
+      }
+      else if (count === 1) {
+        const message = "אפשר לנסות שוב ממש כאן";
+        this.setState({ resendMessage: message });
+        clearInterval(int);
+      }
+    }, 1000);
+  }
+
 
   //Demo functions
   public authPhoneNumber = () => {
     const phoneNumber = this.state.phoneNumber;
-    this.setState({code: ""});
+    this.setState({ code: "" });
     const allUsers = [...this.state.allUsers];
     const user = allUsers.find(u => u.phoneNumber?.toString() === phoneNumber);
 
     let message = "";
     let isPhoneLegal = false;
+    let displayErrorsArea = false;
 
     if (user) {
       this.setState({ user });
       if (user.permission === "יצירת דוחות") {
         message = "";
         isPhoneLegal = true;
-        this.setState({ title: "יש להזין את הקוד שקיבלת" })
+        displayErrorsArea = false;
+
+        this.setState({ title: "יש להזין את הקוד שקיבלת" });
+        this.countForResend();
         new Promise((resolve, reject) => {
           resolve(() => console.log(""))
         }
@@ -103,6 +122,7 @@ export class Auth extends Component<any, AuthState> {
           )
           .then((data) => {
             this.setState({ isSmsSent: true });
+            this.setState({ displayErrorsArea: false });
           }
           )
           .catch((e) => {
@@ -111,13 +131,18 @@ export class Auth extends Component<any, AuthState> {
       }
       else {
         message = "מספר הטלפון שהוזן אינו מספר מורשה";
+        displayErrorsArea = true;
       }
     }
     else {
       message = "מספר הטלפון שהוזן אינו מספר מורשה";
+      displayErrorsArea = true;
+
     }
-    this.setState({ message })
-    this.setState({ isPhoneLegal })
+    this.setState({ message });
+    this.setState({ isPhoneLegal });
+    this.setState({ displayErrorsArea });
+
   }
 
   public authCode = () => {
@@ -168,6 +193,17 @@ export class Auth extends Component<any, AuthState> {
             <h1>מערכת תוצר</h1>
           </div>
 
+          {this.state.displayErrorsArea && <div className="errors-area">
+            <span className="auth-errors-message">.יש לך אחלה מספר, אבל הוא לא ברשימה שלנו <br />
+            ...אולי טעות בספרה ואולי צריך לבקש רשות
+            <br />
+              <a href={`mailto:naorB@mccann.co.il; advaA@mccann.co.il&subject=אני רוצה אישור לצפייה בתוצרי הפקטורי&body=Pretty%20please...%20My%20number%20is%20${this.state.phoneNumber}`} className="allow-permission">.לבקשת רשות קליק קטן כאן</a>
+            </span>
+            <img className="error-img" src="./assets/images/error.gif" />
+
+          </div>
+          }
+
           {!this.state.isPhoneLegal &&
             <button onClick={this.authPhoneNumber} className="send-btn"><img src="./assets/images/pink_btn_after.svg" /></button>
           }
@@ -180,7 +216,7 @@ export class Auth extends Component<any, AuthState> {
               className={this.state.isPhoneLegal ? "out" : ""}
               value={this.state.phoneNumber}
               style={{ borderBottom: this.state.message === "" ? "2px solid black" : "2px solid red" }} />
-            <span className="err-message">{this.state.message}</span>
+            {!this.state.isPhoneLegal && <span className="err-message">{this.state.message}</span>}
             <br />
           </div>
 
@@ -197,11 +233,12 @@ export class Auth extends Component<any, AuthState> {
                     this.authCode();
                   }, 1000);
                 }} />
-                
+
               <span className="err-message">{this.state.message}</span>
-              <span onClick={this.authPhoneNumber} className="re-send-area">?לא קיבלת את ההודעה
-              <br/>
-              <p>ניתן ללחוץ כאן לשליחה חוזרת</p>
+              <span className="re-send-area"><span className="rtl">לא קיבלת sms עם הקוד?</span>
+              <br />
+                <p className={this.state.resendMessage === "ניתן ללחוץ כאן לקבלת קוד חדש" ? "resend-btn" : "resend-timer"}
+                  onClick={this.state.resendMessage === "ניתן ללחוץ כאן לקבלת קוד חדש" ? this.authPhoneNumber : () => console.log("Not yet")}>{this.state.resendMessage}</p>
               </span>
 
             </div>

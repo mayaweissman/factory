@@ -62,7 +62,7 @@ export class Campaigns extends Component<any, ReportMakerState>{
             isOnMobile: false,
             showLoader: false,
             isScroll: false,
-            isMobileMenuOpen: store.getState().isMobileMenuShow
+            isMobileMenuOpen: false
         }
 
         this.unsubscribeStore = store.subscribe(() => {

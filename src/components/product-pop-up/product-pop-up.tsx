@@ -11,6 +11,8 @@ import ProgressBar from '@ramonak/react-progress-bar';
 import axios from "axios";
 import { ImagesModel } from "../../models/imagesModel";
 import { Config } from "../../config";
+import ScrollContainer from 'react-indiana-drag-scroll'
+import SimpleImageSlider from "react-simple-image-slider";
 
 
 interface ProductPopUpProps {
@@ -20,7 +22,8 @@ interface ProductPopUpProps {
 
 interface ProductPopUpState {
     images: ImagesModel,
-    productsType: ProductsType
+    productsType: ProductsType,
+    isOnSlider: boolean
 }
 
 export class ProductPopUp extends Component<ProductPopUpProps, ProductPopUpState>{
@@ -31,7 +34,8 @@ export class ProductPopUp extends Component<ProductPopUpProps, ProductPopUpState
         super(props);
         this.state = {
             images: new ImagesModel(),
-            productsType: new ProductsType()
+            productsType: new ProductsType(),
+            isOnSlider: false
         }
     }
 
@@ -51,6 +55,9 @@ export class ProductPopUp extends Component<ProductPopUpProps, ProductPopUpState
             if (!this.props.product) {
                 this.closePopUp();
             }
+            if (this.props.product.productTypeId === 857) {
+                this.setState({ isOnSlider: true });
+            };
             let productImages = this.props.product.images as ImagesModel;
             this.setState({ images: productImages });
 
@@ -85,10 +92,24 @@ export class ProductPopUp extends Component<ProductPopUpProps, ProductPopUpState
 
 
                     <div ref={this.LeftAreaRef} className="left-area">
-                        <img className="product-img product-img1" src={this.state.images.img1} />
-                        <img className="product-img product-img2" src={this.state.images.img2} />
-                        <img className="product-img product-img3" src={this.state.images.img3} />
-                        <img className="product-img product-img4" src={this.state.images.img4} />
+                        {!this.state.isOnSlider &&
+                            <>
+                                <img className="product-img product-img1" src={this.state.images.img1} />
+                                <img className="product-img product-img2" src={this.state.images.img2} />
+                                <img className="product-img product-img3" src={this.state.images.img3} />
+                                <img className="product-img product-img4" src={this.state.images.img4} />
+                            </>
+                        }
+                        {this.state.isOnSlider &&
+                            <ScrollContainer className="carouslle">
+
+                                <img className="carouslle-img" src={this.state.images.img1} />
+                                <img className="carouslle-img" src={this.state.images.img2} />
+                                <img className="carouslle-img" src={this.state.images.img3} />
+                                <img className="carouslle-img" src={this.state.images.img4} />
+                            </ScrollContainer>
+                        }
+
                     </div>
 
                     <script type="text/javascript" src="https://live.sekindo.com/live/liveView.php?s=102802&cbuster=%%CACHEBUSTER%%&pubUrl=%%REFERRER_URL_ESC%%&subId=[SUBID_ENCODED]&x=%%WIDTH%%&y=%%HEIGHT%%&vp_content=embed138cf7ohjskq"></script>

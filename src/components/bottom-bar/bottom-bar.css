@@ -49,9 +49,7 @@
   animation: SlideDown 1s both;
 }
 
-.open-bar{
-  overflow: auto;
-}
+
 .opened-bar-bottom {
   animation: SlideUpForBottom 1s both;
 }

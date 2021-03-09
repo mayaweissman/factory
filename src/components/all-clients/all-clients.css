@@ -62,6 +62,18 @@
   top: 22.4vw;
 }
 
+.addAllClientsForCompany{
+  position: absolute;
+  right: 6vw;
+  text-decoration: underline;
+  font-size: 17px;
+  direction: rtl;
+}
+
+.addAllClientsForCompany:hover{
+  cursor: pointer;
+}
+
 .mobile .filter-area {
   margin: 0;
   margin-top: 20vw;

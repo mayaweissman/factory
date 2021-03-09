@@ -17,7 +17,8 @@ interface AllClientsState {
     clientsToShow: ClientModel[],
     selectedClients: ClientModel[],
     currentFilterToBold: string,
-    hoveredImageId: number
+    hoveredImageId: number,
+    selectedCompany: string
 }
 
 export class AllClients extends Component<any, AllClientsState>{
@@ -33,7 +34,8 @@ export class AllClients extends Component<any, AllClientsState>{
             clientsToShow: [],
             selectedClients: store.getState().selectedClients,
             currentFilterToBold: "latest",
-            hoveredImageId: 656724564
+            hoveredImageId: 656724564,
+            selectedCompany: ""
         }
 
         this.unsubscribeStore = store.subscribe(() => {
@@ -101,11 +103,38 @@ export class AllClients extends Component<any, AllClientsState>{
         if (companyName === "הכל") {
             const allClients = [...this.state.allClients];
             this.setState({ clientsToShow: allClients });
+            this.setState({ selectedCompany: "" });
             return;
         }
 
         const clientsToShow = this.state.allClients.filter(c => c.company === companyName);
         this.setState({ clientsToShow });
+        this.setState({ selectedCompany: companyName });
+    }
+
+    public addAllClientsForCompany = (companyName: string) => (event: any) => {
+
+        const selectedClients: ClientModel[] = store.getState().selectedClients;
+        const clientsToAdd = this.state.allClients.filter(c => c.company === companyName);
+        let isUnique: boolean = true;
+
+        for (const client of clientsToAdd) {
+            selectedClients.map(selectedClient => {
+                if (selectedClient.clientId === client.clientId) {
+                    isUnique = false;
+                    store.dispatch({ type: ActionType.removeClient, payLoad: client.clientId });
+                    return;
+                }
+            })
+            if (isUnique) {
+                let selectedClients = [...this.state.selectedClients];
+                selectedClients.push(client);
+                this.setState({ selectedClients });
+                store.dispatch({ type: ActionType.addClientToSelectedClients, payLoad: client });
+            }
+        }
+
+
     }
 
     public filterAlphabetically = () => {
@@ -123,12 +152,12 @@ export class AllClients extends Component<any, AllClientsState>{
     }
 
     public hoverBtn = (clientId: number) => (event: any) => {
-        this.setState({hoveredImageId: clientId});
-    
+        this.setState({ hoveredImageId: clientId });
+
     }
 
     public unHoverBtn = (clientId: number) => (event: any) => {
-        this.setState({hoveredImageId: 656724564});
+        this.setState({ hoveredImageId: 656724564 });
     }
 
 
@@ -159,6 +188,9 @@ export class AllClients extends Component<any, AllClientsState>{
                         דוח לפי חברה
                         </span>
 
+                    {this.state.selectedCompany !== "" &&
+                        <span onClick={this.addAllClientsForCompany(this.state.selectedCompany)} className="addAllClientsForCompany">הוספת כל לקוחות {this.state.selectedCompany}</span>}
+
                 </div>
 
                 {this.state.clientsToShow.length === 0 &&
@@ -169,21 +201,21 @@ export class AllClients extends Component<any, AllClientsState>{
 
                 <div className="clients-area">
 
-                {this.state.clientsToShow.length !== 0 && this.state.clientsToShow.map(client =>
-                    <div className="client">
-                        <img src={client.clientImageSrc} onClick={this.selectClient(client)} />
-                        <div className="client-info">
-                            <img src={this.state.selectedClients.filter(c => c.clientId === client.clientId).length === 0 && this.state.hoveredImageId !== client.clientId?
-                                "./assets/images/add_button_before.svg" : "./assets/images/add_button_after.svg"} onClick={this.selectClient(client)}
-                                className="add-btn-img" onMouseEnter={this.hoverBtn(client.clientId as number)} onMouseLeave={this.unHoverBtn(client.clientId as number)}/>
+                    {this.state.clientsToShow.length !== 0 && this.state.clientsToShow.map(client =>
+                        <div className="client">
+                            <img src={client.clientImageSrc} onClick={this.selectClient(client)} />
+                            <div className="client-info">
+                                <img src={this.state.selectedClients.filter(c => c.clientId === client.clientId).length === 0 && this.state.hoveredImageId !== client.clientId ?
+                                    "./assets/images/add_button_before.svg" : "./assets/images/add_button_after.svg"} onClick={this.selectClient(client)}
+                                    className="add-btn-img" onMouseEnter={this.hoverBtn(client.clientId as number)} onMouseLeave={this.unHoverBtn(client.clientId as number)} />
 
-                            <span>{client.clientName}</span>
-                        </div>
-                    </div>)}
-                    
+                                <span>{client.clientName}</span>
+                            </div>
+                        </div>)}
+
                 </div>
 
-             
+
 
 
 

@@ -52,7 +52,7 @@
   justify-content: center;
   align-items: center;
   padding: 2vw;
-  overflow: auto;
+  overflow: hidden;
   position: relative;
 }
 
@@ -138,6 +138,43 @@
   flex-direction: column;
 }
 
+.carouslle-img{
+  width: 13vw;
+  margin: 1px;
+}
+
+.carouslle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 50%;
+  position: relative;
+  transform: translateY(-50%);
+}
+.left-area > div {
+  background-color: transparent !important;
+}
+
+.mobile .carouslle-img {
+  width: 77vw;
+  margin: 1px;
+}
+
+.mobile .left-area::-webkit-scrollbar{
+  width: 0%;
+  height: 0;
+}
+
+.left-area > div > div {
+  display: block;
+  margin: 0px;
+  padding: 0px;
+  border: 0px;
+  position: absolute;
+  overflow: hidden;
+  width: 60% !important;
+  height: 90% !important;
+}
 .mobile .small-product-conatiner .MuiSvgIcon-root {
   width: 5em;
   height: 5em;
