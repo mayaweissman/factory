@@ -83,8 +83,8 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
     public async componentDidMount() {
         try {
             const bodyClass = document.body.classList[0];
-            if(bodyClass === "mobile"){
-                this.setState({isOnMobile: true});
+            if (bodyClass === "mobile") {
+                this.setState({ isOnMobile: true });
             }
 
             const response = await axios.get(Config.serverUrl + "/all-products-types/");
@@ -162,13 +162,10 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
             productsToDisplay.splice(index, 1);
         }
 
-
-
         if (duplictes.length === 0) {
             this.state.allProducts.filter(p => p.productTypeId === productsTypeId).
                 forEach(p => productsToDisplay.push(p));
         }
-
         store.dispatch({ type: ActionType.updateProductsToDisplay, payLoad: productsToDisplay });
 
     }
@@ -192,6 +189,43 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
             return true;
         }
         return false;
+    }
+
+    public isDisabled = (productTypeId: number) => {
+        let productsToDisplay: ProductModel[] = [];
+        if (store.getState().productsToDisplay.length > 0) {
+            productsToDisplay = store.getState().productsToDisplay;
+        }
+        else if (store.getState().campaignsToDisplay.length === 0) {
+            const selectedCampaigns: CampaignModel[] = store.getState().selectedCampaigns;
+            const products: ProductModel[] = [];
+            this.state.allProducts.map(p => {
+                selectedCampaigns.map(c => {
+                    if (p.campaignId === c.campaignId) {
+                        products.push(p);
+                    }
+                })
+            })
+            productsToDisplay = products;
+        }
+        else {
+            const selectedCampaigns: CampaignModel[] = store.getState().campaignsToDisplay;
+            const products: ProductModel[] = [];
+            this.state.allProducts.map(p => {
+                selectedCampaigns.map(c => {
+                    if (p.campaignId === c.campaignId) {
+                        products.push(p);
+                    }
+                })
+            })
+            productsToDisplay = products;
+        }
+        const p = productsToDisplay.find(p => p.productTypeId === productTypeId);
+        if (p) {
+            return true;
+        }
+        return false;
+
     }
 
 
@@ -249,8 +283,6 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
         const strToState = `${endDateStr.replace(".", "/")} - ${startDateStr.replace(".", "/")}`;
         this.setState({ datesRange: strToState });
         store.dispatch({ type: ActionType.getDatesRanges, payLoad: strToState });
-
-
     }
 
 
@@ -274,7 +306,7 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
                 <span className="reset-filtering" onClick={this.resetFiltering}>איפוס סננים</span>
                 <br />
 
-                {this.props.isOnReport && !this.state.isOnMobile && 
+                {this.props.isOnReport && !this.state.isOnMobile &&
                     <span className="dates-on-filtering">דו"ח תוצרים לתאריכים: <span className="underline">{this.state.report.datesOnReport}</span></span>
                 }
 
@@ -329,9 +361,10 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
                         <br />
                         <div className="products-titles">
 
-                            {this.state.productsTypesToDisplay.map(type =>
-                                <label className="container-for-check">
-                                    <input checked={this.isProductTypeChecked(type.productsTypeId as number)} type="checkbox" onClick={this.filterByProductType(type.productsTypeId as number)} />
+                            {this.state.productsTypes.map(type =>
+                                <label className={this.isDisabled(type.productsTypeId as number) ? "container-for-check" : "container-for-check disabled"}>
+                                    <input disabled={this.isDisabled(type.productsTypeId as number) ? false : true}
+                                        checked={this.isProductTypeChecked(type.productsTypeId as number)} type="checkbox" onClick={this.filterByProductType(type.productsTypeId as number)} />
                                     <span className="checkmark"></span>
                                     <span className="campaign-name-title">
                                         {type.nameForMany}

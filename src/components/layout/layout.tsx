@@ -34,9 +34,8 @@ export class Layout extends Component<any, LayoutState>{
 
             const json = await axios.get("https://api.ipify.org?format=json");
             const ip = json.data.ip;
-            console.log(ip);
 
-            const ips = ['176.230.160.231', '31.168.98.222', '82.80.148.180', '82.80.148.180', '82.81.38.254'];
+            const ips = ['176.230.160.231', '31.168.98.222', '82.80.148.180', '82.80.148.180', '82.81.38.254', '176.230.160.195'];
             let legalIp = ips.find(i => i === ip);
             if (legalIp) {
                 this.setState({ isLegalIp: true });
