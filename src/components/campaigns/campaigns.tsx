@@ -173,6 +173,7 @@ export class Campaigns extends Component<any, ReportMakerState>{
 
     }
 
+
     //Return colors for light button by success rates (green/yellow/red)
     public getSuccessRateColor = (successRate: number) => {
         if (successRate <= 50) {
@@ -231,7 +232,7 @@ export class Campaigns extends Component<any, ReportMakerState>{
                         <div className="grid">
 
                             {this.state.productsToDisplay.length === 0 && this.state.selectedProducts?.filter(product => product.campaignId === campaign.campaignId).map(product =>
-                                <div className="campaign" data-aos={this.state.isOnMobile ? "zoom-in" : "fade-up"}>
+                                <div className="campaign" data-aos={this.state.isOnMobile ? "zoom-in" : "zoom-in"}>
                                     <img className="campaign-img" src={product.images?.img1 ? product.images?.img1 : product.images?.img2} onClick={this.setProductToDisplayInPopUp(product, campaign)} />
                                     <div className="campaign-info">
                                         <span className="product-type-title">{this.getProductTypeName(product.productTypeId as number)}</span>
@@ -245,8 +246,8 @@ export class Campaigns extends Component<any, ReportMakerState>{
                             )}
 
                             {this.state.productsToDisplay.length !== 0 && this.state.productsToDisplay?.filter(product => product.campaignId === campaign.campaignId).map(product =>
-                                <div className="campaign" data-aos={this.state.isOnMobile ? "zoom-in" : "fade-up"}>
-                                    <img className="campaign-img" src={product.images?.img1 ? product.images?.img1 : product.images?.img2} onClick={this.setProductToDisplayInPopUp(product, campaign)} />
+                                <div className="campaign" data-aos={this.state.isOnMobile ? "zoom-in" : "zoom-in"}>
+                                <img className="campaign-img" src={product.images?.img1 ? product.images?.img1 : product.images?.img2} onClick={this.setProductToDisplayInPopUp(product, campaign)} />
                                     <div className="campaign-info">
                                         <span className="product-type-title">{this.getProductTypeName(product.productTypeId as number)}</span>
                                         <span className="success-rate">
@@ -267,8 +268,8 @@ export class Campaigns extends Component<any, ReportMakerState>{
                         {this.isProductsToDisplayOnCampaign(campaign.campaignId as number) && <h2 dangerouslySetInnerHTML={{ __html: campaign.campaignName as string }}></h2>}
                         <div className="grid">
                             {this.state.productsToDisplay.length === 0 && this.state.selectedProducts?.filter(product => product.campaignId === campaign.campaignId).map(product =>
-                                <div className="campaign" data-aos={this.state.isOnMobile ? "zoom-in" : "fade-up"}>
-                                    <img className="campaign-img" src={product.images?.img1 ? product.images?.img1 : product.images?.img2} onClick={this.setProductToDisplayInPopUp(product, campaign)} />
+                                <div className="campaign" data-aos={this.state.isOnMobile ? "zoom-in" : "zoom-in"}>
+                                <img className="campaign-img" src={product.images?.img1 ? product.images?.img1 : product.images?.img2} onClick={this.setProductToDisplayInPopUp(product, campaign)} />
                                     <div className="campaign-info">
                                         <span className="product-type-title">{this.getProductTypeName(product.productTypeId as number)}</span>
                                         <span className="success-rate">
@@ -281,8 +282,8 @@ export class Campaigns extends Component<any, ReportMakerState>{
 
                             )}
                             {this.state.productsToDisplay.length !== 0 && this.state.productsToDisplay?.filter(product => product.campaignId === campaign.campaignId).map(product =>
-                                <div className="campaign" data-aos={this.state.isOnMobile ? "zoom-in" : "fade-up"}>
-                                    <img className="campaign-img" src={product.images?.img1 ? product.images?.img1 : product.images?.img2} onClick={this.setProductToDisplayInPopUp(product, campaign)} />
+                                <div className="campaign" data-aos={this.state.isOnMobile ? "zoom-in" : "zoom-in"}>
+                                <img className="campaign-img" src={product.images?.img1 ? product.images?.img1 : product.images?.img2} onClick={this.setProductToDisplayInPopUp(product, campaign)} />
                                     <div className="campaign-info">
                                         <span className="product-type-title">{this.getProductTypeName(product.productTypeId as number)}</span>
                                         <span className="success-rate">

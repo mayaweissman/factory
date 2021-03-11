@@ -110,23 +110,29 @@ export class AddClientPopUp extends Component<any, AddClientPopUpState>{
             const allProducts: ProductModel[] = allProductsResponse.data.products;
     
             store.dispatch({ type: ActionType.getSelectedCampaigns, payLoad: selectedCampaigns });
-    
-            const selectedProducts: ProductModel[] = store.getState().selectedProducts;
-            this.state.clientsToAdd.map(client => {
-                allProducts.map(product => {
-                    if (product.clientId === client.clientId) {
-                        selectedProducts.push(product);
-    
-                    }
+
+
+                const selectedProducts: ProductModel[] = store.getState().selectedProducts;
+
+                this.state.clientsToAdd.map(client => {
+                    allProducts.map(product => {
+                        if (+(product.clientId as number) === client.clientId) {
+                            selectedProducts.push(product);
+        
+                        }
+                    })
                 })
-            })
-            store.dispatch({ type: ActionType.getSelectedProducts, payLoad: selectedProducts });
+
+                store.dispatch({ type: ActionType.getSelectedProducts, payLoad: selectedProducts });        
     
-            this.closePopUp();
 
         }
         catch(err){
             console.log(err.message);
+        }
+        finally{
+            this.closePopUp();
+
         }
     }
 

@@ -155,6 +155,50 @@
   background-color: transparent !important;
 }
 
+
+.mobile .small-product-video-conatiner .left-area {
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  overflow: auto;
+  height: 100%;
+  position: absolute;
+  top: 13vw;
+  /* max-height: 143%; */
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+
+.mobile .small-product-video-conatiner {
+  background-color: white;
+  height: 300px;
+  max-height: 80%;
+  width: 1301px;
+  max-width: 70%;
+  position: relative;
+  display: flex;
+}
+
+.mobile #primisPlayerContainerDiv {
+  width: 90%!important;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: 100% !important;
+  transform: translateX(-50%) translateY(-50%);
+}
+
+.mobile #videoContainerDiv{
+  width: 80% !important;
+  height: 100%;
+  background: transparent !important;
+  position: relative;
+  z-index: 1;
+}
+
 .mobile .carouslle-img {
   width: 77vw;
   margin: 1px;
@@ -175,7 +219,9 @@
   width: 60% !important;
   height: 90% !important;
 }
-.mobile .small-product-conatiner .MuiSvgIcon-root {
+.mobile .small-product-conatiner .MuiSvgIcon-root,
+.mobile .small-product-video-conatiner .MuiSvgIcon-root
+ {
   width: 5em;
   height: 5em;
   font-size: 1.5vw;

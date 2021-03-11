@@ -23,7 +23,9 @@ interface ProductPopUpProps {
 interface ProductPopUpState {
     images: ImagesModel,
     productsType: ProductsType,
-    isOnSlider: boolean
+    isOnSlider: boolean,
+    isVideo: boolean,
+    isOnMobile: boolean
 }
 
 export class ProductPopUp extends Component<ProductPopUpProps, ProductPopUpState>{
@@ -35,7 +37,9 @@ export class ProductPopUp extends Component<ProductPopUpProps, ProductPopUpState
         this.state = {
             images: new ImagesModel(),
             productsType: new ProductsType(),
-            isOnSlider: false
+            isOnSlider: false,
+            isVideo: false,
+            isOnMobile: false
         }
     }
 
@@ -51,6 +55,11 @@ export class ProductPopUp extends Component<ProductPopUpProps, ProductPopUpState
 
     public async componentDidMount() {
         try {
+
+            const bodyClass = document.body.classList[0];
+            if (bodyClass === "mobile") {
+                this.setState({ isOnMobile: true });
+            }
 
             if (!this.props.product) {
                 this.closePopUp();
@@ -69,6 +78,7 @@ export class ProductPopUp extends Component<ProductPopUpProps, ProductPopUpState
                 this.LeftAreaRef.current!.appendChild(script);
                 const images = { img1: "", img2: "", img3: "" };
                 this.setState({ images });
+                this.setState({isVideo: true});
             }
 
 
@@ -88,7 +98,7 @@ export class ProductPopUp extends Component<ProductPopUpProps, ProductPopUpState
     public render() {
         return (
             <div className="full-screen-product-conatiner" onClick={this.closePopUp} >
-                <div className="small-product-conatiner" onClick={this.stopPropagation}>
+                <div className={this.state.isOnMobile && this.state.isVideo? "small-product-video-conatiner" : "small-product-conatiner"} onClick={this.stopPropagation}>
 
 
                     <div ref={this.LeftAreaRef} className="left-area">
