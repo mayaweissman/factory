@@ -101,7 +101,7 @@ export class ProductPopUp extends Component<ProductPopUpProps, ProductPopUpState
                 <div className={this.state.isOnMobile && this.state.isVideo? "small-product-video-conatiner" : "small-product-conatiner"} onClick={this.stopPropagation}>
 
 
-                    <div ref={this.LeftAreaRef} className="left-area">
+                    <div ref={this.LeftAreaRef} className={this.state.isOnSlider ? "left-area carrousle-area" : "left-area"}>
                         {!this.state.isOnSlider &&
                             <>
                                 <img className="product-img product-img1" src={this.state.images.img1} />
@@ -113,10 +113,13 @@ export class ProductPopUp extends Component<ProductPopUpProps, ProductPopUpState
                         {this.state.isOnSlider &&
                             <ScrollContainer className="carouslle">
 
-                                <img className="carouslle-img" src={this.state.images.img1} />
-                                <img className="carouslle-img" src={this.state.images.img2} />
-                                <img className="carouslle-img" src={this.state.images.img3} />
-                                <img className="carouslle-img" src={this.state.images.img4} />
+                               {this.state.images.img1 && <img className="carouslle-img" src={this.state.images.img1} />} 
+                               {this.state.images.img2 && <img className="carouslle-img" src={this.state.images.img2} />} 
+                               {this.state.images.img3 && <img className="carouslle-img" src={this.state.images.img3} />} 
+                               {this.state.images.img4 && <img className="carouslle-img" src={this.state.images.img4} />} 
+                               {this.state.images.img5 && <img className="carouslle-img" src={this.state.images.img5} />} 
+                               {this.state.images.img6 && <img className="carouslle-img" src={this.state.images.img6} />} 
+                               {this.state.images.img7 && <img className="carouslle-img" src={this.state.images.img7} />} 
                             </ScrollContainer>
                         }
 

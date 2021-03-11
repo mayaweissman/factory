@@ -107,6 +107,10 @@
   max-height: 80%;
   left: 2vw;
 }
+
+.carrousle-area{
+  overflow: initial !important;
+}
 .product-img2 {
   display: inline-block;
   position: absolute;
@@ -146,8 +150,6 @@
 
 .carouslle {
   display: flex;
-  justify-content: center;
-  align-items: center;
   top: 50%;
   position: relative;
   transform: translateY(-50%);
