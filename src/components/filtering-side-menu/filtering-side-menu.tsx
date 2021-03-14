@@ -40,7 +40,8 @@ interface FilteringSideMenuState {
     productsTypesToDisplay: ProductsType[],
     showDatesError: boolean,
     isOnMobile: boolean,
-    report: ReportModel
+    report: ReportModel,
+    nonCampaignsClients: ClientModel[]
 }
 
 export class FilteringSideMenu extends Component<FilteringSideMenuProps, FilteringSideMenuState>{
@@ -61,7 +62,8 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
             productsTypes: [],
             datesRange: store.getState().datesRange,
             showDatesError: false,
-            isOnMobile: false
+            isOnMobile: false,
+            nonCampaignsClients: []
         }
 
         this.unsubscribeStore = store.subscribe(() => {
@@ -227,6 +229,52 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
         return false;
 
     }
+    public isCampgaignDisabled = (campaignId: number) => {
+        const campaignsToDisplay: CampaignModel[] = store.getState().campaignsToDisplay;
+        const selectedCampaigns: CampaignModel[] = store.getState().selectedCampaigns;
+
+        if (campaignsToDisplay.length > 0) {
+            const c = campaignsToDisplay.find(campaign => campaign.campaignId === campaignId);
+            if (c) {
+                return true;
+            }
+        }
+        else {
+            const c = selectedCampaigns.find(campaign => campaign.campaignId === campaignId);
+            if (c) {
+                return true;
+            }
+        }
+
+        return false;
+
+    }
+
+
+    public isNonCampaignsClientsExists = () => {
+        const selectedClients: ClientModel[] = store.getState().selectedClients;
+        const campaignsToDisplay: CampaignModel[] = store.getState().campaignsToDisplay;
+        const nonCampaignsClients: ClientModel[] = [];
+
+
+        selectedClients.map(client => {
+            let isEmpty = true;
+            campaignsToDisplay.map(campaign => {
+                if (campaign.clientId === client.clientId) {
+                    isEmpty = false;
+                }
+            });
+            if (isEmpty) {
+                nonCampaignsClients.push(client);
+            }
+        })
+
+        this.setState({ nonCampaignsClients });
+        if (nonCampaignsClients.length > 0) {
+            store.dispatch({ type: ActionType.changeDisplayForNoCampaignsPopUp, payLoad: true });
+            store.dispatch({ type: ActionType.getNonCampaignsClients, payLoad: nonCampaignsClients });
+        }
+    }
 
 
     //Will change  
@@ -283,11 +331,14 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
         const strToState = `${endDateStr.replace(".", "/")} - ${startDateStr.replace(".", "/")}`;
         this.setState({ datesRange: strToState });
         store.dispatch({ type: ActionType.getDatesRanges, payLoad: strToState });
+
+        this.isNonCampaignsClientsExists();
     }
 
 
 
     public createReport = () => {
+        
         if (this.state.datesRange === "- - / - - / - -") {
             this.setState({ showDatesError: true });
         }
@@ -345,8 +396,10 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
                         <div className="campaigns-titles">
 
                             {this.state.selectedCampaigns.map(campaign =>
-                                <label className="container-for-check">
-                                    <input checked={this.isCampaignChecked(campaign.campaignId as number)} onClick={this.filterByCapmaign(campaign)} type="checkbox" />
+                                <label className={this.isCampgaignDisabled(campaign.campaignId as number) ? "container-for-check" : "container-for-check disabled"}>
+                                    <input
+                                        disabled={this.isCampgaignDisabled(campaign.campaignId as number) ? false : true}
+                                        checked={this.isCampaignChecked(campaign.campaignId as number)} onClick={this.filterByCapmaign(campaign)} type="checkbox" />
                                     <span className="checkmark"></span>
                                     <span className="campaign-name-title" dangerouslySetInnerHTML={{ __html: campaign.campaignName as string }}>
                                     </span>

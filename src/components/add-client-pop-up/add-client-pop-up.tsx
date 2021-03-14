@@ -15,7 +15,8 @@ import { Config } from "../../config";
 interface AddClientPopUpState {
     allClients: ClientModel[],
     companies: string[],
-    clientsToAdd: ClientModel[]
+    clientsToAdd: ClientModel[],
+    nonCampaignsClients: ClientModel[]
 }
 
 export class AddClientPopUp extends Component<any, AddClientPopUpState>{
@@ -27,7 +28,8 @@ export class AddClientPopUp extends Component<any, AddClientPopUpState>{
         this.state = {
             allClients: store.getState().allClients,
             companies: [],
-            clientsToAdd: []
+            clientsToAdd: [],
+            nonCampaignsClients: []
         }
     }
 
@@ -131,6 +133,7 @@ export class AddClientPopUp extends Component<any, AddClientPopUpState>{
             console.log(err.message);
         }
         finally{
+            this.isNonCampaignsClientsExists();
             this.closePopUp();
 
         }
@@ -145,6 +148,46 @@ export class AddClientPopUp extends Component<any, AddClientPopUpState>{
         }
         return false;
     }
+
+    public isNonCampaignsClientsExists = () => {
+        const selectedClients: ClientModel[] = store.getState().selectedClients;
+        const selectedCampaigns: CampaignModel[] = store.getState().selectedCampaigns;
+        const campaignsToDisplay: CampaignModel[] = store.getState().campaignsToDisplay;
+        const nonCampaignsClients: ClientModel[] = [];
+
+        if (campaignsToDisplay.length === 0) {
+            selectedClients.map(client => {
+                let isEmpty = true;
+                selectedCampaigns.map(campaign => {
+                    if (campaign.clientId === client.clientId) {
+                        isEmpty = false;
+                    }
+                });
+                if (isEmpty) {
+                    nonCampaignsClients.push(client);
+                }
+            })
+        }
+        else {
+            selectedClients.map(client => {
+                let isEmpty = true;
+                campaignsToDisplay.map(campaign => {
+                    if (campaign.clientId === client.clientId) {
+                        isEmpty = false;
+                    }
+                });
+                if (isEmpty) {
+                    nonCampaignsClients.push(client);
+                }
+            })
+        }
+        this.setState({ nonCampaignsClients });
+        if (nonCampaignsClients.length > 0) {
+            store.dispatch({ type: ActionType.changeDisplayForNoCampaignsPopUp, payLoad: true });
+            store.dispatch({ type: ActionType.getNonCampaignsClients, payLoad: nonCampaignsClients });
+        }
+
+    };
 
     public render() {
         return (

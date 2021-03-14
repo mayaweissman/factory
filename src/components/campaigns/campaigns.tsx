@@ -34,7 +34,9 @@ interface ReportMakerState {
     showLoader: boolean,
     isOnMobile: boolean,
     isScroll: boolean,
-    isMobileMenuOpen: boolean
+    isMobileMenuOpen: boolean,
+    isFinishLoading: boolean,
+    nonCampaignsClients: ClientModel[]
 }
 
 
@@ -43,8 +45,6 @@ export class Campaigns extends Component<any, ReportMakerState>{
 
     private unsubscribeStore: Unsubscribe;
     private filteringMenuRef = React.createRef<HTMLDivElement>();
-
-
 
 
     public constructor(props: any) {
@@ -62,7 +62,9 @@ export class Campaigns extends Component<any, ReportMakerState>{
             isOnMobile: false,
             showLoader: false,
             isScroll: false,
-            isMobileMenuOpen: false
+            isMobileMenuOpen: false,
+            isFinishLoading: false,
+            nonCampaignsClients: []
         }
 
         this.unsubscribeStore = store.subscribe(() => {
@@ -124,6 +126,7 @@ export class Campaigns extends Component<any, ReportMakerState>{
                     })
                     this.setState({ selectedCampaigns });
                     store.dispatch({ type: ActionType.getSelectedCampaigns, payLoad: selectedCampaigns });
+                    // store.dispatch({ type: ActionType.updateCampaignsToDisplay, payLoad: selectedCampaigns });
                 }
                 this.setState({ showLoader: false });
 
@@ -144,14 +147,17 @@ export class Campaigns extends Component<any, ReportMakerState>{
 
                     this.setState({ selectedProducts });
                     store.dispatch({ type: ActionType.getSelectedProducts, payLoad: selectedProducts });
+                    // store.dispatch({ type: ActionType.updateProductsToDisplay, payLoad: selectedProducts });
+                    this.setState({ isFinishLoading: true });
                 }
 
 
                 const responseForTypes = await axios.get(Config.serverUrl + "/all-products-types/");
                 const productsTypes: ProductsType[] = responseForTypes.data.productsTypes;
                 this.setState({ productTypes: productsTypes });
-            }, 1500);
 
+                this.isNonCampaignsClientsExists();
+            }, 1500);
 
         }
         catch (err) {
@@ -173,6 +179,46 @@ export class Campaigns extends Component<any, ReportMakerState>{
 
     }
 
+    public isNonCampaignsClientsExists = () => {
+        const selectedClients: ClientModel[] = store.getState().selectedClients;
+        const selectedCampaigns: CampaignModel[] = store.getState().selectedCampaigns;
+        const campaignsToDisplay: CampaignModel[] = store.getState().campaignsToDisplay;
+        const nonCampaignsClients: ClientModel[] = [];
+
+        if (campaignsToDisplay.length === 0) {
+            selectedClients.map(client => {
+                let isEmpty = true;
+                selectedCampaigns.map(campaign => {
+                    if (campaign.clientId === client.clientId) {
+                        isEmpty = false;
+                    }
+                });
+                if (isEmpty) {
+                    nonCampaignsClients.push(client);
+                }
+            })
+        }
+        else {
+            selectedClients.map(client => {
+                let isEmpty = true;
+                campaignsToDisplay.map(campaign => {
+                    if (campaign.clientId === client.clientId) {
+                        isEmpty = false;
+                    }
+                });
+                if (isEmpty) {
+                    nonCampaignsClients.push(client);
+                }
+            })
+        }
+        console.log(selectedClients);
+        this.setState({ nonCampaignsClients });
+        if (nonCampaignsClients.length > 0) {
+            store.dispatch({ type: ActionType.changeDisplayForNoCampaignsPopUp, payLoad: true });
+            store.dispatch({ type: ActionType.getNonCampaignsClients, payLoad: nonCampaignsClients });
+        }
+
+    };
 
     //Return colors for light button by success rates (green/yellow/red)
     public getSuccessRateColor = (successRate: number) => {
@@ -212,6 +258,13 @@ export class Campaigns extends Component<any, ReportMakerState>{
         }
     }
 
+    public getClientName = (clientId: number) => {
+        const clients = [...this.state.selectedClients];
+        const client = clients.find(c => c.clientId === clientId);
+        return client?.clientName as string;
+
+    }
+
 
 
     public render() {
@@ -224,13 +277,56 @@ export class Campaigns extends Component<any, ReportMakerState>{
                     <span className="campaigns-filter-by-low">Lowest first</span>
 
                 </div>
+                {this.state.campaignsToDisplay.length === 0 && this.state.selectedCampaigns.length === 0 &&
+                    <div className="no-campaigns-area">אין לקוחות להצגה</div>}
 
-                {this.state.campaignsToDisplay.length !== 0 && this.state.campaignsToDisplay?.map(campaign =>
+                {
+
+
+                    this.state.campaignsToDisplay.length !== 0 && this.state.campaignsToDisplay?.map(campaign =>
+                        <div className="client-in-campaigns">
+
+                            {this.isProductsToDisplayOnCampaign(campaign.campaignId as number) && <h2 dangerouslySetInnerHTML={{ __html: campaign.campaignName + " " + this.getClientName(campaign.clientId as number) as string }}></h2>}
+                            <div className="grid">
+
+                                {this.state.productsToDisplay.length === 0 && this.state.selectedProducts?.filter(product => product.campaignId === campaign.campaignId).map(product =>
+                                    <div className="campaign" data-aos={this.state.isOnMobile ? "zoom-in" : "zoom-in"}>
+                                        <img className="campaign-img" src={product.images?.img1 ? product.images?.img1 : product.images?.img2} onClick={this.setProductToDisplayInPopUp(product, campaign)} />
+                                        <div className="campaign-info">
+                                            <span className="product-type-title">{this.getProductTypeName(product.productTypeId as number)}</span>
+                                            <span className="success-rate">
+                                                <li className="success-color" style={{ color: this.getSuccessRateColor(product.successRates as number) }}> </li>
+                                           % {product.successRates}
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                )}
+
+                                {this.state.productsToDisplay.length !== 0 && this.state.productsToDisplay?.filter(product => product.campaignId === campaign.campaignId).map(product =>
+                                    <div className="campaign" data-aos={this.state.isOnMobile ? "zoom-in" : "zoom-in"}>
+                                        <img className="campaign-img" src={product.images?.img1 ? product.images?.img1 : product.images?.img2} onClick={this.setProductToDisplayInPopUp(product, campaign)} />
+                                        <div className="campaign-info">
+                                            <span className="product-type-title">{this.getProductTypeName(product.productTypeId as number)}</span>
+                                            <span className="success-rate">
+                                                <li className="success-color" style={{ color: this.getSuccessRateColor(product.successRates as number) }}> </li>
+                                           % {product.successRates}
+                                            </span>
+                                        </div>
+                                    </div>
+
+
+                                )}
+                            </div>
+                        </div>
+                    )
+
+                }
+
+                {this.state.campaignsToDisplay.length === 0 && this.state.selectedCampaigns?.map(campaign =>
                     <div className="client-in-campaigns">
-
-                        {this.isProductsToDisplayOnCampaign(campaign.campaignId as number) && <h2 dangerouslySetInnerHTML={{ __html: campaign.campaignName as string }}></h2>}
+                        {this.isProductsToDisplayOnCampaign(campaign.campaignId as number) && <h2 dangerouslySetInnerHTML={{ __html: campaign.campaignName + " " + this.getClientName(campaign.clientId as number) as string }}></h2>}
                         <div className="grid">
-
                             {this.state.productsToDisplay.length === 0 && this.state.selectedProducts?.filter(product => product.campaignId === campaign.campaignId).map(product =>
                                 <div className="campaign" data-aos={this.state.isOnMobile ? "zoom-in" : "zoom-in"}>
                                     <img className="campaign-img" src={product.images?.img1 ? product.images?.img1 : product.images?.img2} onClick={this.setProductToDisplayInPopUp(product, campaign)} />
@@ -243,47 +339,11 @@ export class Campaigns extends Component<any, ReportMakerState>{
                                     </div>
                                 </div>
 
-                            )}
-
-                            {this.state.productsToDisplay.length !== 0 && this.state.productsToDisplay?.filter(product => product.campaignId === campaign.campaignId).map(product =>
-                                <div className="campaign" data-aos={this.state.isOnMobile ? "zoom-in" : "zoom-in"}>
-                                <img className="campaign-img" src={product.images?.img1 ? product.images?.img1 : product.images?.img2} onClick={this.setProductToDisplayInPopUp(product, campaign)} />
-                                    <div className="campaign-info">
-                                        <span className="product-type-title">{this.getProductTypeName(product.productTypeId as number)}</span>
-                                        <span className="success-rate">
-                                            <li className="success-color" style={{ color: this.getSuccessRateColor(product.successRates as number) }}> </li>
-                                           % {product.successRates}
-                                        </span>
-                                    </div>
-                                </div>
-
-
-                            )}
-                        </div>
-                    </div>
-                )}
-
-                {this.state.campaignsToDisplay.length === 0 && this.state.selectedCampaigns?.map(campaign =>
-                    <div className="client-in-campaigns">
-                        {this.isProductsToDisplayOnCampaign(campaign.campaignId as number) && <h2 dangerouslySetInnerHTML={{ __html: campaign.campaignName as string }}></h2>}
-                        <div className="grid">
-                            {this.state.productsToDisplay.length === 0 && this.state.selectedProducts?.filter(product => product.campaignId === campaign.campaignId).map(product =>
-                                <div className="campaign" data-aos={this.state.isOnMobile ? "zoom-in" : "zoom-in"}>
-                                <img className="campaign-img" src={product.images?.img1 ? product.images?.img1 : product.images?.img2} onClick={this.setProductToDisplayInPopUp(product, campaign)} />
-                                    <div className="campaign-info">
-                                        <span className="product-type-title">{this.getProductTypeName(product.productTypeId as number)}</span>
-                                        <span className="success-rate">
-                                            <li className="success-color" style={{ color: this.getSuccessRateColor(product.successRates as number) }}> </li>
-                                           % {product.successRates}
-                                        </span>
-                                    </div>
-                                </div>
-
 
                             )}
                             {this.state.productsToDisplay.length !== 0 && this.state.productsToDisplay?.filter(product => product.campaignId === campaign.campaignId).map(product =>
                                 <div className="campaign" data-aos={this.state.isOnMobile ? "zoom-in" : "zoom-in"}>
-                                <img className="campaign-img" src={product.images?.img1 ? product.images?.img1 : product.images?.img2} onClick={this.setProductToDisplayInPopUp(product, campaign)} />
+                                    <img className="campaign-img" src={product.images?.img1 ? product.images?.img1 : product.images?.img2} onClick={this.setProductToDisplayInPopUp(product, campaign)} />
                                     <div className="campaign-info">
                                         <span className="product-type-title">{this.getProductTypeName(product.productTypeId as number)}</span>
                                         <span className="success-rate">

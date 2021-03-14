@@ -10,6 +10,7 @@ import { UserModel } from "../../models/userModel";
 import { ActionType } from "../../redux/actionType";
 import { ReportsHistoryPopUp } from "../reports-history-pop-up/reports-history-pop-up";
 import { LinkPopUpFromReport } from "../link-pop-up-from-report/link-pop-up-from-report";
+import { NoCampaignsPopUp } from "../no-campains-pop-up/no-campains-pop-up";
 
 interface ReportMakerState {
     isScroll: boolean,
@@ -17,7 +18,8 @@ interface ReportMakerState {
     windowWidth: number,
     isAfterAuth: boolean,
     displayForReportsPopUp: boolean,
-    displayForReportsLinkPopUp: boolean
+    displayForReportsLinkPopUp: boolean,
+    isNoCampaignsPopUpOpen: boolean
 }
 
 export class ReportMaker extends Component<any, ReportMakerState>{
@@ -33,6 +35,7 @@ export class ReportMaker extends Component<any, ReportMakerState>{
             displayForReportsLinkPopUp: store.getState().displayForReportsLinkPopUp,
             windowWidth: 0,
             isAfterAuth: store.getState().isAuthSucceeded,
+            isNoCampaignsPopUpOpen: store.getState().isNoCampaignsPopUpOpen
         }
 
         this.unsubscribeStore = store.subscribe(() => {
@@ -44,6 +47,8 @@ export class ReportMaker extends Component<any, ReportMakerState>{
             this.setState({ displayForReportsPopUp });
             const displayForReportsLinkPopUp = store.getState().displayForReportsLinkPopUp;
             this.setState({ displayForReportsLinkPopUp });
+            const isNoCampaignsPopUpOpen = store.getState().isNoCampaignsPopUpOpen;
+            this.setState({ isNoCampaignsPopUpOpen });
 
         })
 
@@ -84,6 +89,8 @@ export class ReportMaker extends Component<any, ReportMakerState>{
                 }
                 {this.state.isAfterAuth &&
                     <>
+
+                        {this.state.isNoCampaignsPopUpOpen && <NoCampaignsPopUp />}
                         <main>
                             <div className="header">
                                 <TopCampaignsNav isScroll={this.state.isScroll} />
@@ -104,9 +111,10 @@ export class ReportMaker extends Component<any, ReportMakerState>{
                         </aside>
                         {this.state.display && <LinkPopUp />}
                         {this.state.displayForReportsPopUp && <ReportsHistoryPopUp />}
-                        {this.state.displayForReportsLinkPopUp && <LinkPopUpFromReport/>}
+                        {this.state.displayForReportsLinkPopUp && <LinkPopUpFromReport />}
                     </>
                 }
+
 
             </div>
 

@@ -154,9 +154,9 @@
   position: relative;
   transform: translateY(-50%);
 }
-.left-area > div {
+/* .left-area > div {
   background-color: transparent !important;
-}
+} */
 
 
 .mobile .small-product-video-conatiner .left-area {
@@ -174,6 +174,25 @@
   flex-direction: column;
 }
 
+.scrolling-left {
+  position: absolute;
+  background-color: black !important;
+  height: 13vw;
+  width: 5px;
+  right: 1.7vw;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.scrolling-right{
+  position: absolute;
+  background-color: black !important;
+  height: 13vw;
+  width: 5px;
+  left: 1.7vw;
+  top: 50%;
+  transform: translateY(-50%);
+}
 
 .mobile .small-product-video-conatiner {
   background-color: white;

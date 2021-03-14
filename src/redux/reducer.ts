@@ -54,6 +54,10 @@ export function reducer(oldAppState: AppState, action: Action): AppState {
       newAppState.clientsToDisplay = [];
       break;
 
+    case ActionType.getNonCampaignsClients:
+      newAppState.nonCampaignsClients = action.payLoad;
+      break;
+
     case ActionType.getSelectedCampaigns:
       newAppState.selectedCampaigns = action.payLoad;
       break;
@@ -138,7 +142,7 @@ export function reducer(oldAppState: AppState, action: Action): AppState {
       break;
 
     case ActionType.changeDisplayForMobileMenu:
-        newAppState.isMobileMenuShow = action.payLoad;
+      newAppState.isMobileMenuShow = action.payLoad;
       break;
 
     case ActionType.changeDisplayForReportsLinkPopUp:
@@ -166,6 +170,9 @@ export function reducer(oldAppState: AppState, action: Action): AppState {
       newAppState.currentReport = action.payLoad;
       break;
 
+    case ActionType.changeDisplayForNoCampaignsPopUp:
+      newAppState.isNoCampaignsPopUpOpen = action.payLoad;
+      break;
 
     case ActionType.removeClient:
       const clientId = action.payLoad;

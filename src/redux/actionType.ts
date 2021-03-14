@@ -30,5 +30,7 @@ export enum ActionType {
     changeDisplayForReportsLinkPopUp,
     getReportToCopy,
     getCurrentReport,
+    changeDisplayForNoCampaignsPopUp,
+    getNonCampaignsClients
     
 }

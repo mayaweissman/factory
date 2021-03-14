@@ -242,8 +242,8 @@ export class AuthForWatchingOnly extends Component<any, AuthForWatchingOnlyState
               <span className="err-message">{this.state.message}</span>
               <span className="re-send-area"><span className="rtl">לא קיבלת sms עם הקוד?</span>
               <br />
-                <p className={this.state.resendMessage === "ניתן ללחוץ כאן לקבלת קוד חדש" ? "resend-btn" : "resend-timer"}
-                  onClick={this.state.resendMessage === "ניתן ללחוץ כאן לקבלת קוד חדש" ? this.authPhoneNumber : () => console.log("Not yet")}>{this.state.resendMessage}</p>
+                <p className={this.state.resendMessage === "אפשר לנסות שוב ממש כאן" ? "resend-btn" : "resend-timer"}
+                  onClick={this.state.resendMessage === "אפשר לנסות שוב ממש כאן" ? this.authPhoneNumber : () => console.log("Not yet")}>{this.state.resendMessage}</p>
               </span>
 
 

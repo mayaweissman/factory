@@ -19,6 +19,7 @@ export class AppState {
   public isRestoreStatePopUpShow: boolean = false;
   public isMobileMenuShow: boolean = false;
   public isLinksPopUpShow: boolean = false;
+  public isNoCampaignsPopUpOpen: boolean = false;
   public isReportsPopUpShow: boolean = false;
   public isReportSave: boolean = false;
   public isAuthSucceeded: boolean = false;
@@ -28,6 +29,7 @@ export class AppState {
   public reportToCopy: ReportModel = new ReportModel();
   public displayForReportsLinkPopUp: boolean = false;
   public currentReport: ReportModel = new ReportModel();
+  public nonCampaignsClients: ClientModel[] = [];
 
   public constructor() {
     const json = sessionStorage.getItem("AppState");

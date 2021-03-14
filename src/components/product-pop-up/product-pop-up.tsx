@@ -25,12 +25,14 @@ interface ProductPopUpState {
     productsType: ProductsType,
     isOnSlider: boolean,
     isVideo: boolean,
-    isOnMobile: boolean
+    isOnMobile: boolean,
+    isScroliing: boolean
 }
 
 export class ProductPopUp extends Component<ProductPopUpProps, ProductPopUpState>{
 
     private LeftAreaRef = React.createRef<HTMLDivElement>();
+    private sliderRef = React.createRef<any>();
 
     public constructor(props: ProductPopUpProps) {
         super(props);
@@ -39,7 +41,8 @@ export class ProductPopUp extends Component<ProductPopUpProps, ProductPopUpState
             productsType: new ProductsType(),
             isOnSlider: false,
             isVideo: false,
-            isOnMobile: false
+            isOnMobile: false,
+            isScroliing: false
         }
     }
 
@@ -78,7 +81,7 @@ export class ProductPopUp extends Component<ProductPopUpProps, ProductPopUpState
                 this.LeftAreaRef.current!.appendChild(script);
                 const images = { img1: "", img2: "", img3: "" };
                 this.setState({ images });
-                this.setState({isVideo: true});
+                this.setState({ isVideo: true });
             }
 
 
@@ -86,6 +89,14 @@ export class ProductPopUp extends Component<ProductPopUpProps, ProductPopUpState
             const productsTypes: ProductsType[] = response.data.productsTypes;
             const productTypes = productsTypes.find(t => t.productsTypeId === this.props.product.productTypeId);
             this.setState({ productsType: productTypes as ProductsType });
+
+            const areaWidth = this.sliderRef.current?.container?.current?.clientWidth;
+            const scrollWidth = this.sliderRef.current?.container?.current?.scrollWidth;
+
+            if (scrollWidth > areaWidth) {
+                this.setState({ isScroliing: true });
+            }
+
         }
         catch (err) {
             console.log(err.message);
@@ -98,7 +109,7 @@ export class ProductPopUp extends Component<ProductPopUpProps, ProductPopUpState
     public render() {
         return (
             <div className="full-screen-product-conatiner" onClick={this.closePopUp} >
-                <div className={this.state.isOnMobile && this.state.isVideo? "small-product-video-conatiner" : "small-product-conatiner"} onClick={this.stopPropagation}>
+                <div className={this.state.isOnMobile && this.state.isVideo ? "small-product-video-conatiner" : "small-product-conatiner"} onClick={this.stopPropagation}>
 
 
                     <div ref={this.LeftAreaRef} className={this.state.isOnSlider ? "left-area carrousle-area" : "left-area"}>
@@ -110,18 +121,21 @@ export class ProductPopUp extends Component<ProductPopUpProps, ProductPopUpState
                                 <img className="product-img product-img4" src={this.state.images.img4} />
                             </>
                         }
+                        {this.state.isScroliing && <div className="scrolling-left"></div>}
                         {this.state.isOnSlider &&
-                            <ScrollContainer className="carouslle">
+                            <ScrollContainer className="carouslle" ref={this.sliderRef}>
 
-                               {this.state.images.img1 && <img className="carouslle-img" src={this.state.images.img1} />} 
-                               {this.state.images.img2 && <img className="carouslle-img" src={this.state.images.img2} />} 
-                               {this.state.images.img3 && <img className="carouslle-img" src={this.state.images.img3} />} 
-                               {this.state.images.img4 && <img className="carouslle-img" src={this.state.images.img4} />} 
-                               {this.state.images.img5 && <img className="carouslle-img" src={this.state.images.img5} />} 
-                               {this.state.images.img6 && <img className="carouslle-img" src={this.state.images.img6} />} 
-                               {this.state.images.img7 && <img className="carouslle-img" src={this.state.images.img7} />} 
+                                {this.state.images.img1 && <img className="carouslle-img" src={this.state.images.img1} />}
+                                {this.state.images.img2 && <img className="carouslle-img" src={this.state.images.img2} />}
+                                {this.state.images.img3 && <img className="carouslle-img" src={this.state.images.img3} />}
+                                {this.state.images.img4 && <img className="carouslle-img" src={this.state.images.img4} />}
+                                {this.state.images.img5 && <img className="carouslle-img" src={this.state.images.img5} />}
+                                {this.state.images.img6 && <img className="carouslle-img" src={this.state.images.img6} />}
+                                {this.state.images.img7 && <img className="carouslle-img" src={this.state.images.img7} />}
                             </ScrollContainer>
                         }
+                        {this.state.isScroliing && <div className="scrolling-right"></div>}
+
 
                     </div>
 

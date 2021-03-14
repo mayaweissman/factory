@@ -10,6 +10,16 @@
   -webkit-overflow-scrolling: touch;
 }
 
+.no-campaigns-area{
+  display: flex;
+  text-align: center;
+  left: 50%;
+  width: 100%;
+  font-size: 2vw;
+  transform: translateX(50%);
+  padding-top: 6vw;
+}
+
 .client-in-campaigns {
   direction: rtl;
 
