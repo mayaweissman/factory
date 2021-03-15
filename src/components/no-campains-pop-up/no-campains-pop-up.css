@@ -21,6 +21,20 @@
     font-size: 22px;
 }
 
+.sababa-btn{
+    color: black;
+    background-color: white;
+    width: 120px;
+    border: 1.5px solid black;
+    font-size: 20px;
+    outline: none;
+}
+
+.sababa-btn:hover{
+    background-color: black;
+    color: white;
+    cursor: pointer;
+}
 
 .close-link-pop-up-no-campaigns-btn {
     position: absolute;

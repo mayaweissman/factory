@@ -38,13 +38,10 @@ export class NoCampaignsPopUp extends Component<any, NoCampaignsPopUpState>{
         store.dispatch({ type: ActionType.changeDisplayForNoCampaignsPopUp, payLoad: false });
     }
 
-    public componentDidMount(){
+    public componentDidMount() {
         setTimeout(() => {
             this.removeNonClientsCampaigns();
         }, 2000);
-        setTimeout(() => {
-            store.dispatch({ type: ActionType.changeDisplayForNoCampaignsPopUp, payLoad: false });
-        }, 6000);
 
     }
 
@@ -59,18 +56,23 @@ export class NoCampaignsPopUp extends Component<any, NoCampaignsPopUpState>{
         return (
             <div className="no-campaigns-pop-up">
                 <div className="inside-no-campaigns-pop-up">
-                    <button className="close-link-pop-up-no-campaigns-btn" onClick={this.closePopUp} ><CloseIcon /></button>
-                    <span>,היי</span>
-                    <br/>
-                   :שמנו לב שללקוחות הבאים
+                    ,הלקוחות הבאים הוסרו מהדו"ח
                         <br />
-                    <span>{this.state.nonClientsCampaigns.map(c =>
-                        <span className="non-campaigns-client-name">{c.clientName + " "}</span>
+                        :כי וואלה, לא עשינו להם כלום החודש
+                        <br />
+                    <span>{this.state.nonClientsCampaigns.map(c => {
+                        if (this.state.nonClientsCampaigns.indexOf(c) !== (this.state.nonClientsCampaigns.length - 1 )) {
+                            return <span>{c.clientName + ", "}</span>
+                        }
+                        else{
+                            return <span>{c.clientName + " "}</span>
+                        }
+                    }
                     )}
-                        <br />אין קמפיינים רלוונטים להצגה
                     </span>
                     <br />
-                    <span>!לכן הסרנו אותם עבורך</span>
+                    <br />
+                    <button className="sababa-btn" onClick={this.closePopUp}>סבבה</button>
                     <br />
 
                 </div>
