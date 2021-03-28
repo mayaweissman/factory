@@ -221,6 +221,11 @@
   z-index: 1;
 }
 
+.videos .left-area {
+  display: flex;
+  justify-content: flex-start;
+}
+
 .mobile .carouslle-img {
   width: 77vw;
   margin: 1px;
@@ -241,6 +246,14 @@
   width: 60% !important;
   height: 90% !important;
 }
+.videos .left-area > div > div {
+  margin: 5px;
+  position: relative;
+}
+.videos .carrousle-area{
+  overflow: auto !important;
+}
+
 .mobile .small-product-conatiner .MuiSvgIcon-root,
 .mobile .small-product-video-conatiner .MuiSvgIcon-root
  {
