@@ -15,7 +15,7 @@
     transform: translateY(-50%) translateX(-50%);
     width: 680px;
     background-color: white;
-    height: 200px;
+    height: auto;
     padding: 2vw;
     text-align: center;
     font-size: 22px;

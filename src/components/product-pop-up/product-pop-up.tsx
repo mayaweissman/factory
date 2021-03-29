@@ -13,6 +13,9 @@ import { ImagesModel } from "../../models/imagesModel";
 import { Config } from "../../config";
 import ScrollContainer from "react-indiana-drag-scroll";
 import SimpleImageSlider from "react-simple-image-slider";
+import ArrowRightIcon from '@material-ui/icons/ArrowRight';
+import ArrowLeftIcon from '@material-ui/icons/ArrowLeft';
+import IconButton from '@material-ui/core/IconButton';
 
 interface ProductPopUpProps {
   product: ProductModel;
@@ -78,12 +81,12 @@ export class ProductPopUp extends Component<
         this.setState({ images });
         this.setState({ isVideosCarrousle: true });
         for (const video of Object.values(productImages)) {
-            if(video){
-                const script = document.createElement("script");
-                script.src = video;
-                script.async = true;
-                this.LeftAreaRef.current!.appendChild(script);
-            }
+          if (video) {
+            const script = document.createElement("script");
+            script.src = video;
+            script.async = true;
+            this.LeftAreaRef.current!.appendChild(script);
+          }
         }
       } else {
         if (productImages.img2?.includes("https://live.sekindo.com")) {
@@ -116,6 +119,22 @@ export class ProductPopUp extends Component<
     } catch (err) {
       console.log(err.message);
     }
+  }
+
+  public scrollToLeft = () => {
+    let left = this.sliderRef.current?.container.current.scrollLeft;
+    this.sliderRef.current?.container.current.scrollTo({
+      left: left -= 20,
+      behavior: "smooth"
+    })
+  }
+
+  public scrollToRight = () => {
+    let left = this.sliderRef.current?.container.current.scrollLeft;
+    this.sliderRef.current?.container.current.scrollTo({
+      left: left += 20,
+      behavior: "smooth"
+    })
   }
 
   public render() {
@@ -258,6 +277,17 @@ export class ProductPopUp extends Component<
           >
             <CloseIcon />
           </button>
+
+          {this.state.isScroliing &&
+            <div className="arrows-bottom">
+              <IconButton onClick={this.scrollToLeft}>
+                <ArrowLeftIcon style={{fontSize: '8px' , marginRight: '7px'}}/>
+              </IconButton>
+              <IconButton onClick={this.scrollToRight}>
+                <ArrowRightIcon style={{fontSize: '8px', marginLeft: '7px'}}/>
+              </IconButton>
+
+            </div>}
         </div>
       </div>
     );

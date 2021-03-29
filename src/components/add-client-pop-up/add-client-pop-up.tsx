@@ -74,6 +74,7 @@ export class AddClientPopUp extends Component<any, AddClientPopUpState>{
 
         clientsToAdd.push(client);
         this.setState({ clientsToAdd });
+        store.dispatch({type: ActionType.getDatesRanges, payLoad: "- - / - - / - -"});
 
     }
 

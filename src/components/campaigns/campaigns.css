@@ -3,6 +3,7 @@
   box-sizing: border-box;
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
 }
 
 .campaigns > *{
@@ -19,6 +20,8 @@
   transform: translateX(50%);
   padding-top: 6vw;
 }
+
+
 
 .client-in-campaigns {
   direction: rtl;

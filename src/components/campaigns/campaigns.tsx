@@ -20,6 +20,8 @@ import IconButton from '@material-ui/core/IconButton';
 import axios from "axios";
 import { ProductsType } from "../../models/productsTypeModel";
 import { Config } from "../../config";
+import scrollIntoViewIfNeeded from 'scroll-into-view-if-needed'
+
 
 interface ReportMakerState {
     selectedClients: ClientModel[],
@@ -38,6 +40,7 @@ interface ReportMakerState {
     isFinishLoading: boolean,
     nonCampaignsClients: ClientModel[]
 }
+
 
 
 
@@ -360,7 +363,8 @@ export class Campaigns extends Component<any, ReportMakerState>{
                 )}
 
 
-                {this.state.isScroll && <img className="up-btn" onClick={() => this.filteringMenuRef.current?.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" })} src="/assets/images/pink_btn_after.svg" />}
+                {this.state.isScroll && <img className="up-btn" onClick={() =>scrollIntoViewIfNeeded(this.filteringMenuRef.current as HTMLDivElement,{behavior: 'smooth', scrollMode: 'if-needed'})} src="/assets/images/pink_btn_after.svg" />}
+                {/* {this.state.isScroll && <img className="up-btn" onClick={() => this.filteringMenuRef.current?.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" })} src="/assets/images/pink_btn_after.svg" />} */}
                 {this.state.display && <ProductPopUp campaign={this.state.campignToPopUp} product={this.state.productToPopUp} />}
             </div>
         )

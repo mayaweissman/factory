@@ -174,24 +174,34 @@
   flex-direction: column;
 }
 
+.mobile .indiana-scroll-container--native-scroll {
+  overflow: auto;
+  max-width: 96%;
+  top: 63vw;
+  position: relative;
+}
+
 .scrolling-left {
   position: absolute;
   background-color: black !important;
-  height: 13vw;
+  height: 100%;
   width: 5px;
   right: 1.7vw;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 2vw;
+}
+
+.mobile .scrolling-left, 
+.mobile .scrolling-right {
+  display: none;
 }
 
 .scrolling-right{
   position: absolute;
   background-color: black !important;
-  height: 13vw;
+  height: 100%;
   width: 5px;
   left: 1.7vw;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 2vw;
 }
 
 .mobile .small-product-video-conatiner {
@@ -336,4 +346,48 @@
   background-color: #f84a72;
   border: 2px solid #f84a72;
   color: white;
+}
+
+
+.carr-icon {
+  position: absolute;
+  bottom: 0;
+  z-index: 9999;
+  width: 13vw;
+  right: 50%;
+  transform: translateX(50%);
+  /* animation: Blink 5s both; */
+}
+
+@keyframes Blink {
+  0%{
+    opacity: 0;
+  }
+  20%{
+    opacity: 1;
+  }
+  40%{
+    opacity: 0;
+  }
+  60%{
+    opacity: 1;
+  }
+  80%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 1;
+  }
+}
+
+.arrows-bottom{
+  display: none;
+}
+
+.mobile .arrows-bottom{
+  display: block;
+  position: absolute;
+  bottom: 3vw;
+  right: 50%;
+  transform: translateX(50%);
 }
