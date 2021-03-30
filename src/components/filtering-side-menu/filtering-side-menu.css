@@ -253,6 +253,10 @@ br {
   width: 0;
 }
 
+
+.scroliing-on-report{
+  height: 75%;
+}
 .checkmark {
   position: absolute;
   top: 0;

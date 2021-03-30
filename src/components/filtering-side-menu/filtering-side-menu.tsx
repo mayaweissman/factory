@@ -389,7 +389,7 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
                         </IconButton>
                     </div>
                 }
-                <div className="scrolling-area">
+                <div className={this.props.isOnReport ? "scrolling-area scroliing-on-report" : "scrolling-area"}>
                     <div className="campaigns-filtering-area">
                         <span className="campaign-filtering-title">קמפיין</span>
                         <br />

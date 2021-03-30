@@ -214,7 +214,6 @@ export class Campaigns extends Component<any, ReportMakerState>{
                 }
             })
         }
-        console.log(selectedClients);
         this.setState({ nonCampaignsClients });
         if (nonCampaignsClients.length > 0) {
             store.dispatch({ type: ActionType.changeDisplayForNoCampaignsPopUp, payLoad: true });
@@ -281,7 +280,8 @@ export class Campaigns extends Component<any, ReportMakerState>{
 
                 </div>
                 {this.state.campaignsToDisplay.length === 0 && this.state.selectedCampaigns.length === 0 &&
-                    <div className="no-campaigns-area">אין לקוחות להצגה</div>}
+                    <img className="loader" src="./assets/images/loading.gif"/>
+                    }
 
                 {
 

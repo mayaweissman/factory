@@ -5,6 +5,7 @@
   direction: ltr;
   animation: slideInVaryLeft 1s both;
   animation-delay: 0.6s;
+  min-height: 40vw;
 }
 
 @keyframes slideInVaryLeft {
@@ -68,6 +69,14 @@
   text-decoration: underline;
   font-size: 17px;
   direction: rtl;
+}
+
+.loader-main {
+  width: 7vw;
+  position: fixed;
+  top: 50%;
+  right: 50%;
+  transform: translateY(-50%) translateX(50%);
 }
 
 .addAllClientsForCompany:hover{

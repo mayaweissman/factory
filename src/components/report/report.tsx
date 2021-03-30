@@ -60,7 +60,7 @@ export class Report extends Component<any, ReportState>{
             const uuid = this.props.match.params.uuid;
             const response = await axios.get(Config.serverUrl + "/all-reports/?uuid=" + uuid);
             const report: ReportModel = response.data;
-            if (!report) {
+            if (report === '0 results') {
                 this.props.history.push("/page-not-found");
                 return;
             }
@@ -78,22 +78,42 @@ export class Report extends Component<any, ReportState>{
             });
 
 
-            store.dispatch({ type: ActionType.updateSelectedClients, payLoad: report.clients });
+            store.dispatch({ type: ActionType.updateSelectedClients, payLoad: this.removeDuplicatesFromArray(report.clients as [], 'clientId') });
             store.dispatch({ type: ActionType.getDatesRanges, payLoad: report.datesOnReport });
             if (report.products && report.products.length > 0) {
-                store.dispatch({ type: ActionType.getSelectedProducts, payLoad: report.products });
+                store.dispatch({ type: ActionType.getSelectedProducts, payLoad: this.removeDuplicatesFromArray(report.products as [], 'productId') });
             }
             if (report.campaigns && report.campaigns.length > 0) {
-                store.dispatch({ type: ActionType.getSelectedCampaigns, payLoad: report.campaigns });
+                store.dispatch({ type: ActionType.getSelectedCampaigns, payLoad: this.removeDuplicatesFromArray(report.campaigns as [], 'campaignId') });
             }
         }
         catch (err) {
             console.log(err.message);
+            if(err.message === 'array is not iterable'){
+                this.props.history.push("/page-not-found");
+            }
         }
     }
 
     public componentWillUnmount(): void {
         this.unsubscribeStore();
+    }
+
+    public removeDuplicatesFromArray = (array: any[], id: any) => {
+        const freshArray: any[] = [];
+        for (const item of array) {
+            let isUnique = true;
+            for (const freshItem of freshArray) {
+                if (freshItem[id] === item[id]) {
+                    isUnique = false;
+                }
+            }
+            if (isUnique) {
+                freshArray.push(item);
+            }
+        }
+
+        return freshArray;
     }
 
     public render() {

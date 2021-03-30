@@ -136,7 +136,7 @@
   padding: 2vw;
   overflow: auto;
   position: absolute;
-  top: 13vw;
+  top: 20vw;
   max-height: 83%;
   overflow: auto;
   display: flex;
@@ -177,17 +177,27 @@
 .mobile .indiana-scroll-container--native-scroll {
   overflow: auto;
   max-width: 96%;
-  top: 63vw;
+  top: 80vw;
   position: relative;
 }
 
 .scrolling-left {
   position: absolute;
   background-color: black !important;
-  height: 100%;
   width: 5px;
   right: 1.7vw;
-  top: 2vw;
+  top: 0;
+}
+
+.mobile .small-product-conatiner {
+  background-color: white;
+  height: 100%;
+  max-height: 100%;
+  width: 100%;
+  max-width: 100%;
+  position: relative;
+  display: flex;
+  padding: 3vw;
 }
 
 .mobile .scrolling-left, 
@@ -198,10 +208,9 @@
 .scrolling-right{
   position: absolute;
   background-color: black !important;
-  height: 100%;
   width: 5px;
   left: 1.7vw;
-  top: 2vw;
+  top: 0;
 }
 
 .mobile .small-product-video-conatiner {
@@ -330,8 +339,8 @@
   height: 8vw;
   margin: 1vw;
   position: absolute;
-  left: 1vw;
-  top: 1vw;
+  left: 4vw;
+  top: 4vw;
   border-radius: 100%;
   display: inline-flex;
   justify-content: center;

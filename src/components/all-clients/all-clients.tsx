@@ -194,9 +194,8 @@ export class AllClients extends Component<any, AllClientsState>{
                 </div>
 
                 {this.state.clientsToShow.length === 0 &&
-                    <div className="no-clients-area">
-                        <h1>אין לקוחות להצגה</h1>
-                    </div>
+                    <img className="loader-main" src="./assets/images/loading.gif" />
+                   
                 }
 
                 <div className="clients-area">

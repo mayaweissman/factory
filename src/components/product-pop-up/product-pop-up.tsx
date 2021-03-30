@@ -115,7 +115,12 @@ export class ProductPopUp extends Component<
 
       if (scrollWidth > areaWidth) {
         this.setState({ isScroliing: true });
+        this.sliderRef.current?.container.current.scrollTo({
+          left: 100,
+          behavior: "smooth"
+        })
       }
+
     } catch (err) {
       console.log(err.message);
     }
@@ -181,7 +186,8 @@ export class ProductPopUp extends Component<
                 />
               </>
             )}
-            {this.state.isScroliing && <div className="scrolling-left"></div>}
+            {this.state.isScroliing && <div style={{height: this.sliderRef.current?.container.current.clientHeight,
+               top: (606 - this.sliderRef.current?.container.current.clientHeight) / 2}} className="scrolling-left"></div>}
             {this.state.isOnSlider && (
               <ScrollContainer className="carouslle" ref={this.sliderRef}>
                 {this.state.images.img1 && (
@@ -213,7 +219,8 @@ export class ProductPopUp extends Component<
                 ref={this.sliderRef}
               ></ScrollContainer>
             )}
-            {this.state.isScroliing && <div className="scrolling-right"></div>}
+            {this.state.isScroliing && <div style={{height: this.sliderRef.current?.container.current.clientHeight,
+            top: (606 - this.sliderRef.current?.container.current.clientHeight) / 2}} className="scrolling-right"></div>}
           </div>
 
           <script
@@ -277,7 +284,7 @@ export class ProductPopUp extends Component<
           >
             <CloseIcon />
           </button>
-
+{/* 
           {this.state.isScroliing &&
             <div className="arrows-bottom">
               <IconButton onClick={this.scrollToLeft}>
@@ -287,7 +294,7 @@ export class ProductPopUp extends Component<
                 <ArrowRightIcon style={{fontSize: '8px', marginLeft: '7px'}}/>
               </IconButton>
 
-            </div>}
+            </div>} */}
         </div>
       </div>
     );
