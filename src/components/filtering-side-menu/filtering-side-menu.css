@@ -64,7 +64,8 @@
   width: 20px;
 }
 
-.mobile .products-filtering-title {
+.mobile .products-filtering-title ,
+.mobile .buckets-filtering-title {
   font-weight: bold;
   padding-bottom: 1vw;
   font-size: 20px;
@@ -118,12 +119,10 @@
 }
 
 .products-titles,
+.buckets-titles,
 .campaigns-titles {
   margin-top: 0.6vw;
 }
-
-
-
 
 .scrolling-area{
 height: 55%;
@@ -171,7 +170,8 @@ overflow: auto;
 }
 
 
-.products-filtering-area {
+.products-filtering-area ,
+.buckets-filtering-area {
   margin-top: 2vw;
 }
 
@@ -181,6 +181,7 @@ overflow: auto;
   font-size: 1.1vw;
 }
 
+.buckets-filtering-title ,
 .products-filtering-title {
   font-weight: bold;
   padding-bottom: 1vw;

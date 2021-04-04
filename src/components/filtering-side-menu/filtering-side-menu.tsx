@@ -23,6 +23,7 @@ import { ProductsType } from "../../models/productsTypeModel";
 import RestoreIcon from '@material-ui/icons/Restore';
 import { setTimeout } from "timers";
 import { Config } from "../../config";
+import { IsOnFactory } from "../../is-on-factory";
 
 interface FilteringSideMenuProps {
     isOnReport: boolean
@@ -41,7 +42,8 @@ interface FilteringSideMenuState {
     showDatesError: boolean,
     isOnMobile: boolean,
     report: ReportModel,
-    nonCampaignsClients: ClientModel[]
+    nonCampaignsClients: ClientModel[],
+    buckets: string[]
 }
 
 export class FilteringSideMenu extends Component<FilteringSideMenuProps, FilteringSideMenuState>{
@@ -63,7 +65,8 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
             datesRange: store.getState().datesRange,
             showDatesError: false,
             isOnMobile: false,
-            nonCampaignsClients: []
+            nonCampaignsClients: [],
+            buckets: []
         }
 
         this.unsubscribeStore = store.subscribe(() => {
@@ -121,6 +124,23 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
                 const allProducts: ProductModel[] = responseForProducts.data.products;
                 this.setState({ allProducts });
 
+                const allBuckets: string[] = [];
+                selectedProducts.map(p => allBuckets.push(p.bucket as string));
+
+                const buckets: string[] = [];
+                allBuckets.map(b => {
+                    let isUnique = true;
+                    buckets.map(ub => {
+                        if (b === ub) {
+                            isUnique = false;
+                        }
+                    })
+                    if (isUnique && b) {
+                        buckets.push(b);
+                    }
+                })
+                this.setState({ buckets });
+
             }, 3000);
         }
         catch (err) {
@@ -172,6 +192,23 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
 
     }
 
+    //Display only products who match bucket by filtering menu 
+    public filterByBucket = (bucket: string) => (event: any) => {
+        const productsToDisplay: ProductModel[] = [...store.getState().productsToDisplay];
+        const duplictes = productsToDisplay.filter(p => p.bucket === bucket);
+        for (const p of duplictes) {
+            const index = productsToDisplay.indexOf(p);
+            productsToDisplay.splice(index, 1);
+        }
+
+        if (duplictes.length === 0) {
+            this.state.allProducts.filter(p => p.bucket === bucket).
+                forEach(p => productsToDisplay.push(p));
+        }
+        store.dispatch({ type: ActionType.updateProductsToDisplay, payLoad: productsToDisplay });
+
+    }
+
     //Checked/unchecked campaigns who choosen on any time
     public isCampaignChecked = (campaignId: number) => {
         const campaigns: CampaignModel[] = [...this.state.campaignsToDisplay];
@@ -187,6 +224,16 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
     public isProductTypeChecked = (productTypeId: number) => {
         const products: ProductModel[] = [...this.state.productsToDisplay];
         const p = products.find(product => product.productTypeId === productTypeId);
+        if (p !== undefined) {
+            return true;
+        }
+        return false;
+    }
+
+    //Checked/unchecked bucket type who choosen on any time
+    public isBucketChecked = (bucket: string) => {
+        const products: ProductModel[] = [...this.state.productsToDisplay];
+        const p = products.find(product => product.bucket === bucket);
         if (p !== undefined) {
             return true;
         }
@@ -223,6 +270,42 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
             productsToDisplay = products;
         }
         const p = productsToDisplay.find(p => p.productTypeId === productTypeId);
+        if (p) {
+            return true;
+        }
+        return false;
+
+    }
+    public isBucketDisabled = (bucket: string) => {
+        let productsToDisplay: ProductModel[] = [];
+        if (store.getState().productsToDisplay.length > 0) {
+            productsToDisplay = store.getState().productsToDisplay;
+        }
+        else if (store.getState().campaignsToDisplay.length === 0) {
+            const selectedCampaigns: CampaignModel[] = store.getState().selectedCampaigns;
+            const products: ProductModel[] = [];
+            this.state.allProducts.map(p => {
+                selectedCampaigns.map(c => {
+                    if (p.campaignId === c.campaignId) {
+                        products.push(p);
+                    }
+                })
+            })
+            productsToDisplay = products;
+        }
+        else {
+            const selectedCampaigns: CampaignModel[] = store.getState().campaignsToDisplay;
+            const products: ProductModel[] = [];
+            this.state.allProducts.map(p => {
+                selectedCampaigns.map(c => {
+                    if (p.campaignId === c.campaignId) {
+                        products.push(p);
+                    }
+                })
+            })
+            productsToDisplay = products;
+        }
+        const p = productsToDisplay.find(p => p.bucket === bucket);
         if (p) {
             return true;
         }
@@ -338,7 +421,7 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
 
 
     public createReport = () => {
-        
+
         if (this.state.datesRange === "- - / - - / - -") {
             this.setState({ showDatesError: true });
         }
@@ -426,6 +509,26 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
                             )}
                         </div>
                     </div>
+
+                    {!IsOnFactory.IsOnFactory &&
+                     <div className="buckets-filtering-area">
+                        <span className="buckets-filtering-title">Bucket</span>
+                        <br />
+                        <div className="buckets-titles">
+
+                            {this.state.buckets.map(b =>
+                                <label className={this.isBucketDisabled(b as string) ? "container-for-check" : "container-for-check disabled"}>
+                                    <input disabled={this.isBucketDisabled(b as string) ? false : true}
+                                        checked={this.isBucketChecked(b as string)} type="checkbox" onClick={this.filterByBucket(b as string)} />
+                                    <span className="checkmark"></span>
+                                    <span className="campaign-name-title">
+                                        {b}
+                                    </span>
+                                </label>
+                            )}
+                        </div>
+                    </div>
+                    }
                 </div>
 
                 {!this.props.isOnReport &&

@@ -70,7 +70,7 @@ export class ProductPopUp extends Component<
       if (!this.props.product) {
         this.closePopUp();
       }
-      if (this.props.product.productTypeId === 857) {
+      if (this.props.product.productTypeId === 857 || this.props.product.productTypeId === 402) {
         this.setState({ isOnSlider: true });
       }
       let productImages = this.props.product.images as ImagesModel;
