@@ -1,0 +1,212 @@
+.mobile .auth-logo {
+    width: 35vw;
+    top: 8vw;
+    position: fixed;
+}
+
+.mobile .auth-titles > h1 {
+ 
+
+  margin: 0;
+  font-weight: 500;
+  position: relative;
+  top: 15vw;
+  font-size: 7.6vw;
+
+}
+
+
+.mobile .phone-box {
+    width: 62%;
+    outline: none;
+    border: 1px solid black;
+    border-radius: 29px;
+    height: 9vw;
+    text-align: left;
+    padding: 2vw;
+    font-size: 7vw;
+  }
+
+  .mobile .auth-titles {
+    position: fixed;
+    top: 4vw;
+}
+
+  
+.mobile .code-box::placeholder {
+    font-size: 3vw;
+    text-align: center;
+  }
+  
+  .mobile .phone-box::placeholder {
+    font-size: 5vw;
+    text-align: center;
+  }
+  
+  .mobile .code-box {
+    width: 31%;
+    outline: none;
+    border: 1px solid black;
+    height: 10vw;
+    text-align: left;
+    font-size: 7vw;
+    /* border-bottom: 4px solid black; */
+    margin: 34vw;
+    animation: fadeIn 1s;
+    border-radius: 25px;
+  }
+
+  .mobile .phone-field {
+    position: fixed;
+    display: flex;
+    width: 80%;
+    flex-direction: column;
+}
+  
+  .mobile .message {
+    position: relative;
+    top: 1vw;
+    font-size: 4.5vw;
+    animation: fadeIn 1s;
+    margin-top: 2vw;
+  }
+  
+  .mobile .auth-code-btn {
+    background-color: black;
+    color: white;
+    border: 2px solid;
+    width: 69vw;
+    height: 13vw;
+    font-size: 7vw;
+    animation: fadeIn 1s;
+  }
+  
+  .mobile .send-btn {
+    position: fixed;
+    bottom: 10%;
+    top: inherit;
+}
+
+.mobile .send-btn > img{
+    top: 0;
+    position: absolute;
+    right: 50%;
+    transform: translateX(50%);
+    width: 70px;
+}
+
+.mobile .typed{
+  animation: slideUp 1s both;
+}
+
+.mobile .btn-typed{
+  animation: slideUpForBtn 1s both;
+}
+
+@keyframes slideUp{
+  0%{
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(-5%);
+}
+  
+}
+
+@-webkit-keyframes slideUp{
+  0%{
+    transform: translateY(0);
+  }
+
+  100%{
+    transform: translateY(-5%);
+
+  }
+}
+
+@keyframes slideUpForBtn{
+  0%{
+    bottom: 10%;
+  }
+
+  100%{
+  
+    bottom: 35%;
+  }
+}
+@-webkit-keyframes slideUpForBtn{
+  0%{
+    bottom: 10%;
+  }
+
+  100%{
+    bottom: 35%;
+
+  }
+}
+.mobile .code-num-box-before {
+  border: 2px solid black;
+  width: 17vw;
+  background-color: white;
+  height: 17vw;
+  margin: 1vw;
+  border-radius: 50%;
+  font-size: 12vw;
+  text-align: center;
+  outline: none;
+  padding: 0;
+  box-sizing: border-box;
+  color: black;
+}
+
+.mobile .code-num-box-after {
+    border: 2px solid rgb(248 74 114);
+    width: 17vw;
+    background-color: rgb(248 74 114);
+    height: 17vw;
+    margin: 1vw;
+    border-radius: 50%;
+    font-size: 12vw;
+    text-align: center;
+    outline: none;
+    padding: 0;
+    box-sizing: border-box;
+    color: white;
+}
+
+.mobile .auth-errors-message {
+  font-size: 12px;
+  text-align: right;
+}
+
+.mobile .MuiInputBase-input {
+    font-size: 46px !important;
+    font-family: 'AlmoniNormal' !important;
+}
+
+.rtl{
+  direction: rtl;
+  unicode-bidi: embed;
+}
+
+.mobile .rtl{
+  direction: rtl;
+  unicode-bidi: embed;
+}
+
+.mobile .error-img {
+  width: 30vw;
+  margin: 1vw;
+  border-radius: 25px;
+}
+
+
+.mobile .errors-area {
+  position: fixed;
+  top: 40vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 1s both;
+}

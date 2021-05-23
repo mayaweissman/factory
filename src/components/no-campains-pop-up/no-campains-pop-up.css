@@ -1,0 +1,97 @@
+.no-campaigns-pop-up {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 9999999;
+    line-height: 40px;
+    background-color: #000000a1;
+    left: 0;
+}
+
+.inside-no-campaigns-pop-up{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translateY(-50%) translateX(-50%);
+    width: 680px;
+    background-color: white;
+    height: auto;
+    padding: 2vw;
+    text-align: center;
+    font-size: 22px;
+}
+
+.sababa-btn{
+    color: black;
+    background-color: white;
+    width: 120px;
+    border: 1.5px solid black;
+    font-size: 20px;
+    outline: none;
+}
+
+.sababa-btn:hover{
+    background-color: black;
+    color: white;
+    cursor: pointer;
+}
+
+.close-link-pop-up-no-campaigns-btn {
+    position: absolute;
+    width: 2vw;
+    height: 2vw;
+    top: 1vw;
+    left: 1vw;
+    border-radius: 50%;
+    background-color: white;
+    border: 2px solid;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+}
+
+.non-campaigns-client-name{
+    background-color: white;
+    color: black;
+    white-space: nowrap;
+    outline: none;
+    border: 2px solid black;
+    border-radius: 31px;
+    margin: 0.2vw;
+    height: 2.8vw;
+    text-transform: uppercase;
+    padding: 0.2vw;
+    font-size: 16px;
+    font-family: 'Futura' !important;
+ 
+}
+.close-link-pop-up-no-campaigns-btn:hover{
+    background-color: #f84a72;
+    border: 2px solid #f84a72;
+    cursor: pointer;
+    color: white;
+}
+
+.close-link-pop-up-no-campaigns-btn > svg {
+    top: 50%;
+    left: 50%;
+    transform: translateY(-50%) translateX(-50%);
+    position: relative;
+}
+
+.no-campaigns-btn{
+    background-color: white;
+    margin: 0.6vw;
+    width: 140px;
+    height: 40px;
+    border: 1px solid;
+    outline: none;
+    font-size: 1vw;
+    margin-top: 3vw;
+}
+
+.no-campaigns-btn:hover{
+    cursor: pointer;
+    background-color: black;
+    color: white;
+}

@@ -1,0 +1,359 @@
+.auth {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  font-family: "AlmoniNormal" !important;
+}
+
+.code-num-box-visible-first {
+  position: absolute;
+  width: 4vw;
+  height: 4vw;
+  top: 1vw;
+  z-index: 999;
+  left: 1vw;
+  opacity: 0;
+}
+
+.MuiFormLabel-root.Mui-focused {
+  color: black !important;
+}
+
+.MuiFormLabel-root,
+.MuiInputBase-root {
+  font-family: "AlmoniNormal" !important;
+}
+
+.resend-btn {
+  line-height: 1px;
+  text-decoration: underline;
+  font-weight: bold;
+  color: rgb(248 74 114);
+}
+
+.mobile .err-message {
+  position: absolute;
+  font-size: 13px;
+  top: 90px;
+  right: 5px;
+  color: red;
+}
+.resend-btn {
+  cursor: pointer;
+}
+
+.mobile .re-send-area {
+  position: relative;
+  top: 23vw;
+
+}
+
+.resend-timer {
+  line-height: 1px;
+  font-weight: bold;
+}
+.re-send-area {
+  position: relative;
+  top: 3vw;
+  font-size: 14px;
+}
+.code-area .err-message {
+  position: absolute;
+  font-size: 15px;
+  bottom: 1vw;
+  right: 50%;
+  top: initial;
+  transform: translateX(50%);
+}
+.MuiInput-underline:after {
+  border-bottom: 2px solid transparent !important;
+}
+
+.MuiInputBase-input {
+  font-size: 34px !important;
+  font-family: "AlmoniNormal" !important;
+}
+
+.MuiInputLabel-formControl {
+  top: 15px !important;
+  left: 25px !important;
+  font-size: 17px !important;
+  float: right;
+  right: 0;
+  text-align: right;
+  direction: rtl;
+  position: absolute;
+  transform: translate(0, 24px) scale(1);
+}
+
+.err-message {
+  position: absolute;
+  font-size: 13px;
+  top: 70px;
+  right: 5px;
+  color: red;
+}
+
+.MuiInputLabel-shrink {
+  transform: translate(70px, -4.5px) scale(0.75) !important;
+  transform-origin: top right;
+  text-align: right;
+}
+
+.code-num-box-visible-second {
+  position: absolute;
+  width: 4vw;
+  height: 4vw;
+  top: 1vw;
+  left: 7vw;
+  opacity: 0;
+  z-index: 999;
+}
+.code-num-box-visible-third {
+  position: absolute;
+  width: 4vw;
+  height: 4vw;
+  top: 1vw;
+  left: 14vw;
+  opacity: 0;
+  z-index: 999;
+}
+.code-num-box-visible-fourth {
+  position: absolute;
+  width: 4vw;
+  height: 4vw;
+  top: 1vw;
+  left: 20vw;
+  opacity: 0;
+  z-index: 999;
+}
+
+.sub-title {
+  font-size: 1.1vw;
+}
+
+.auth-titles {
+  position: fixed;
+  top: 10vw;
+}
+
+.auth-titles > h1 {
+  margin: 0;
+  font-weight: 500;
+  position: relative;
+  bottom: 54px;
+}
+
+.auth-box {
+  position: relative;
+  width: 1000px;
+  height: 400px;
+  background-color: rgb(255, 255, 255);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.code-inputs {
+  display: flex;
+}
+
+.auth-logo {
+  width: 11vw;
+  position: fixed;
+  top: 2vw;
+}
+
+.auth-box > h1 {
+  font-weight: 900;
+}
+
+.phone-box {
+  width: 100%;
+  outline: none;
+  border-radius: 35px;
+  text-align: center;
+  font-size: 2vw;
+  padding: 0.7vw;
+  font-family: "AlmoniNormal";
+}
+
+.phone-field {
+  position: fixed;
+  display: flex;
+  width: 24%;
+  flex-direction: column;
+}
+.out {
+  animation: SlideOut 1s both;
+}
+
+@keyframes SlideOut {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(2000px);
+  }
+}
+
+.code-box {
+  width: 25%;
+  outline: none;
+  border: none;
+  height: 3vw;
+  text-align: left;
+  font-size: 2vw;
+  border-bottom: 4px solid black;
+  margin: 3vw;
+  animation: fadeIn 1s;
+}
+
+.auth-code-btn {
+  background-color: black;
+  color: white;
+  border: 2px solid;
+  width: 14vw;
+  height: 3vw;
+  font-size: 2vw;
+  animation: fadeIn 1s;
+}
+
+.message {
+  position: relative;
+  font-size: 1vw;
+  position: relative;
+  bottom: 5vw;
+  animation: fadeIn 1s;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.auth-code-btn:hover {
+  background-color: white;
+  color: black;
+  cursor: pointer;
+}
+
+.code-box::placeholder {
+  font-size: 1vw;
+  text-align: center;
+}
+
+.phone-box::placeholder {
+  font-size: 1.5vw;
+  text-align: center;
+}
+
+.code-area {
+  position: relative;
+  top: 1vw;
+  animation: SlideIn 1s;
+}
+
+@keyframes SlideIn {
+  0% {
+    transform: translateX(-1000px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.code-num-box-before {
+  border: 2px solid black;
+  width: 4vw;
+  background-color: white;
+  height: 4vw;
+  margin: 1vw;
+  border-radius: 50%;
+  font-size: 2.7vw;
+  text-align: center;
+  outline: none;
+  color: black;
+}
+.code-num-box-before:focus {
+  border: 2px solid rgb(248 74 114);
+}
+
+.code-num-box-after {
+  border: 2px solid rgb(248 74 114);
+  width: 4vw;
+  background-color: rgb(248 74 114);
+  height: 4vw;
+  margin: 1vw;
+  border-radius: 50%;
+  font-size: 2.7vw;
+  text-align: center;
+  outline: none;
+  color: white;
+}
+
+.send-btn {
+  width: 5vw;
+  height: 4.4vw;
+  border: none;
+  background-color: white;
+  font-size: 1.3vw;
+  outline: none;
+  position: relative;
+  border-radius: 30px;
+  top: 8vw;
+}
+
+.send-btn:hover {
+  cursor: pointer;
+}
+
+.errors-area {
+  position: fixed;
+  top: 10vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 1s both;
+}
+
+.error-img {
+  width: 11vw;
+  margin: 1vw;
+  border-radius: 25px;
+}
+
+.auth-errors-message {
+  font-size: 14px;
+  text-align: right;
+}
+
+.allow-permission {
+  font-weight: bold;
+  color: black;
+  text-decoration: underline;
+}
+
+.allow-permission:hover {
+  cursor: pointer;
+}
+
+/* Change the white to any color */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  box-shadow: 0 0 0 30px white inset !important;
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+  z-index: -1;
+}
