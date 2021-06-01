@@ -82,7 +82,9 @@
   max-height: 80%;
   overflow: auto;
   border: none;
+  top: 2vw;
   border-bottom: 5px solid black;
+  position: relative;
 }
 
 .clients-in-pop-up::-webkit-scrollbar {
@@ -137,6 +139,7 @@
   transform: translateX(50%);
   color: white;
   font-weight: bold;
+  bottom: 2vw;
 }
 
 .add-client-in-pop-up:hover {
@@ -186,4 +189,96 @@
   color: white;
   font-weight: 500;
   bottom: 14vw;
+}
+
+.search-box{
+  background-color: transparent;
+  outline: none;
+  border: 0;
+  height: 2vw;
+  font-size: 1.2vw;
+  transition: all 1s ease-in;
+}
+
+.search-box.before{
+  width: 0vw;
+  border-bottom: 2px solid transparent;
+}
+
+.search-box.after{
+  width: 15vw;
+  border-bottom: 2px solid black;
+}
+
+.search-btn{
+  background-color: white;
+  border: 2px solid black;
+  margin: 0.5vw;
+  height: 2vw;
+  border-radius: 21px;
+  font-size: 0.9vw;
+  text-transform: uppercase;
+  padding: 0.8vw;
+  line-height: 0.3vw;
+  outline: none;
+  display: flex;
+  justify-content: center;
+  flex-direction: row-reverse;
+  align-items: center;
+}
+
+.search-btn > span {
+  display: flex;
+  justify-content: center;
+  flex-direction: row-reverse;
+  align-items: center;
+}
+
+.search-btn:hover{
+  background-color: black;
+  color: white;
+  cursor: pointer;
+}
+
+.searching-area{
+  margin: 0 4vw;
+  position: absolute;
+  top: 3vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+.searching-options{
+  position: absolute;
+  top: 3vw;
+  background-color: white;
+  border: 2px solid black;
+  width: auto;
+  z-index: 99999;
+  right: 0;
+  min-width: 18.9vw;
+  max-height: 27vw;
+  overflow: auto;
+}
+
+.client-on-search{
+  font-size: 1.1vw;
+  border: 0;
+  border-bottom: 1px solid;
+  height: 2.5vw;
+  padding: 0.2vw 3vw;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  white-space: nowrap;
+}
+
+
+.client-on-search:hover{
+  color: white;
+  background-color: black;
+  cursor: pointer;
 }
