@@ -22,6 +22,33 @@
 }
 
 
+.no-campaigns-after-filtering{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  font-size: 1.4vw;
+  height: 20vw;
+}
+
+
+.no-campaigns-after-filtering > button{
+  border: 2px solid black;
+  margin: 1vw 0;
+  background-color: white;
+  outline: none;
+  font-size: 1.2vw;
+  width: 5vw;
+  height: 3vw;
+  border-radius: 25px;
+}
+
+
+.no-campaigns-after-filtering > button:hover{
+  background-color: black;
+  color: white;
+  cursor: pointer;
+}
 
 .client-in-campaigns {
   direction: rtl;

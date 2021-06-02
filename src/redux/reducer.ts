@@ -174,6 +174,10 @@ export function reducer(oldAppState: AppState, action: Action): AppState {
       newAppState.isNoCampaignsPopUpOpen = action.payLoad;
       break;
 
+    case ActionType.updateNoCampaignsAfterFiltering:
+      newAppState.noCampaignsAfterFiltering = action.payLoad;
+      break;
+
     case ActionType.removeClient:
       const clientId = action.payLoad;
       const index = newAppState.selectedClients.findIndex(

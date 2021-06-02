@@ -31,6 +31,7 @@ export enum ActionType {
     getReportToCopy,
     getCurrentReport,
     changeDisplayForNoCampaignsPopUp,
-    getNonCampaignsClients
+    getNonCampaignsClients,
+    updateNoCampaignsAfterFiltering
     
 }

@@ -30,6 +30,7 @@ export class AppState {
   public displayForReportsLinkPopUp: boolean = false;
   public currentReport: ReportModel = new ReportModel();
   public nonCampaignsClients: ClientModel[] = [];
+  public noCampaignsAfterFiltering: boolean = false;
 
   public constructor() {
     const json = sessionStorage.getItem("AppState");
@@ -58,6 +59,7 @@ export class AppState {
       this.reportToCopy = appState.reportToCopy;
       this.displayForReportsLinkPopUp = appState.displayForReportsLinkPopUp;
       this.currentReport = appState.currentReport;
+      this.noCampaignsAfterFiltering = appState.noCampaignsAfterFiltering;
     }
   }
 }

@@ -38,7 +38,8 @@ interface ReportMakerState {
     isScroll: boolean,
     isMobileMenuOpen: boolean,
     isFinishLoading: boolean,
-    nonCampaignsClients: ClientModel[]
+    nonCampaignsClients: ClientModel[],
+    noCampaignsAfterFiltering: boolean
 }
 
 
@@ -67,7 +68,8 @@ export class Campaigns extends Component<any, ReportMakerState>{
             isScroll: false,
             isMobileMenuOpen: false,
             isFinishLoading: false,
-            nonCampaignsClients: []
+            nonCampaignsClients: [],
+            noCampaignsAfterFiltering: store.getState().noCampaignsAfterFiltering
         }
 
         this.unsubscribeStore = store.subscribe(() => {
@@ -78,6 +80,8 @@ export class Campaigns extends Component<any, ReportMakerState>{
             const productsToDisplay = store.getState().productsToDisplay;
             const display = store.getState().isProductsPopUpShow;
             const isMobileMenuOpen = store.getState().isMobileMenuShow;
+            const noCampaignsAfterFiltering = store.getState().noCampaignsAfterFiltering;
+            this.setState({ noCampaignsAfterFiltering });
             this.setState({ selectedClients });
             this.setState({ selectedCampaigns });
             this.setState({ selectedProducts });
@@ -92,6 +96,26 @@ export class Campaigns extends Component<any, ReportMakerState>{
 
     public async componentDidMount() {
         try {
+
+            this.unsubscribeStore = store.subscribe(() => {
+                const selectedClients = store.getState().selectedClients;
+                const selectedCampaigns = store.getState().selectedCampaigns;
+                const selectedProducts = store.getState().selectedProducts;
+                const campaignsToDisplay = store.getState().campaignsToDisplay;
+                const productsToDisplay = store.getState().productsToDisplay;
+                const display = store.getState().isProductsPopUpShow;
+                const isMobileMenuOpen = store.getState().isMobileMenuShow;
+                const noCampaignsAfterFiltering = store.getState().noCampaignsAfterFiltering;
+                this.setState({ noCampaignsAfterFiltering });
+                this.setState({ selectedClients });
+                this.setState({ selectedCampaigns });
+                this.setState({ selectedProducts });
+                this.setState({ campaignsToDisplay });
+                this.setState({ productsToDisplay });
+                this.setState({ isMobileMenuOpen });
+                this.setState({ display });
+
+            })
 
 
             const bodyClass = document.body.classList[0];
@@ -267,16 +291,16 @@ export class Campaigns extends Component<any, ReportMakerState>{
 
     }
 
-    public getImageSrc = (product: ProductModel)=>{
+    public getImageSrc = (product: ProductModel) => {
         let imgSrc = "";
         const images = product.images;
-        if(images?.img1){
+        if (images?.img1) {
             imgSrc = images.img1;
         }
-        else if(!images?.img1 && images?.img2){
+        else if (!images?.img1 && images?.img2) {
             imgSrc = images?.img2;
         }
-        else if(!images?.img1 && !images?.img2 && images?.img3){
+        else if (!images?.img1 && !images?.img2 && images?.img3) {
             imgSrc = images?.img3;
         }
         return imgSrc;
@@ -293,14 +317,19 @@ export class Campaigns extends Component<any, ReportMakerState>{
                     <span className="campaigns-filter-by-low">Lowest first</span>
 
                 </div>
-                {this.state.campaignsToDisplay.length === 0 && this.state.selectedCampaigns.length === 0 &&
-                    <img className="loader" src="./assets/images/loading.gif"/>
-                    }
-
+                {!this.state.noCampaignsAfterFiltering && this.state.campaignsToDisplay.length === 0 && this.state.selectedCampaigns.length === 0 &&
+                    <img className="loader" src="./assets/images/loading.gif" />
+                }
+                {this.state.noCampaignsAfterFiltering &&
+                    <div className="no-campaigns-after-filtering">
+                        אין קמפיינים להצגה
+                        <button onClick={() => store.dispatch({ type: ActionType.updateNoCampaignsAfterFiltering, payLoad: false })}>חזרה</button>
+                    </div>
+                }
                 {
 
 
-                    this.state.campaignsToDisplay.length !== 0 && this.state.campaignsToDisplay?.map(campaign =>
+                    !this.state.noCampaignsAfterFiltering && this.state.campaignsToDisplay.length !== 0 && this.state.campaignsToDisplay?.map(campaign =>
                         <div className="client-in-campaigns">
 
                             {this.isProductsToDisplayOnCampaign(campaign.campaignId as number) && <h2 dangerouslySetInnerHTML={{ __html: campaign.campaignName + " " + this.getClientName(campaign.clientId as number) as string }}></h2>}
@@ -340,7 +369,7 @@ export class Campaigns extends Component<any, ReportMakerState>{
 
                 }
 
-                {this.state.campaignsToDisplay.length === 0 && this.state.selectedCampaigns?.map(campaign =>
+                {!this.state.noCampaignsAfterFiltering && this.state.campaignsToDisplay.length === 0 && this.state.selectedCampaigns?.map(campaign =>
                     <div className="client-in-campaigns">
                         {this.isProductsToDisplayOnCampaign(campaign.campaignId as number) && <h2 dangerouslySetInnerHTML={{ __html: campaign.campaignName + " " + this.getClientName(campaign.clientId as number) as string }}></h2>}
                         <div className="grid">
@@ -377,7 +406,7 @@ export class Campaigns extends Component<any, ReportMakerState>{
                 )}
 
 
-                {this.state.isScroll && <img className="up-btn" onClick={() =>scrollIntoViewIfNeeded(this.filteringMenuRef.current as HTMLDivElement,{behavior: 'smooth', scrollMode: 'if-needed'})} src="/assets/images/pink_btn_after.svg" />}
+                {this.state.isScroll && <img className="up-btn" onClick={() => scrollIntoViewIfNeeded(this.filteringMenuRef.current as HTMLDivElement, { behavior: 'smooth', scrollMode: 'if-needed' })} src="/assets/images/pink_btn_after.svg" />}
                 {/* {this.state.isScroll && <img className="up-btn" onClick={() => this.filteringMenuRef.current?.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" })} src="/assets/images/pink_btn_after.svg" />} */}
                 {this.state.display && <ProductPopUp campaign={this.state.campignToPopUp} product={this.state.productToPopUp} />}
             </div>

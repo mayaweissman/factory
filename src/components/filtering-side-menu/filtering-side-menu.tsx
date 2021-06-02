@@ -391,6 +391,10 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
                     newCampaignsToDisplay.push(c);
                 }
             }
+            if (newCampaignsToDisplay.length === 0) {
+                store.dispatch({ type: ActionType.updateNoCampaignsAfterFiltering, payLoad: true });
+                return;
+            }
             store.dispatch({ type: ActionType.updateCampaignsToDisplay, payLoad: newCampaignsToDisplay });
         }
         else {
@@ -404,6 +408,10 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
                 if ((c.timePassed as number) > min && (c.timePassed as number) < max) {
                     newCampaignsToDisplay.push(c);
                 }
+            }
+            if (newCampaignsToDisplay.length === 0) {
+                store.dispatch({ type: ActionType.updateNoCampaignsAfterFiltering, payLoad: true });
+                return;
             }
             store.dispatch({ type: ActionType.updateCampaignsToDisplay, payLoad: newCampaignsToDisplay });
         }
@@ -511,23 +519,23 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
                     </div>
 
                     {!IsOnFactory.IsOnFactory &&
-                     <div className="buckets-filtering-area">
-                        <span className="buckets-filtering-title">Bucket</span>
-                        <br />
-                        <div className="buckets-titles">
+                        <div className="buckets-filtering-area">
+                            <span className="buckets-filtering-title">Bucket</span>
+                            <br />
+                            <div className="buckets-titles">
 
-                            {this.state.buckets.map(b =>
-                                <label className={this.isBucketDisabled(b as string) ? "container-for-check" : "container-for-check disabled"}>
-                                    <input disabled={this.isBucketDisabled(b as string) ? false : true}
-                                        checked={this.isBucketChecked(b as string)} type="checkbox" onClick={this.filterByBucket(b as string)} />
-                                    <span className="checkmark"></span>
-                                    <span className="campaign-name-title">
-                                        {b}
-                                    </span>
-                                </label>
-                            )}
+                                {this.state.buckets.map(b =>
+                                    <label className={this.isBucketDisabled(b as string) ? "container-for-check" : "container-for-check disabled"}>
+                                        <input disabled={this.isBucketDisabled(b as string) ? false : true}
+                                            checked={this.isBucketChecked(b as string)} type="checkbox" onClick={this.filterByBucket(b as string)} />
+                                        <span className="checkmark"></span>
+                                        <span className="campaign-name-title">
+                                            {b}
+                                        </span>
+                                    </label>
+                                )}
+                            </div>
                         </div>
-                    </div>
                     }
                 </div>
 
