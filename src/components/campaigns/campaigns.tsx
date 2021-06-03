@@ -72,6 +72,7 @@ export class Campaigns extends Component<any, ReportMakerState>{
             noCampaignsAfterFiltering: store.getState().noCampaignsAfterFiltering
         }
 
+        //Subscribe to store
         this.unsubscribeStore = store.subscribe(() => {
             const selectedClients = store.getState().selectedClients;
             const selectedCampaigns = store.getState().selectedCampaigns;
@@ -137,12 +138,16 @@ export class Campaigns extends Component<any, ReportMakerState>{
             this.setState({ showLoader: true });
             setTimeout(async () => {
 
+                //Get all campaigns from server
                 const response = await axios.get(Config.serverUrl + "/all-campaigns/");
                 const allCampaigns: CampaignModel[] = response.data.campaigns;
+
+                //Load AOS animation
                 Aos.init({ duration: 1000 });
 
                 const selectedCampaigns: CampaignModel[] = store.getState().selectedCampaigns;
 
+                //Filtering only relevant campaigns from selected clients
                 if (store.getState().selectedCampaigns.length === 0) {
                     this.state.selectedClients.map(client => {
                         allCampaigns.map(campaign => {
@@ -157,6 +162,7 @@ export class Campaigns extends Component<any, ReportMakerState>{
                 }
                 this.setState({ showLoader: false });
 
+                //Filtering only relevant campaigns from selected campaigns
                 if (store.getState().selectedProducts.length === 0) {
                     const responseForProducts = await axios.get(Config.serverUrl + "/all-products");
 
@@ -179,6 +185,7 @@ export class Campaigns extends Component<any, ReportMakerState>{
                 }
 
 
+                //Get all products types form server
                 const responseForTypes = await axios.get(Config.serverUrl + "/all-products-types/");
                 const productsTypes: ProductsType[] = responseForTypes.data.productsTypes;
                 this.setState({ productTypes: productsTypes });
@@ -197,7 +204,6 @@ export class Campaigns extends Component<any, ReportMakerState>{
     }
 
     public getProductTypeName = (productTypeId: number) => {
-
         for (const type of this.state.productTypes) {
             if (type.productsTypeId === productTypeId) {
                 return type.nameForSingle;
@@ -206,6 +212,7 @@ export class Campaigns extends Component<any, ReportMakerState>{
 
     }
 
+    //Dispaly pop up with clients that choosen and have no campaigns on system (before and after filtering), If exists.  
     public isNonCampaignsClientsExists = () => {
         const selectedClients: ClientModel[] = store.getState().selectedClients;
         const selectedCampaigns: CampaignModel[] = store.getState().selectedCampaigns;
@@ -246,7 +253,7 @@ export class Campaigns extends Component<any, ReportMakerState>{
 
     };
 
-    //Return colors for light button by success rates (green/yellow/red)
+    //Return colors for light button by success rates (green/yellow/red). Will be on use after connecting to UMBI systme.
     public getSuccessRateColor = (successRate: number) => {
         if (successRate <= 50) {
             return "#E4002B";
@@ -284,6 +291,7 @@ export class Campaigns extends Component<any, ReportMakerState>{
         }
     }
 
+    //Return string of client name by client Id
     public getClientName = (clientId: number) => {
         const clients = [...this.state.selectedClients];
         const client = clients.find(c => c.clientId === clientId);
@@ -291,6 +299,7 @@ export class Campaigns extends Component<any, ReportMakerState>{
 
     }
 
+    //Get image source to display on page. Display first image if exist, then the second or third. 
     public getImageSrc = (product: ProductModel) => {
         let imgSrc = "";
         const images = product.images;
@@ -326,6 +335,7 @@ export class Campaigns extends Component<any, ReportMakerState>{
                         <button onClick={() => store.dispatch({ type: ActionType.updateNoCampaignsAfterFiltering, payLoad: false })}>חזרה</button>
                     </div>
                 }
+                {/* After filtering */}
                 {
 
 
@@ -369,6 +379,7 @@ export class Campaigns extends Component<any, ReportMakerState>{
 
                 }
 
+                {/* Before filtering */}
                 {!this.state.noCampaignsAfterFiltering && this.state.campaignsToDisplay.length === 0 && this.state.selectedCampaigns?.map(campaign =>
                     <div className="client-in-campaigns">
                         {this.isProductsToDisplayOnCampaign(campaign.campaignId as number) && <h2 dangerouslySetInnerHTML={{ __html: campaign.campaignName + " " + this.getClientName(campaign.clientId as number) as string }}></h2>}

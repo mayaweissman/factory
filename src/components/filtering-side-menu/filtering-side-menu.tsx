@@ -69,6 +69,7 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
             buckets: []
         }
 
+        //Subscribe to store
         this.unsubscribeStore = store.subscribe(() => {
             const selectedClients = store.getState().selectedClients;
             const selectedCampaigns = store.getState().selectedCampaigns;
@@ -92,11 +93,15 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
                 this.setState({ isOnMobile: true });
             }
 
+
+            //Load all products types from server
             const response = await axios.get(Config.serverUrl + "/all-products-types/");
             const productsTypes: ProductsType[] = response.data.productsTypes;
             this.setState({ productsTypes });
 
             setTimeout(async () => {
+
+                //Filtering only relevant products types to choosen products (from seelcted clients)
                 const selectedProducts: ProductModel[] = store.getState().selectedProducts;
                 const productsTypesToDisplay: ProductsType[] = [];
                 const allExistingTypes: ProductsType[] = [];
@@ -120,10 +125,12 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
                 });
                 this.setState({ productsTypesToDisplay });
 
+                //Get all products from server
                 const responseForProducts = await axios.get(Config.serverUrl + "/all-products");
                 const allProducts: ProductModel[] = responseForProducts.data.products;
                 this.setState({ allProducts });
 
+                //Filtering only relevant buckets to choosen products (from seelcted clients)
                 const allBuckets: string[] = [];
                 selectedProducts.map(p => allBuckets.push(p.bucket as string));
 
@@ -240,6 +247,7 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
         return false;
     }
 
+    //Return if product type is Disabled - Meaning no products match on page
     public isDisabled = (productTypeId: number) => {
         let productsToDisplay: ProductModel[] = [];
         if (store.getState().productsToDisplay.length > 0) {
@@ -276,6 +284,8 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
         return false;
 
     }
+
+    //Return if bucket is Disabled - Meaning no products match on page. Only on Digital system.
     public isBucketDisabled = (bucket: string) => {
         let productsToDisplay: ProductModel[] = [];
         if (store.getState().productsToDisplay.length > 0) {
@@ -312,6 +322,8 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
         return false;
 
     }
+
+    //Return if campaign is Disabled - Meaning no campaigns match on page
     public isCampgaignDisabled = (campaignId: number) => {
         const campaignsToDisplay: CampaignModel[] = store.getState().campaignsToDisplay;
         const selectedCampaigns: CampaignModel[] = store.getState().selectedCampaigns;
@@ -333,7 +345,7 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
 
     }
 
-
+    //Dispaly pop up with clients that choosen and have no campaigns on system (before and after filtering), If exists.  
     public isNonCampaignsClientsExists = () => {
         const selectedClients: ClientModel[] = store.getState().selectedClients;
         const campaignsToDisplay: CampaignModel[] = store.getState().campaignsToDisplay;
@@ -360,7 +372,7 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
     }
 
 
-    //Will change  
+    //Function will use after connecting to UMBI system.
     public filterByLatest = () => {
         const campaigns: CampaignModel[] = store.getState().campaignsToDisplay;
         for (const c of campaigns) {
@@ -370,6 +382,7 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
         this.setState({ campaignsToDisplay: campaigns });
     }
 
+    //Get start & end dates from user and display only campaigns that created on that range.
     public filterByDatesRange = (event: any, picker: any) => {
         const startDate = picker.startDate._d;
         const endDate = picker.endDate._d;
@@ -427,7 +440,7 @@ export class FilteringSideMenu extends Component<FilteringSideMenuProps, Filteri
     }
 
 
-
+    //Reset dates display on input and display report pop up.
     public createReport = () => {
 
         if (this.state.datesRange === "- - / - - / - -") {

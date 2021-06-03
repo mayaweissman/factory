@@ -25,8 +25,6 @@ interface AddClientPopUpState {
 
 export class AddClientPopUp extends Component<any, AddClientPopUpState>{
 
-    private companies: string[] = [];
-
     public constructor(props: any) {
         super(props);
         this.state = {
@@ -46,10 +44,13 @@ export class AddClientPopUp extends Component<any, AddClientPopUpState>{
 
     async componentDidMount() {
         try {
+
+            //Load all clients from serv er
             const reponse = await axios.get(Config.serverUrl + "/all-clients/");
             const allClients: ClientModel[] = reponse.data.clients;
             this.setState({ allClients });
 
+            //Remove dupliactes
             let companies: string[] = [];
             allClients.map(client => {
                 const duplicate = companies.find(c => c === client.company);
@@ -68,6 +69,8 @@ export class AddClientPopUp extends Component<any, AddClientPopUpState>{
         e.stopPropagation();
     }
 
+
+    //Add client to 'Selected Clients' on specific component. Client will actually be added after user click on 'add' button. 
     public addClient = (client: ClientModel) => (event: any) => {
         const clientsToAdd = [...this.state.clientsToAdd];
         for (const c of clientsToAdd) {
@@ -85,6 +88,7 @@ export class AddClientPopUp extends Component<any, AddClientPopUpState>{
 
     }
 
+    //Change client color on screen if already selected (prevent double choose)
     public isSelcected = (clientId: number) => {
         for (const c of this.state.clientsToAdd) {
             if (c.clientId === clientId) {
@@ -94,6 +98,7 @@ export class AddClientPopUp extends Component<any, AddClientPopUpState>{
         return false;
     }
 
+    //Add clients to selected clients on report maker - After user click on 'add' button
     public addClientsToReport = async () => {
         try {
 
@@ -107,6 +112,7 @@ export class AddClientPopUp extends Component<any, AddClientPopUpState>{
             const response = await axios.get(Config.serverUrl + "/all-campaigns/");
             const allCampaignsInDb: CampaignModel[] = response.data.campaigns;
 
+            //Load relevant campaigns for choosen clients
             const selectedCampaigns: CampaignModel[] = store.getState().selectedCampaigns;
             this.state.clientsToAdd.map(client => {
                 allCampaignsInDb.map(campaign => {
@@ -121,7 +127,7 @@ export class AddClientPopUp extends Component<any, AddClientPopUpState>{
 
             store.dispatch({ type: ActionType.getSelectedCampaigns, payLoad: selectedCampaigns });
 
-
+            //Load relevant products for choosen clients
             const selectedProducts: ProductModel[] = store.getState().selectedProducts;
 
             this.state.clientsToAdd.map(client => {
@@ -147,6 +153,7 @@ export class AddClientPopUp extends Component<any, AddClientPopUpState>{
         }
     }
 
+    //Disabled client if already selected 
     public isExist = (clientId: number) => {
         const selectedClients = [...store.getState().selectedClients];
         for (const c of selectedClients) {
@@ -157,6 +164,7 @@ export class AddClientPopUp extends Component<any, AddClientPopUpState>{
         return false;
     }
 
+    //Dispaly pop up with clients that choosen and have no campaigns on system (before and after filtering), If exists.  
     public isNonCampaignsClientsExists = () => {
         const selectedClients: ClientModel[] = store.getState().selectedClients;
         const selectedCampaigns: CampaignModel[] = store.getState().selectedCampaigns;
@@ -197,6 +205,7 @@ export class AddClientPopUp extends Component<any, AddClientPopUpState>{
 
     };
 
+    //Not on use. Can toggle it by enable searching option.
     public searchOnClients = (args: ChangeEvent<HTMLInputElement>) => {
         const search = args.target.value;
         if (search) {
@@ -254,6 +263,7 @@ export class AddClientPopUp extends Component<any, AddClientPopUpState>{
         return (
             <div className="full-screen-conatiner" onClick={this.closePopUp}>
                 <div className="small-conatiner" onClick={this.stopPropagation}>
+                    {/*Almost ready searching area for pop up*/}
 
                     {/* 
                     <div className="searching-area">

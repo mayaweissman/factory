@@ -29,7 +29,7 @@ export class Home extends Component<any, HomeState> {
             user: store.getState().user
         }
 
-
+        //Subscribe to store
         this.unsubscribeStore = store.subscribe(() => {
             const isAfterAuth = store.getState().isAuthSucceeded;
             this.setState({ isAfterAuth });
@@ -42,11 +42,13 @@ export class Home extends Component<any, HomeState> {
 
     componentDidMount() {
 
+        //Security level
         if (!this.state.isAfterAuth) {
             this.props.history.push("/auth");
             return;
         }
 
+        //Checking Local storage- Display pop up if axist unsaving report from last log
         const stateFromLocal = localStorage.getItem(`${this.state.user.userId}`);
         if(stateFromLocal){
             store.dispatch({type: ActionType.changeDisplayForRestoreStatePopUp});
