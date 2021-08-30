@@ -89,7 +89,7 @@ export class ProductPopUp extends Component<
           }
         }
       } else {
-        if (productImages.img2?.includes("https://live.sekindo.com")) {
+        if (productImages.img2?.includes("https")) {
           const script = document.createElement("script");
           script.src = productImages.img2;
           script.async = true;
